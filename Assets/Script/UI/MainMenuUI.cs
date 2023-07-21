@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using JinWon;
 
 namespace JinWon
 {
@@ -15,6 +16,9 @@ namespace JinWon
         private GameObject dataInfoUI;
         [SerializeField]
         private GameObject deleteUI;
+
+        [SerializeField]
+        private FadeInOut fade; 
 
         public void Init()
         {
@@ -36,11 +40,13 @@ namespace JinWon
         #region 메인메뉴 Button_Click함수
         public void Continue_Click()
         {
+            Debug.Log("아직 구현 안됐습니다!!");
             // 저장된 곳으로 가야 함! 현재 플레이 데이터가 없는 경우는 표시하지 않아야 함!
         }
 
         public void Refresh_Click()
         {
+            Debug.Log("아직 구현 안됐습니다!!");
             // 저장을 원하는 데이터슬롯을 선택하면 시나리오 후 캘린더 시스템이 출력된 후 튜토리얼이 진행되야 함!
         }
 
@@ -53,8 +59,9 @@ namespace JinWon
             dataChoiceUI.SetActive(true);
         }
 
-        public void Setting_Click()
+        public void Option_Click()
         {
+            Debug.Log("아직 구현 안됐습니다!!");
             // 게임의 시스템 옵션을 변경! 추후 추가될 예정.
         }
         #endregion
@@ -80,9 +87,15 @@ namespace JinWon
         #endregion
 
         #region 데이터 정보 UI
-        public void Load_Click()
+        public void Load_Click() // 달력씬으로 넘어가야 함!
         {
-            // 달력씬으로 넘어가야 함!
+            fade.Fade_InOut(false, 3.0f); // 3초 Fade하고 넘어감
+            Invoke("NextScene", 3.0f);
+        }
+
+        public void NextScene()
+        {
+            GameManager.Inst.AsyncLoadNextScene(SceneName.CalendarScene);
         }
 
         public void Cancel_Click()
