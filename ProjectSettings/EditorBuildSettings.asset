@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/CalendarScene.unity
     guid: ab57c3cf6354b714889247b67d1c5aa3
+  - enabled: 1
+    path: Assets/Scenes/BattleScene/Castle/Castle1.unity
+    guid: a1c0cace9be3e0e469de324dccd7a25e
   m_configObjects: {}

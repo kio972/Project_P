@@ -15,10 +15,19 @@ namespace JinWon
         [SerializeField]
         private List<GameObject> calendarObjList = new List<GameObject>();
 
+        public Texture2D cursorTexture;
+        public Vector2 hotspot = Vector2.zero;
+        public CursorMode cursorMode = CursorMode.Auto;
+
+        [SerializeField]
+        private JinWon.MapUI mapUI;
+
         void Start()
         {
-            fade.Fade_InOut(true, 3.0f);
+            mapUI.Init();
+            Cursor.SetCursor(cursorTexture, hotspot, cursorMode);
 
+            fade.Fade_InOut(true, 3.0f);
             whatMonth = Random.Range(0, 12);
             calendarObjList[whatMonth].SetActive(true);
             Debug.Log("몇월일까아아아용? " + (whatMonth + 1));
