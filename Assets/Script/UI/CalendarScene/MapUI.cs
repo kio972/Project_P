@@ -23,8 +23,11 @@ namespace JinWon
         [SerializeField]
         private GameObject castleStage;
 
-        public List<Button> regionButtonList = new List<Button>(); // 마왕성 협곡 설산 늪 화산 사막 숲
-        private int regionButtonSelect = 0;
+        [SerializeField]
+        private GameObject calendarMove; // 달력으로 이동하는 버튼
+
+        public List<Button> regionButtonList = new List<Button>(); // 마왕성 협곡 설산 늪 화산 사막 숲 개척지
+        private int regionButtonSelect;
 
         private bool selectMove; // 셀렉트 이동 가능 여부!
 
@@ -49,8 +52,11 @@ namespace JinWon
 
         public void RegionInit()
         {
-            regionButtonList[regionButtonSelect].Select(); // 마왕성으로 셀렉트 해놓기
+            regionButtonList[7].Select(); // 개척지로 셀렉트 해놓기
             selectMove = true; // 이동가능한 상태로 초기화
+            regionButtonSelect = 7;
+            Invoke("CalendarMoveBtnSetActive", 2.0f); // 달력으로 이동하는 버튼 키키
+
         }
 
         private void RegionStageInit() // 지역스테이지 초기화;
@@ -87,6 +93,11 @@ namespace JinWon
                                 regionButtonSelect = 5;
                                 break;
                             }
+                        case 6:
+                            {
+                                regionButtonSelect = 7;
+                                break;
+                            }
                     }
 
                     regionButtonList[regionButtonSelect].Select();
@@ -115,6 +126,11 @@ namespace JinWon
                                 regionButtonSelect = 2;
                                 break;
                             }
+                        case 7:
+                            {
+                                regionButtonSelect = 6;
+                                break;
+                            }
                     }
                     regionButtonList[regionButtonSelect].Select();
                 }
@@ -135,6 +151,11 @@ namespace JinWon
                         case 4 or 5:
                             {
                                 regionButtonSelect = 3;
+                                break;
+                            }
+                        case 7:
+                            {
+                                regionButtonSelect = 6;
                                 break;
                             }
                     }
@@ -162,6 +183,11 @@ namespace JinWon
                         case 6:
                             {
                                 regionButtonSelect = 5;
+                                break;
+                            }
+                        case 7:
+                            {
+                                regionButtonSelect = 6;
                                 break;
                             }
                     }
@@ -235,11 +261,28 @@ namespace JinWon
 
         public void CalendarMove() // 달력으로 되돌아가는 코드
         {
-            calendarCam.SetActive(true);
+            calendarUIObj.SetActive(true);
             if (!mapCam.activeSelf) // 마왕성 확대중에 달력가는 코드를 눌렀을때를 방지하는 임시코드
                 GobackOnClick("castle");
+
+            calendarCam.SetActive(true);
+            calendarMove.SetActive(false);
+            Invoke("MapUIActive", 2.0f);
         }
 
+        private void MapUIActive()
+        {
+            gameObject.SetActive(false);
+        }
+
+        [SerializeField]
+        private GameObject calendarUIObj;
+
+        public void CalendarMoveBtnSetActive() // 달력으로 되돌아가는 버튼 활성화 코드
+        {
+            calendarMove.SetActive(true);
+            calendarUIObj.SetActive(false);
+        }
     }
 }
 
