@@ -17,14 +17,14 @@ namespace JinWon
         EventTrigger eventTrigger;
 
         [SerializeField]
-        private JinWon.MapUI mapUI;
+        private JinWon.CalendarScene calendarScene;
 
-        private void Start()
+        public void Init()
         {
             regionBtn = GetComponent<Button>();
             eventTrigger = GetComponent<EventTrigger>();
 
-            if(selectPoint.activeSelf)
+            if (selectPoint.activeSelf)
                 selectPoint.SetActive(false);
 
             EventSystemInit();
@@ -45,9 +45,14 @@ namespace JinWon
             eventTrigger.triggers.Add(onDeselectEntry);
         }
 
+        public void ForestPointActive()
+        {
+            selectPoint.SetActive(true);
+        }
+
         private void OnButtonSelected() // 버튼이 셀렉트되면 호출하는 함수
         {
-            if (mapUI.SelectStep == 0)
+            if (calendarScene.SelectStep == 1)
             {
                 selectPoint.SetActive(true);
             }
@@ -55,7 +60,7 @@ namespace JinWon
 
         private void OnButtonDeselected() // 버튼이 셀렉트 풀리면 호출하는 함수
         {
-            if (mapUI.SelectStep == 0)
+            if (calendarScene.SelectStep == 1)
             {
                 selectPoint.SetActive(false);
             }

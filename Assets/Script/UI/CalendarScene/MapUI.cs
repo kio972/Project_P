@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using JinWon;
 
 namespace JinWon
 {
@@ -27,16 +28,22 @@ namespace JinWon
         [SerializeField]
         private GameObject calendarMove; // 달력으로 이동하는 버튼
 
+        [SerializeField]
         public List<Button> regionButtonList = new List<Button>(); // 마왕성 협곡 설산 늪 화산 사막 숲 개척지
         private int regionButtonSelect;
 
         private bool selectMove; // 셀렉트 이동 가능 여부!
-
-        private int selectStep; // 셀렉트 단계 ( 뒤로가기 할때 활용 )
-        public int SelectStep // RegionBtn 스크립트에서 사용!
+        public bool SelectMove
         {
-            get { return selectStep; }
+            set { selectMove = value; }
         }
+
+
+        [SerializeField]
+        private JinWon.CalendarScene calendarScene;
+
+        [SerializeField]
+        private List<RegionBtn> regionBtnList = new List<RegionBtn>();
 
 
         public void Init() // CalendarScene 시작할때 초기화!
@@ -54,9 +61,25 @@ namespace JinWon
             }
 
             RegionStageInit();
+            RegionBtnInit();
 
             selectMove = false;
-            selectStep = 0;
+
+            regionButtonSelect = 6;
+            regionButtonList[regionButtonSelect].Select();
+            
+
+            if (gameObject.activeSelf)
+                gameObject.SetActive(false);
+
+        }
+
+        private void RegionBtnInit()
+        {
+            for(int i = 0; i < regionBtnList.Count; i++)
+            {
+                regionBtnList[i].Init();
+            }
         }
 
         public void RegionInit()
@@ -64,7 +87,8 @@ namespace JinWon
             regionButtonList[6].Select(); // 개척지로 셀렉트 해놓기
             selectMove = true; // 이동가능한 상태로 초기화
             regionButtonSelect = 6;
-            Invoke("CalendarMoveBtnSetActive", 2.0f); // 달력으로 이동하는 버튼 키키
+            regionBtnList[1].ForestPointActive();
+            //Invoke("CalendarMoveBtnSetActive", 2.0f); // 달력으로 이동하는 버튼 키키
 
         }
 
@@ -262,19 +286,15 @@ namespace JinWon
                             if (regionButtonSelect != 0) // 마왕성으로 셀렉트가 안되어있으면 셀렉트 시키기
                                 regionButtonList[0].Select();
                             //  EventSystem.current.SetSelectedGameObject(regionButtonList[0].gameObject);
-
                             break;
                         }
                 }
 
-                // 연속으로 누르지 못하도록, 다른지역을 누르지 못하도록 잠시 꺼주기
-                for (int i = 0; i < regionButtonList.Count; i++) 
-                    regionButtonList[i].interactable = false;
+                RegionBtnInteractable(false);
 
                 selectMove = false; // 셀렉트 변경 못하도록 꺼놓기.
-                Debug.Log(selectMove);
                 mapCam.SetActive(false);
-                selectStep += 1;
+                calendarScene.SelectStep++;
             }
         }
 
@@ -294,43 +314,38 @@ namespace JinWon
             //GameManager.Inst.AsyncLoadNextScene(SceneName.nextSceneName);
         }
 
-        public void CalendarMove() // 달력으로 되돌아가는 코드
+        public void RegionBtnInteractable(bool OnOff) // 지역버튼을 키고끄는 함수
         {
-            switch(selectStep)
+            if(OnOff)
             {
-                case 0: // 달력으로 가지는 상태
-                    {
-                        calendarUIObj.SetActive(true);
-                        /*if (!mapCam.activeSelf) // 마왕성 확대중에 달력가는 코드를 눌렀을때를 방지하는 임시코드
-                            GobackOnClick("castle");*/
-
-                        calendarCam.SetActive(true);
-                        calendarMove.SetActive(false);
-                        
-                        Invoke("MapUIActive", 2.0f);
-                        break;
-                    }
-                case 1: // 지역 확대가 풀리는 상태
-                    {
-                        selectStep -= 1;
-                        mapCam.SetActive(true);
-
-                        // 지역 확대를 풀때 지역캠이 켜진게 있으면 모두 꺼버리기.
-                        for (int i = 0; i < regionCamList.Count; i++)
-                        {
-                            if (regionCamList[i].activeSelf)
-                            {
-                                regionCamList[i].SetActive(false);
-                            }
-                        }
-                        break;
-                    }
+                for (int i = 0; i < regionButtonList.Count; i++)
+                    regionButtonList[i].interactable = true;
             }
-            for (int i = 0; i < regionButtonList.Count; i++)
-                regionButtonList[i].interactable = true; // 다시 켜주기
+            else
+            {
+                for (int i = 0; i < regionButtonList.Count; i++)
+                    regionButtonList[i].interactable = false;
+            }
+        }
 
-            selectMove = true;
-
+        public void RegionCamActive(bool OnOff) // 지역캠을 키고끄는 함수
+        {
+            if (OnOff)
+            {
+                for(int i = 0; i < regionCamList.Count; i++)
+                {
+                    if(!regionCamList[i].activeSelf)
+                        regionCamList[i].SetActive(true);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < regionCamList.Count; i++)
+                {
+                    if (regionCamList[i].activeSelf)
+                        regionCamList[i].SetActive(false);
+                }
+            }
         }
 
         private void MapUIActive()
