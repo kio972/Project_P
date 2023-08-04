@@ -21,10 +21,14 @@ namespace JinWon
         private bool press;
 
         [SerializeField]
+        private FadeInOut fade;
+
+        [SerializeField]
         private JinWon.MainMenuUI mainMenuUI;
 
         void Start()
         {
+            fade.Fade_InOut(true, 3.0f);
             Init();
             BGSetting();
         }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace JinWon
 {
-    internal static class YieldInstructionCache
+    internal static class YieldInstructionCache // 코루틴 최적화 스크립트
     {
         public static readonly WaitForEndOfFrame WaitForEndOfFrame = new WaitForEndOfFrame();
         public static readonly WaitForFixedUpdate WaitForFixedUpdate = new WaitForFixedUpdate();

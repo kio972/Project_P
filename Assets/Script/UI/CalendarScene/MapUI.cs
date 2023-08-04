@@ -65,12 +65,9 @@ namespace JinWon
 
             selectMove = false;
 
-            regionButtonSelect = 6;
+            /*regionButtonSelect = 6;
             regionButtonList[regionButtonSelect].Select();
-            
-
-            if (gameObject.activeSelf)
-                gameObject.SetActive(false);
+            regionBtnList[1].ForestPointActive();*/
 
         }
 

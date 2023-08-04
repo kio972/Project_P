@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using JinWon;
+using UnityEngine.SceneManagement;
 
 namespace JinWon
 {
@@ -29,11 +30,6 @@ namespace JinWon
         private GameObject mapCam;
 
         [SerializeField]
-        private GameObject calendarUIObj;
-        [SerializeField]
-        private GameObject mapUIObj;
-
-        [SerializeField]
         private GameObject calendarMove; // 달력으로 이동하는 버튼
 
         private int selectStep; // 셀렉트 단계 ( 뒤로가기 할때 활용 )
@@ -43,7 +39,8 @@ namespace JinWon
             set { selectStep = value; }
         }
 
-        private Coroutine UIMoveCorutine = null;
+        [SerializeField]
+        private List<Button> moveBtnList = new List<Button>();
 
         void Start()
         {
@@ -60,53 +57,29 @@ namespace JinWon
 
         public void UIMove()
         {
-            if (UIMoveCorutine != null)
-                StopCoroutine(UIMoveCorutine);
-            UIMoveCorutine = StartCoroutine(UIChangeCorutine());
-            Debug.Log(UIMoveCorutine);
-        }
-
-        IEnumerator UIChangeCorutine()
-        {
             switch (selectStep)
             {
-                case 0: // 맵으로 가지는 상태
+                case 0: // 타이틀씬으로 가지는 상태
                     {
-                        mapUIObj.SetActive(true);
-                        mapUI.RegionInit();
-                        calendarCam.SetActive(false);
-                        yield return JinWon.YieldInstructionCache.WaitForSeconds(2.0f);
-                        
-                        calendarMove.SetActive(true);
-                        calendarUIObj.SetActive(false);
-
-
-                        mapUI.SelectMove = true;
-                        selectStep++;
+                        fade.Fade_InOut(false, 2.0f);
+                        Invoke("TitleSceneMove", 2.0f);
                         break;
                     }
 
                 case 1: // 달력으로 가지는 상태
                     {
-                        calendarUIObj.SetActive(true);
-                        /*if (!mapCam.activeSelf) // 마왕성 확대중에 달력가는 코드를 눌렀을때를 방지하는 임시코드
-                            GobackOnClick("castle");*/
-
+                        MoveBtnFalse();
                         calendarCam.SetActive(true);
-                        calendarMove.SetActive(false);
-
-                        mapUI.RegionInit();
-
-                        yield return JinWon.YieldInstructionCache.WaitForSeconds(2.0f);
-                        mapUIObj.SetActive(false);
 
                         mapUI.SelectMove = false;
                         selectStep--;
-                        mapUI.RegionBtnInteractable(true);
+                        mapUI.RegionBtnInteractable(false);
+                        Invoke("MoveBtnTrue", 2.0f);
                         break;
                     }
                 case 2: // 지역 확대가 풀리는 상태
                     {
+                        MoveBtnFalse();
                         selectStep--;
                         mapCam.SetActive(true);
 
@@ -114,20 +87,55 @@ namespace JinWon
                         mapUI.RegionCamActive(false);
 
                         mapUI.RegionBtnInteractable(true);
-                        
+
                         mapUI.SelectMove = true;
+                        mapUI.RegionInit();
+
+                        Invoke("MoveBtnTrue", 2.0f);
+                        break;
+                    }
+                default:
+                    {
+                        Debug.Log(selectStep + " 지정된 case문이 없습니다.");
                         break;
                     }
             }
-            
 
-            //UIMoveCorutine = null;
-            yield return null;
         }
 
+        public void MapUiMove()
+        {
+            MoveBtnFalse();
+            mapUI.RegionInit();
+            calendarCam.SetActive(false);
 
+            mapUI.RegionBtnInteractable(true);
+            mapUI.RegionInit();
+            mapUI.SelectMove = true;
+            selectStep++;
+            Invoke("MoveBtnTrue", 2.0f);
+        }
 
-        
+        private void MoveBtnFalse()
+        {
+            for (int i = 0; i < moveBtnList.Count; i++)
+            {
+                moveBtnList[i].interactable = false;
+            }
+        }
+
+        private void MoveBtnTrue()
+        {
+            for(int i = 0; i < moveBtnList.Count; i++)
+            {
+                moveBtnList[i].interactable = true;
+            }
+        }
+
+        private void TitleSceneMove()
+        {
+            GameManager.Inst.AsyncLoadNextScene(SceneName.TitleScene);
+        }
     }
 }
     
