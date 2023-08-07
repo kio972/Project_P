@@ -49,7 +49,7 @@ namespace JinWon
         public void Init() // CalendarScene 시작할때 초기화!
         {
             regionCamList[0].SetActive(true);
-            mapCam.SetActive(true);
+            //mapCam.SetActive(true);
 
             for (int i = 0; i < goBackBtnList.Count; i++) // 지역 뒤로가기 버튼 끄기
             {
