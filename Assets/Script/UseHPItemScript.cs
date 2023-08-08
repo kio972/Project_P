@@ -3,21 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UseHPItemScript : MonoBehaviour
+namespace Jun
 {
-    [SerializeField]
-    private Slider HPbar;
-    private float maxHP = 100;
-    private float curHP = 100;
-
-    // HP 회복 테스트
-    public void IncreaseHP()
+    public class UseHPItemScript : MonoBehaviour
     {
-        if (curHP < maxHP)
+        [SerializeField]
+        private Slider HPbar;
+        private float maxHP = 100;
+        private float curHP = 100;
+
+        // HP 회복 테스트
+        public void IncreaseHP()
         {
-            float HPToIncrease = maxHP * 0.1f; // 10% 증가하는 양 계산
-            curHP = Mathf.Min(curHP + HPToIncrease, maxHP); // 현재 HP와 최대 HP 사이에서 증가
-            HPbar.value = (float)curHP / (float)maxHP;
+            if (curHP < maxHP)
+            {
+                float HPToIncrease = maxHP * 0.1f; // 10% 증가하는 양 계산
+                curHP = Mathf.Min(curHP + HPToIncrease, maxHP); // 현재 HP와 최대 HP 사이에서 증가
+                HPbar.value = (float)curHP / (float)maxHP;
+            }
         }
     }
 }
+

@@ -3,35 +3,40 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CharChangeScript : MonoBehaviour
+
+namespace Jun
 {
-    private Mask maskComponent;
-    private Image img;
-    private bool isMaskOn = false;
-
-
-    void Start()
+    public class CharChangeScript : MonoBehaviour
     {
-        maskComponent = GetComponent<Mask>();
+        private Mask maskComponent;
+        private Image img;
+        private bool isMaskOn = false;
 
-        maskComponent.showMaskGraphic = false;
-    }
 
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Tab))
+        void Start()
         {
-            ToggleMask();
+            maskComponent = GetComponent<Mask>();
+
+            maskComponent.showMaskGraphic = false;
         }
-    }
-
-    private void ToggleMask()
-    {
-        isMaskOn = !isMaskOn;
 
 
-        maskComponent.showMaskGraphic = isMaskOn;
+        void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                ToggleMask();
+            }
+        }
+
+        private void ToggleMask()
+        {
+            isMaskOn = !isMaskOn;
+
+
+            maskComponent.showMaskGraphic = isMaskOn;
+        }
+
     }
 
 }
