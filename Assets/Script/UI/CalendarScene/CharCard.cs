@@ -9,25 +9,43 @@ public class CharCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     Transform root;
 
+    private bool init;
+    
+
     private void Start()
     {
         root = transform.root;
     }
 
-    public void OnBeginDrag(PointerEventData eventData)
+    public void CharCardInit(bool value)
     {
-        root.transform.SendMessageUpwards("BeginDrag", transform, SendMessageOptions.DontRequireReceiver);
+        if (value)
+            init = true;
+        else
+            init = false;
+
+        //Debug.Log(transform.name + " 상태 : " + init);
     }
 
-    public void OnDrag(PointerEventData eventData)
+    public void OnBeginDrag(PointerEventData eventData) // 눌렀을때
     {
-        root.transform.SendMessageUpwards("Drag", transform, SendMessageOptions.DontRequireReceiver);
-        transform.position = eventData.position + pos;
+        if(init)
+            root.transform.SendMessageUpwards("BeginDrag", transform, SendMessageOptions.DontRequireReceiver);
     }
 
-    public void OnEndDrag(PointerEventData eventData)
+    public void OnDrag(PointerEventData eventData) // 잡고 있을때
     {
-        root.transform.SendMessageUpwards("EndDrag", transform, SendMessageOptions.DontRequireReceiver);
+        if (init)
+        {
+            root.transform.SendMessageUpwards("Drag", transform, SendMessageOptions.DontRequireReceiver);
+            transform.position = eventData.position + pos;
+        }
+    }
+
+    public void OnEndDrag(PointerEventData eventData) // 뗐을 때
+    {
+        if(init)
+            root.transform.SendMessageUpwards("EndDrag", transform, SendMessageOptions.DontRequireReceiver);
     }
 
 }

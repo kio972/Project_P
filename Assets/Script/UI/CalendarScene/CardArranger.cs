@@ -4,13 +4,23 @@ using UnityEngine;
 
 public class CardArranger : MonoBehaviour
 {
-    public List<Transform> children; 
+
+    public List<Transform> children;
+
+    [SerializeField]
+    private bool init;
+    public bool Init
+    {
+        get { return init; }
+        set { init = value; }
+    }
 
     private void Start()
     {
         children = new List<Transform>();
 
         UpdateChildren();
+        ChildrenInit(init);
     }
 
     public void UpdateChildren()
@@ -31,6 +41,24 @@ public class CardArranger : MonoBehaviour
         }
         
         children.RemoveRange(transform.childCount, children.Count - transform.childCount);
+    }
+
+    public void ChildrenInit(bool value)
+    {
+        if(value)
+        {
+            for(int i = 0; i < transform.childCount; i++)
+            {
+                children[i].gameObject.GetComponent<CharCard>().CharCardInit(value);
+            }
+        }
+        else
+        {
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                children[i].gameObject.GetComponent<CharCard>().CharCardInit(value);
+            }
+        }
     }
 
     public void InsertCard(Transform card, int index)

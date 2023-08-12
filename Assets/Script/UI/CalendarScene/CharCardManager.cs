@@ -12,6 +12,8 @@ public class CharCardManager : MonoBehaviour
     CardArranger workingArranger;
     int oriIndex;
 
+    
+
     private void Start()
     {
         var arrs = transform.GetComponentsInChildren<CardArranger>();
@@ -49,15 +51,16 @@ public class CharCardManager : MonoBehaviour
         return RectTransformUtility.RectangleContainsScreenPoint(rt, pos); // Pos가 rt안에 있으면 True 아니면 false 반환
     }
 
-    public void BeginDrag(Transform card)
+    public void BeginDrag(Transform card) // 드래그를 시작했을떄
     {
 
         workingArranger = cardArrangers.Find(t => ContainPos(t.transform as RectTransform, card.position));
         oriIndex = card.GetSiblingIndex();
         SwapCardsinHierarchy(invisibleCard, card);
+        Debug.Log(oriIndex + " <- Ori working -> " + workingArranger);
     }
 
-    public void Drag(Transform card)
+    public void Drag(Transform card) // 드래그 중일때
     {
         //Debug.Log("Drag");
 
@@ -99,11 +102,12 @@ public class CharCardManager : MonoBehaviour
         }
     }
 
-    public void EndDrag(Transform card)
+    public void EndDrag(Transform card) // 드래그가 끝났을때
     {
         if(invisibleCard.parent == transform)
         {
             Debug.Log("바깥에 있음");
+            card.SetParent(workingArranger.transform); 
             workingArranger.InsertCard(card, oriIndex);
             workingArranger = null;
             oriIndex = -1;
@@ -112,6 +116,29 @@ public class CharCardManager : MonoBehaviour
         {
             Debug.Log("안에 있음");
             SwapCardsinHierarchy(invisibleCard, card);
+        }
+    }
+
+    public Transform card01Transform;
+    public Transform card02Transform;
+
+    public void PartyAdd()
+    {
+        if(card01Transform = GameObject.Find("SelectCardObj").GetComponentInChildren<CharCard>().transform)
+        {
+            card01Transform.SetParent(cardArrangers[2].transform);
+            cardArrangers[2].InsertCard(card01Transform, 0);
+        }
+
+        if(card02Transform = GameObject.Find("CharCardObj").GetComponentInChildren<CharCard>().transform)
+        {
+            card02Transform.SetParent(cardArrangers[0].transform);
+            cardArrangers[0].InsertCard(card02Transform, 0);
+        }
+        
+        for (int i = 0; i < cardArrangers.Count; i++)
+        {
+            cardArrangers[i].ChildrenInit(cardArrangers[i].Init);
         }
     }
 }
