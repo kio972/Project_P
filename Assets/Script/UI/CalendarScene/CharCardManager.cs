@@ -53,19 +53,15 @@ public class CharCardManager : MonoBehaviour
 
     public void BeginDrag(Transform card) // 드래그를 시작했을떄
     {
-
-        workingArranger = cardArrangers.Find(t => ContainPos(t.transform as RectTransform, card.position));
+        //workingArranger = cardArrangers.Find(t => ContainPos(t.transform as RectTransform, card.position));
+        workingArranger = card.parent.GetComponent<CardArranger>();
         oriIndex = card.GetSiblingIndex();
         SwapCardsinHierarchy(invisibleCard, card);
-        Debug.Log(oriIndex + " <- Ori working -> " + workingArranger);
     }
 
     public void Drag(Transform card) // 드래그 중일때
     {
-        //Debug.Log("Drag");
-
         var whichArrangerCard = cardArrangers.Find(t => ContainPos(t.transform as RectTransform, card.position));
-
         if(whichArrangerCard == null)
         {
             bool updateChilden = transform != invisibleCard.parent;
@@ -77,7 +73,7 @@ public class CharCardManager : MonoBehaviour
                 cardArrangers.ForEach(t => t.UpdateChildren());
             }
         }
-        else
+        else if(whichArrangerCard != null && whichArrangerCard != cardArrangers[1])
         {
             bool insert = invisibleCard.parent == transform;
 
@@ -98,7 +94,7 @@ public class CharCardManager : MonoBehaviour
                     whichArrangerCard.SwapCard(invisibleCardIndex, targetIndex);
                 }
             }
-            
+            Debug.Log(whichArrangerCard);
         }
     }
 
@@ -106,16 +102,35 @@ public class CharCardManager : MonoBehaviour
     {
         if(invisibleCard.parent == transform)
         {
+            Debug.Log(workingArranger);
             Debug.Log("바깥에 있음");
             card.SetParent(workingArranger.transform); 
             workingArranger.InsertCard(card, oriIndex);
             workingArranger = null;
+            
             oriIndex = -1;
+        }
+        else if (invisibleCard.parent == cardArrangers[0].transform)
+        {
+            Debug.Log(invisibleCard.parent);
+            SelectAtTheParty(card);
         }
         else
         {
             Debug.Log("안에 있음");
             SwapCardsinHierarchy(invisibleCard, card);
+            if(cardArrangers[0].GetComponentInChildren<CharCard>() == null)
+            {
+                Debug.Log("안에 있음2");
+                if (GameObject.Find("CharCardObj").GetComponentInChildren<CharCard>() != null)
+                {
+                    card02Transform = GameObject.Find("CharCardObj").GetComponentInChildren<CharCard>().transform;
+                    card02Transform.SetParent(cardArrangers[0].transform);
+                    cardArrangers[0].InsertCard(card02Transform, -1);
+
+                    ArrangerChildInit();
+                }
+            }
         }
     }
 
@@ -124,21 +139,89 @@ public class CharCardManager : MonoBehaviour
 
     public void PartyAdd()
     {
-        if(card01Transform = GameObject.Find("SelectCardObj").GetComponentInChildren<CharCard>().transform)
+        if(GameObject.Find("SelectCard").GetComponentInChildren<CharCard>() != null)
         {
+            card01Transform = GameObject.Find("SelectCard").GetComponentInChildren<CharCard>().transform;
             card01Transform.SetParent(cardArrangers[2].transform);
-            cardArrangers[2].InsertCard(card01Transform, 0);
+            cardArrangers[2].InsertCard(card01Transform, -1);
+            //Debug.Log("셀렉트 카드");
         }
 
-        if(card02Transform = GameObject.Find("CharCardObj").GetComponentInChildren<CharCard>().transform)
+        if(GameObject.Find("CharCardObj").GetComponentInChildren<CharCard>() != null)
         {
+            card02Transform = GameObject.Find("CharCardObj").GetComponentInChildren<CharCard>().transform;
             card02Transform.SetParent(cardArrangers[0].transform);
-            cardArrangers[0].InsertCard(card02Transform, 0);
+            cardArrangers[0].InsertCard(card02Transform, -1);
+            //Debug.Log("캐릭터 카드");
         }
-        
+
+        ArrangerChildInit();
+    }
+
+    private void SelectAtTheParty(Transform card) // 파티에서 셀렉트로 드래그 할때
+    {
+        Debug.Log("Select 1");
+        if (GameObject.Find("SelectCardObj").GetComponentInChildren<CharCard>() != null)
+        {
+            Debug.Log("Select 2");
+            card01Transform = GameObject.Find("SelectCardObj").GetComponentInChildren<CharCard>().transform;
+            card01Transform.SetParent(cardArrangers[1].transform);
+            cardArrangers[1].InsertCard(card01Transform, -1);
+            //SwapCardsinHierarchy(invisibleCard, card);
+        }
+
+        SwapCardsinHierarchy(invisibleCard, card);
+        ArrangerChildInit();
+    }
+
+    public void ArrangerChildInit()
+    {
         for (int i = 0; i < cardArrangers.Count; i++)
         {
-            cardArrangers[i].ChildrenInit(cardArrangers[i].Init);
+            if (cardArrangers[i].children != null)
+                cardArrangers[i].ChildrenInit(cardArrangers[i].Init);
         }
+    }
+
+    public void SelectCardBtn(bool whatDir)
+    {
+        if (whatDir) // 오른쪽 방향키
+        {
+            if (GameObject.Find("SelectCard").GetComponentInChildren<CharCard>() != null)
+            {
+                card01Transform = GameObject.Find("SelectCard").GetComponentInChildren<CharCard>().transform;
+                card01Transform.SetParent(cardArrangers[1].transform);
+                cardArrangers[1].InsertCard(card01Transform, 0);
+                //Debug.Log("셀렉트 카드");
+            }
+
+            if (GameObject.Find("CharCardObj").GetComponentInChildren<CharCard>() != null)
+            {
+                var card03Transform = GameObject.Find("CharCardObj").GetComponentsInChildren<CharCard>();
+                card03Transform[card03Transform.Length - 1].transform.SetParent(cardArrangers[0].transform);
+                cardArrangers[0].InsertCard(card03Transform[card03Transform.Length - 1].transform, -1);
+                //Debug.Log("캐릭터 카드");
+            }
+        }
+        else // 왼쪽 방향키
+        {
+            if (GameObject.Find("SelectCard").GetComponentInChildren<CharCard>() != null)
+            {
+                card01Transform = GameObject.Find("SelectCard").GetComponentInChildren<CharCard>().transform;
+                card01Transform.SetParent(cardArrangers[1].transform);
+                cardArrangers[1].InsertCard(card01Transform, -1);
+                //Debug.Log("셀렉트 카드");
+            }
+
+            if (GameObject.Find("CharCardObj").GetComponentInChildren<CharCard>() != null)
+            {
+                var card03Transform = GameObject.Find("CharCardObj").GetComponentsInChildren<CharCard>();
+                card03Transform[0].transform.SetParent(cardArrangers[0].transform);
+                cardArrangers[0].InsertCard(card03Transform[0].transform, -1);
+                //Debug.Log("캐릭터 카드");
+            }
+        }
+
+        ArrangerChildInit();
     }
 }

@@ -45,7 +45,8 @@ public class CardArranger : MonoBehaviour
 
     public void ChildrenInit(bool value)
     {
-        if(value)
+        UpdateChildren();
+        if (value)
         {
             for(int i = 0; i < transform.childCount; i++)
             {

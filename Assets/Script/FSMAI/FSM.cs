@@ -35,7 +35,7 @@ public class FSM<T> : MonoBehaviour
             curState.Excute(owner);
     }
 
-    public void ChangeState(CharState<T> nextState)
+    public void ChangeState(CharState<T> nextState) // 상태 변경
     {
         if (owner == null)
             return;

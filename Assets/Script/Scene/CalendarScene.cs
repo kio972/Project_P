@@ -82,11 +82,10 @@ namespace JinWon
                         MoveBtnFalse();
                         selectStep--;
                         mapCam.SetActive(true);
-
-                        // 지역 확대를 풀때 지역캠이 켜진게 있으면 모두 꺼버리기.
-                        mapUI.RegionCamActive(false);
-
-                        mapUI.RegionBtnInteractable(true);
+                        
+                        mapUI.RegionCamActive(false); // 지역 확대를 풀때 지역캠이 켜진게 있으면 모두 꺼버리기.
+                        mapUI.RegionLoadOff(); // 지역 길 끄기
+                        mapUI.RegionBtnInteractable(true); // 지역 버튼 키기
 
                         mapUI.SelectMove = true;
                         mapUI.RegionInit();
