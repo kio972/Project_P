@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 
 namespace YeongJun
 {
-    public class Slot : MonoBehaviour, IPointerEnterHandler
+    public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler
     {
         public Inventory inventory;
         public int slotNumber; // ½½·Ô ¹øÈ£
@@ -61,7 +61,7 @@ namespace YeongJun
                 inventory.selectSlot = inventory.slots[slotNumber];
         }
 
-        public void ClickSlot()
+        public void OnPointerClick(PointerEventData eventData)
         {
             inventory.SelectItem(slotNumber);
         }
