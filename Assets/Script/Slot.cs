@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
 
 namespace YeongJun
 {
-    public class Slot : MonoBehaviour
+    public class Slot : MonoBehaviour, IPointerEnterHandler
     {
+        public Inventory inventory;
         public int slotNumber; // 슬롯 번호
         private Image itemImg; // 아이템 이미지
         private TextMeshProUGUI countText; // 아이템 개수
@@ -18,6 +20,7 @@ namespace YeongJun
             countText = transform.GetChild(1).GetComponent<TextMeshProUGUI>();
         }
 
+        
         public void Refresh(bool mode)
         {// 슬롯 새로고침
             if (mode)
@@ -50,6 +53,17 @@ namespace YeongJun
                     countText.gameObject.SetActive(false);
                 }
             }
+        }
+
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            if (inventory.state == InvenState.main)
+                inventory.selectSlot = inventory.slots[slotNumber];
+        }
+
+        public void ClickSlot()
+        {
+            inventory.SelectItem(slotNumber);
         }
     }
 }
