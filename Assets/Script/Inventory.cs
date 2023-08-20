@@ -23,6 +23,7 @@ namespace YeongJun
         public Slot[] slots;
         private bool mode = false; // 인벤토리 모드
         [SerializeField] private GameObject Menu;
+        [SerializeField] private GameObject Assistant;
         [SerializeField] private GameObject selectCaracter; // 강조 효과
         [SerializeField] private GameObject selectPocket;
         [SerializeField] private GameObject selectItem;
@@ -270,10 +271,18 @@ namespace YeongJun
             {
                 case InvenState.main:
                     if (selectSlot != null)
-                    {
+                    {// 화살표로 선택한 슬롯 변경
                         EnterSlot(selectSlot.slotNumber);
                         if (Input.GetKeyDown(KeyCode.Space))
                             SelectItem(selectSlot.slotNumber);
+                        if (Input.GetKeyDown(KeyCode.UpArrow))
+                            selectSlot = slots[Mathf.Clamp(selectSlot.slotNumber - 8, 0, slots.Length)];
+                        if (Input.GetKeyDown(KeyCode.DownArrow))
+                            selectSlot = slots[Mathf.Clamp(selectSlot.slotNumber + 8, 0, slots.Length)];
+                        if (Input.GetKeyDown(KeyCode.LeftArrow))
+                            selectSlot = slots[Mathf.Clamp(selectSlot.slotNumber - 1, 0, slots.Length)];
+                        if (Input.GetKeyDown(KeyCode.RightArrow))
+                            selectSlot = slots[Mathf.Clamp(selectSlot.slotNumber + 1, 0, slots.Length)];
                     }
                     break;
                 case InvenState.click:
