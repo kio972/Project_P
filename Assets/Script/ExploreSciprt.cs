@@ -26,15 +26,18 @@ namespace Jun
         public void OnNextButtonClicked()
         {
             buttons[currentButtonIndex].gameObject.SetActive(false); // 현재 버튼 숨기기
+            buttons[currentButtonIndex+1].gameObject.SetActive(false);
 
-            currentButtonIndex = (currentButtonIndex + 1) % buttons.Count; // 다음 버튼 인덱스로 변경
+            currentButtonIndex = (currentButtonIndex + 2) % buttons.Count; // 다음 버튼 인덱스로 변경
             UpdateButtonPositions();
         }
 
         private void UpdateButtonPositions()
         {
             buttons[currentButtonIndex].gameObject.SetActive(true); // 다음 버튼 보이도록 설정
-            buttons[currentButtonIndex].transform.position = buttonPositions[currentButtonIndex]; // 버튼 위치 업데이트
+            buttons[currentButtonIndex+1].gameObject.SetActive(true);
+            buttons[currentButtonIndex].transform.position = buttonPositions[currentButtonIndex];
+            buttons[currentButtonIndex+1].transform.position = buttonPositions[currentButtonIndex+1];// 버튼 위치 업데이트
         }
     }
 }
