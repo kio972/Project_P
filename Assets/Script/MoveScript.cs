@@ -12,13 +12,12 @@ namespace Jun
         private bool isJumping = false;
         private Rigidbody2D rb;
         private SpriteRenderer spriteRenderer;
-        private Animator anim;
+
 
         private void Start()
         {
             rb = GetComponent<Rigidbody2D>();
             spriteRenderer = GetComponent<SpriteRenderer>();
-            anim = GetComponent<Animator>();
         }
 
         private void Update()
@@ -31,12 +30,6 @@ namespace Jun
             // Direction sprite
             if (Input.GetButtonDown("Horizontal"))
                 spriteRenderer.flipX = Input.GetAxisRaw("Horizontal") == -1;
-
-            // Animation
-            if (Mathf.Abs(rb.velocity.x) < 0.3)
-                anim.SetBool("isWalking", false);
-            else
-                anim.SetBool("isWalking", true);
 
             // 점프 (윗 방향키로 변경)
             if (Input.GetKeyDown(KeyCode.UpArrow) && !isJumping)
