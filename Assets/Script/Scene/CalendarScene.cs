@@ -28,6 +28,8 @@ namespace JinWon
         private GameObject calendarCam;
         [SerializeField]
         private GameObject mapCam;
+        [SerializeField]
+        private GameObject charInfoCam;
 
         [SerializeField]
         private GameObject calendarMove; // 달력으로 이동하는 버튼
@@ -38,6 +40,9 @@ namespace JinWon
             get { return selectStep; }
             set { selectStep = value; }
         }
+
+        [SerializeField]
+        private List<GameObject> selectPointList = new List<GameObject>();
 
         [SerializeField]
         private List<Button> moveBtnList = new List<Button>();
@@ -93,13 +98,17 @@ namespace JinWon
                         Invoke("MoveBtnTrue", 2.0f);
                         break;
                     }
+                case 3: // 지역으로 가지는 상태
+                    {
+                        MapUiMove();
+                        break;
+                    }
                 default:
                     {
                         Debug.Log(selectStep + " 지정된 case문이 없습니다.");
                         break;
                     }
             }
-
         }
 
         public void MapUiMove()
@@ -107,11 +116,13 @@ namespace JinWon
             MoveBtnFalse();
             mapUI.RegionInit();
             calendarCam.SetActive(false);
+            charInfoCam.SetActive(false);
+            mapCam.SetActive(true);
 
             mapUI.RegionBtnInteractable(true);
-            mapUI.RegionInit();
+            //mapUI.RegionInit();
             mapUI.SelectMove = true;
-            selectStep++;
+            selectStep = 1;
             Invoke("MoveBtnTrue", 2.0f);
         }
 
@@ -134,6 +145,39 @@ namespace JinWon
         private void TitleSceneMove()
         {
             GameManager.Inst.AsyncLoadNextScene(SceneName.TitleScene);
+        }
+
+        public void CharInfoUiMove()
+        {
+            if(selectStep == 2)
+            {
+                MoveBtnFalse();
+                mapCam.SetActive(true);
+
+                mapUI.RegionCamActive(false); // 지역 확대를 풀때 지역캠이 켜진게 있으면 모두 꺼버리기.
+                mapUI.RegionLoadOff(); // 지역 길 끄기
+                mapUI.RegionBtnInteractable(false); // 지역 버튼 키기
+
+                mapUI.SelectMove = false;
+                mapUI.RegionInit();
+
+                selectStep = 3;
+                mapCam.SetActive(false);
+                charInfoCam.SetActive(true);
+
+                SelectPointOff();
+                Invoke("MoveBtnTrue", 2.0f);
+                
+            }
+        }
+
+        private void SelectPointOff()
+        {
+            for(int i = 0; i < selectPointList.Count; i++)
+            {
+                if(selectPointList[i].activeSelf)
+                    selectPointList[i].SetActive(false);
+            }
         }
     }
 }

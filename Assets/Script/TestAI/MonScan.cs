@@ -10,7 +10,7 @@ public class MonScan : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Player") && !monController.Target)
         {
             monController.Target = true;
         }
@@ -18,7 +18,7 @@ public class MonScan : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Player") && monController.Target)
         {
             monController.Target = false;
         }
