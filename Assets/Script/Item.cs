@@ -13,7 +13,8 @@ namespace YeongJun
         important,
     }
 
-    public class Item : MonoBehaviour
+    [CreateAssetMenu]
+    public class Item : ScriptableObject
     {
         public int uid; // 고유 코드
         public string name; // 이름

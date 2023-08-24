@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
 
 namespace YeongJun 
 {
-    public class Pocket : MonoBehaviour
+    public class Pocket : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler
     {
+        public Inventory inventory;
         public int pocketNumber; // 주머니 번호
         private Image itemImg; // 아이템 이미지
         private TextMeshProUGUI countText; // 아이템 개수
@@ -109,6 +111,17 @@ namespace YeongJun
                 default:
                     break;
             }
+        }
+
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            if (inventory.state == InvenState.equip)
+                inventory.EnterPocket(transform);
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            inventory.SelectPocket(pocketNumber);
         }
     }
 }
