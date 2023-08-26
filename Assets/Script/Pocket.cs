@@ -27,6 +27,13 @@ namespace YeongJun
                 case 0:
                     if (InvenData.Pocket1[0] != null)
                     {
+                        if (InvenData.Pocket1[0].count <= 0)
+                        {
+                            InvenData.Pocket1[0] = null;
+                            itemImg.gameObject.SetActive(false);
+                            countText.gameObject.SetActive(false);
+                            return;
+                        }
                         itemImg.gameObject.SetActive(true);
                         countText.gameObject.SetActive(true);
                         itemImg.sprite = InvenData.Pocket1[0].iconImg;
@@ -41,6 +48,13 @@ namespace YeongJun
                 case 1:
                     if (InvenData.Pocket1[1] != null)
                     {
+                        if (InvenData.Pocket1[1].count <= 0)
+                        {
+                            InvenData.Pocket1[1] = null;
+                            itemImg.gameObject.SetActive(false);
+                            countText.gameObject.SetActive(false);
+                            return;
+                        }
                         itemImg.gameObject.SetActive(true);
                         countText.gameObject.SetActive(true);
                         itemImg.sprite = InvenData.Pocket1[1].iconImg;
@@ -55,6 +69,13 @@ namespace YeongJun
                 case 2:
                     if (InvenData.Pocket2[0] != null)
                     {
+                        if (InvenData.Pocket2[0].count <= 0)
+                        {
+                            InvenData.Pocket2[0] = null;
+                            itemImg.gameObject.SetActive(false);
+                            countText.gameObject.SetActive(false);
+                            return;
+                        }
                         itemImg.gameObject.SetActive(true);
                         countText.gameObject.SetActive(true);
                         itemImg.sprite = InvenData.Pocket2[0].iconImg;
@@ -69,6 +90,13 @@ namespace YeongJun
                 case 3:
                     if (InvenData.Pocket2[1] != null)
                     {
+                        if (InvenData.Pocket2[1].count <= 0)
+                        {
+                            InvenData.Pocket2[1] = null;
+                            itemImg.gameObject.SetActive(false);
+                            countText.gameObject.SetActive(false);
+                            return;
+                        }
                         itemImg.gameObject.SetActive(true);
                         countText.gameObject.SetActive(true);
                         itemImg.sprite = InvenData.Pocket2[1].iconImg;
@@ -83,6 +111,13 @@ namespace YeongJun
                 case 4:
                     if (InvenData.Pocket3[0] != null)
                     {
+                        if (InvenData.Pocket3[0].count <= 0)
+                        {
+                            InvenData.Pocket3[0] = null;
+                            itemImg.gameObject.SetActive(false);
+                            countText.gameObject.SetActive(false);
+                            return;
+                        }
                         itemImg.gameObject.SetActive(true);
                         countText.gameObject.SetActive(true);
                         itemImg.sprite = InvenData.Pocket3[0].iconImg;
@@ -97,6 +132,13 @@ namespace YeongJun
                 case 5:
                     if (InvenData.Pocket3[1] != null)
                     {
+                        if (InvenData.Pocket3[1].count <= 0)
+                        {
+                            InvenData.Pocket3[1] = null;
+                            itemImg.gameObject.SetActive(false);
+                            countText.gameObject.SetActive(false);
+                            return;
+                        }
                         itemImg.gameObject.SetActive(true);
                         countText.gameObject.SetActive(true);
                         itemImg.sprite = InvenData.Pocket3[1].iconImg;
@@ -115,13 +157,40 @@ namespace YeongJun
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            if (inventory.state == InvenState.equip)
+            if (inventory.state == InvenState.main || inventory.state == InvenState.equip)
+            {
+                inventory.pocketNum = pocketNumber;
                 inventory.EnterPocket(transform);
+                switch (pocketNumber)
+                {
+                    case 0:
+                        inventory.pocketItem = InvenData.Pocket1[0];
+                        break;
+                    case 1:
+                        inventory.pocketItem = InvenData.Pocket1[1];
+                        break;
+                    case 2:
+                        inventory.pocketItem = InvenData.Pocket2[0];
+                        break;
+                    case 3:
+                        inventory.pocketItem = InvenData.Pocket2[1];
+                        break;
+                    case 4:
+                        inventory.pocketItem = InvenData.Pocket3[0];
+                        break;
+                    case 5:
+                        inventory.pocketItem = InvenData.Pocket3[1];
+                        break;
+                }
+            }
         }
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            inventory.SelectPocket(pocketNumber);
+            if (inventory.state == InvenState.main)
+                inventory.EquipMenu();
+            else if (inventory.state == InvenState.equip)
+                inventory.SelectPocket(pocketNumber);
         }
     }
 }

@@ -27,6 +27,13 @@ namespace YeongJun
             {
                 if (InvenData.iItem[slotNumber] != null)
                 {
+                    if (InvenData.iItem[slotNumber].count <= 0)
+                    {
+                        InvenData.iItem[slotNumber] = null;
+                        itemImg.gameObject.SetActive(false);
+                        countText.gameObject.SetActive(false);
+                        return;
+                    }
                     itemImg.gameObject.SetActive(true);
                     countText.gameObject.SetActive(true);
                     itemImg.sprite = InvenData.iItem[slotNumber].iconImg;
@@ -42,6 +49,13 @@ namespace YeongJun
             {
                 if (InvenData.nItem[slotNumber] != null)
                 {
+                    if (InvenData.nItem[slotNumber].count <= 0)
+                    {
+                        InvenData.nItem[slotNumber] = null;
+                        itemImg.gameObject.SetActive(false);
+                        countText.gameObject.SetActive(false);
+                        return;
+                    }
                     itemImg.gameObject.SetActive(true);
                     countText.gameObject.SetActive(true);
                     itemImg.sprite = InvenData.nItem[slotNumber].iconImg;
@@ -58,12 +72,16 @@ namespace YeongJun
         public void OnPointerEnter(PointerEventData eventData)
         {
             if (inventory.state == InvenState.main)
+            {
                 inventory.selectSlot = inventory.slots[slotNumber];
+                inventory.EnterSlot(slotNumber);
+            }
         }
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            inventory.SelectItem(slotNumber);
+            if (inventory.state == InvenState.main)
+                inventory.SelectItem(slotNumber);
         }
     }
 }
