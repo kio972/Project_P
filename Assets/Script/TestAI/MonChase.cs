@@ -6,6 +6,7 @@ public class MonChase : FSMSingleton<MonChase>, CharState<MonController>
 {
     public void Enter(MonController e)
     {
+        e.AnimRun(true);
         Debug.Log("MonChase µé¾î¿È!");
     }
 

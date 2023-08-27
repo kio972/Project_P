@@ -6,6 +6,7 @@ public class MonAttack : FSMSingleton<MonAttack>, CharState<MonController>
 {
     public void Enter(MonController e)
     {
+        e.AnimRun(false);
         Debug.Log("MonAttack µé¾î¿È!");
     }
 
@@ -16,6 +17,7 @@ public class MonAttack : FSMSingleton<MonAttack>, CharState<MonController>
 
     public void Exit(MonController e)
     {
+        e.AnimRun(true);
         Debug.Log("MonAttack ³ª°¨!");
     }
 }
