@@ -15,7 +15,7 @@ public class FSMStateEx : FSMSingleton<FSMStateEx>, CharState<Controller>
         e.Movement(); // 이동
         if(Input.GetKeyDown(KeyCode.Z) && e.basicAttackCool)
         {
-            e.BasicAttack(); // 공격
+            e.BasicAttackAnim(); // 공격
         }
     }
 

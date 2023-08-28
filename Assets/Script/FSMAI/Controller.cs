@@ -65,11 +65,18 @@ public class Controller : FSM<Controller>
             transform.localScale = LEFT;
     }
 
-    public void BasicAttack()
+    public void BasicAttackAnim()
     {
         basicAttackCool = false;
         anim.SetTrigger("Attack");
         StartCoroutine(CoolTimeBasic(2.0f));
+    }
+
+    public void BasicAttack()
+    {
+        /*basicAttackCool = false;
+        anim.SetTrigger("Attack");
+        StartCoroutine(CoolTimeBasic(2.0f));*/
 
         Collider2D[] enemyArr =
             Physics2D.OverlapBoxAll(attackPivot.transform.position,

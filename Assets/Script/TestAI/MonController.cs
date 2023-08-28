@@ -19,6 +19,8 @@ public class MonController : FSM<MonController>
     [SerializeField]
     private Transform currPoint;
 
+    private PoolTextSpawn poolTextSpawn;
+
     private bool target;
     public bool Target
     {
@@ -54,6 +56,7 @@ public class MonController : FSM<MonController>
         Transform t = transform.Find("BasicPivot");
         if (t != null)
             basicPivot = t.GetComponent<DrawGizmo>();
+        poolTextSpawn = GameObject.Find("PoolTextSpawn").GetComponent<PoolTextSpawn>();
     }
 
     private void MonInit()
@@ -86,30 +89,46 @@ public class MonController : FSM<MonController>
         ChangeState(MonPatrol.Instance);
     }
 
+    public void ChaseState()
+    {
+        ChangeState(MonChase.Instance);
+    }
+
+    bool mark = false;
+
     public void Patrol() // 경비상태
     {
-        if(currPoint == pointB.transform)
-            transform.position = Vector2.MoveTowards(transform.position, pointB.transform.position, patrolSpeed * Time.deltaTime);
-        else
-            transform.position = Vector2.MoveTowards(transform.position, pointA.transform.position, patrolSpeed * Time.deltaTime);
+        if(!target)
+        {
+            if (currPoint == pointB.transform)
+                transform.position = Vector2.MoveTowards(transform.position, pointB.transform.position, patrolSpeed * Time.deltaTime);
+            else
+                transform.position = Vector2.MoveTowards(transform.position, pointA.transform.position, patrolSpeed * Time.deltaTime);
 
-        if (Vector2.Distance(transform.position, currPoint.position) < 0.5f && currPoint == pointB.transform)
-        {
-            Flip();
-            currPoint = pointA.transform;
-            //transform.localScale = new Vector3(-1f, 0f, 0f);
-        }
-        if (Vector2.Distance(transform.position, currPoint.position) < 0.5f && currPoint == pointA.transform)
-        {
-            Flip();
-            currPoint = pointB.transform;
-            //transform.LookAt(pointB.transform);
-        }
+            if (Vector2.Distance(transform.position, currPoint.position) < 0.5f && currPoint == pointB.transform)
+            {
+                Flip();
+                currPoint = pointA.transform;
+                //transform.localScale = new Vector3(-1f, 0f, 0f);
+            }
+            if (Vector2.Distance(transform.position, currPoint.position) < 0.5f && currPoint == pointA.transform)
+            {
+                Flip();
+                currPoint = pointB.transform;
+                //transform.LookAt(pointB.transform);
+            }
+        } 
 
         if (target) // 플레이어가 MonScan범위안에 들어오면 쫒아가는 상태로 바꿔주는 함수 
         {
-            Debug.Log("타겟 타겟!");
-            ChangeState(MonChase.Instance);
+            if(!mark)
+            {
+                mark = true;
+                poolTextSpawn.SpawnMarkText("ExclamationMark", transform.position);
+                AnimRun(false);
+                Invoke("ChaseState", 1.0f);
+            }
+            //ChangeState(MonChase.Instance);
         }
     }
 
@@ -194,7 +213,6 @@ public class MonController : FSM<MonController>
                 controller.TakeDamage(1);
             }
         }
-
     }
 
     private bool basicAttackCool;
@@ -211,6 +229,7 @@ public class MonController : FSM<MonController>
     {
         anim.SetTrigger("TakeDamage");
         currHP -= damage;
+        poolTextSpawn.SpawnDamageText("DamageText", transform.position, damage);
         if(currHP <= 0)
         {
             StartCoroutine(OnDie());
