@@ -67,9 +67,7 @@ namespace YeongJun
                 inventory.RefreshSlot();
             }
             else if(inventory.state == InvenState.move)
-            {
-
-            }
+                inventory.SelectItem(InvenData.nItem[inventory.selectSlot.slotNumber], count);
             else if(inventory.state == InvenState.unequip)
             {
                 inventory.assistCount = slotNumber;

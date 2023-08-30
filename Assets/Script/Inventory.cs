@@ -13,6 +13,7 @@ namespace YeongJun
         equip, // 장착할 슬롯을 선택할 때
         equip_count, // 장착할 아이템의 수량을 지정할 때
         move, // 이동할 아이템 개수를 지정할 때
+        moveItem, // 아이템을 옮길 위치를 지정할 때
         unequip, // 아이템 장착을 해제할 때
     }
 
@@ -35,6 +36,7 @@ namespace YeongJun
         [SerializeField] private GameObject selectItem;
         [SerializeField] private GameObject selectMenu;
         [SerializeField] private GameObject selectEquipMenu;
+        [SerializeField] private GameObject movingItem; // 옮길 아이템 UI
         public Item pocketItem;
         public int assistCount = -1;
         public int pocketNum = 0;
@@ -45,7 +47,8 @@ namespace YeongJun
         [SerializeField] private Portrait[] character; // 캐릭터 초상화
         [SerializeField] private Pocket[] pockets; // 캐릭터 주머니
 
-        public Slot selectSlot = null; // 선택된 슬롯
+        public Slot selectSlot = null; // 참조중인 슬롯
+        public Item tempItem = null; // 옮길 아이템
 
         private void Awake()
         {
@@ -150,7 +153,6 @@ namespace YeongJun
                 else
                     break;
             }
-            // 개수별로 다시 정렬
         }
 
         private void iSort()
@@ -176,23 +178,31 @@ namespace YeongJun
             }
         }
 
-        public bool GetItem(Item _item)
+        public bool GetItem(Item _Item)
         {// 아이템을 인벤토리 배열에 추가하는 코드
             int n = InvenData.iItem.Length;
-            if (_item.type == ItemType.important)
+            tempItem = new Item();
+            tempItem.uid = _Item.uid;
+            tempItem.name = _Item.name;
+            tempItem.iconImg = _Item.iconImg;
+            tempItem.count = _Item.count;
+            tempItem.maxCount = _Item.maxCount;
+            tempItem.type = _Item.type;
+            tempItem.grade = _Item.grade;
+            if (tempItem.type == ItemType.important)
             {// 중요 아이템
                 for (int i = 0; i < InvenData.iItem.Length; i++)
                 {
                     if (InvenData.iItem[i] == null)
                     {
                         InvenData.iItem[i] = new Item();
-                        InvenData.iItem[i].uid = _item.uid;
-                        InvenData.iItem[i].name = _item.name;
-                        InvenData.iItem[i].iconImg = _item.iconImg;
-                        InvenData.iItem[i].count = _item.count;
-                        InvenData.iItem[i].maxCount = _item.maxCount;
-                        InvenData.iItem[i].type = _item.type;
-                        InvenData.iItem[i].grade = _item.grade;
+                        InvenData.iItem[i].uid = tempItem.uid;
+                        InvenData.iItem[i].name = tempItem.name;
+                        InvenData.iItem[i].iconImg = tempItem.iconImg;
+                        InvenData.iItem[i].count = tempItem.count;
+                        InvenData.iItem[i].maxCount = tempItem.maxCount;
+                        InvenData.iItem[i].type = tempItem.type;
+                        InvenData.iItem[i].grade = tempItem.grade;
                         return true;
                     }
                 }
@@ -206,26 +216,29 @@ namespace YeongJun
                         if (i < n)
                             n = i;
                     }
-                    else if (InvenData.nItem[i].uid == _item.uid && InvenData.nItem[i].count < InvenData.nItem[i].maxCount)
+                    else if (InvenData.nItem[i].uid == tempItem.uid && InvenData.nItem[i].count < InvenData.nItem[i].maxCount)
                     {// 같은 아이템이면 count증가
-                        if(InvenData.nItem[i].maxCount < InvenData.nItem[i].count + _item.count)
-                        {
+                        if(InvenData.nItem[i].maxCount < InvenData.nItem[i].count + tempItem.count)
+                        {// 획득한 아이템의 수와 기존 수의 합이 번들 최대 개수보다 많다면
+                            tempItem.count = InvenData.nItem[i].count + tempItem.count - InvenData.nItem[i].maxCount;
                             InvenData.nItem[i].count = InvenData.nItem[i].maxCount;
-                            _item.count -= (InvenData.nItem[i].count + _item.count) - InvenData.nItem[i].maxCount;
-                            GetItem(_item);
+                            n++;
                         }
-                        InvenData.nItem[i].count += _item.count;
-                        return true;
+                        else
+                        {
+                            InvenData.nItem[i].count += tempItem.count;
+                            return true;
+                        }
                     }
                 }
                 InvenData.nItem[n] = new Item();
-                InvenData.nItem[n].uid = _item.uid;
-                InvenData.nItem[n].name = _item.name;
-                InvenData.nItem[n].iconImg = _item.iconImg;
-                InvenData.nItem[n].count = _item.count;
-                InvenData.nItem[n].maxCount = _item.maxCount;
-                InvenData.nItem[n].type = _item.type;
-                InvenData.nItem[n].grade = _item.grade;
+                InvenData.nItem[n].uid = tempItem.uid;
+                InvenData.nItem[n].name = tempItem.name;
+                InvenData.nItem[n].iconImg = tempItem.iconImg;
+                InvenData.nItem[n].count = tempItem.count;
+                InvenData.nItem[n].maxCount = tempItem.maxCount;
+                InvenData.nItem[n].type = tempItem.type;
+                InvenData.nItem[n].grade = tempItem.grade;
                 return true;
             }
             return false;
@@ -294,8 +307,6 @@ namespace YeongJun
         public void EquipMenu()
         {// 장착한 아이템 메뉴 출력
             state = InvenState.unequip;
-            if (pocketItem != null)
-            {
                 bool sameItem = false;
                 switch (pocketNum)
                 {
@@ -348,7 +359,7 @@ namespace YeongJun
                 }
                 equipMenu.SetActive(true);
                 equipMenu.transform.position = selectPocket.transform.position + new Vector3(160, -90, 0);
-            }
+            pocketItem = null;
         }
         #endregion
 
@@ -615,13 +626,67 @@ namespace YeongJun
         }
         #endregion
 
+        #region Btn_Move
         public void Btn_Move()
-        {
+        {// 아이템 이동
             if(state == InvenState.control)
             {
-
+                state = InvenState.move;
+                Menu.SetActive(false);
+                assistant.SetActive(true);
+                assistant.transform.position = selectSlot.transform.position + new Vector3(100, 0, 0);
+                assistant.GetComponent<Assistant>().Init();
             }
         }
+
+        public void SelectItem(Item item, int count)
+        {
+            state = InvenState.moveItem;
+            tempItem = new Item();
+            tempItem.uid = item.uid;
+            tempItem.name = item.name;
+            tempItem.iconImg = item.iconImg;
+            tempItem.count = count;
+            tempItem.maxCount = item.maxCount;
+            tempItem.type = item.type;
+            tempItem.grade = item.grade;
+            InvenData.nItem[selectSlot.slotNumber].count -= count;
+            movingItem.SetActive(true);
+            movingItem.GetComponent<Image>().sprite = item.iconImg;
+            RefreshSlot();
+        }
+
+        public void MoveItem()
+        {
+            if(InvenData.nItem[selectSlot.slotNumber] == null)
+            {
+                InvenData.nItem[selectSlot.slotNumber] = new Item();
+                InvenData.nItem[selectSlot.slotNumber].uid = tempItem.uid;
+                InvenData.nItem[selectSlot.slotNumber].name = tempItem.name;
+                InvenData.nItem[selectSlot.slotNumber].iconImg = tempItem.iconImg;
+                InvenData.nItem[selectSlot.slotNumber].count = tempItem.count;
+                InvenData.nItem[selectSlot.slotNumber].maxCount = tempItem.maxCount;
+                InvenData.nItem[selectSlot.slotNumber].type = tempItem.type;
+                InvenData.nItem[selectSlot.slotNumber].grade = tempItem.grade;
+                movingItem.SetActive(false);
+                tempItem = null;
+                state = InvenState.main;
+                RefreshSlot();
+            }
+            else
+            {
+                if(InvenData.nItem[selectSlot.slotNumber].uid == tempItem.uid)
+                {
+                    if(InvenData.nItem[selectSlot.slotNumber].maxCount < InvenData.nItem[selectSlot.slotNumber].count + tempItem.count)
+                    {
+                        tempItem.count -= InvenData.nItem[selectSlot.slotNumber].count + tempItem.count - InvenData.nItem[selectSlot.slotNumber].maxCount;
+                        InvenData.nItem[selectSlot.slotNumber].count = InvenData.nItem[selectSlot.slotNumber].maxCount;
+                        RefreshSlot();
+                    }
+                }
+            }
+        }
+        #endregion
 
         public void Btn_Cancel()
         {
@@ -712,6 +777,7 @@ namespace YeongJun
         }
         #endregion
 
+        #region TestItem
         public Item testItem1;
         public void TestBtn1()
         {
@@ -730,6 +796,7 @@ namespace YeongJun
             GetItem(testItem3);
             RefreshSlot();
         }
+        #endregion
 
         void Update()
         {
@@ -774,8 +841,14 @@ namespace YeongJun
                 case InvenState.equip:
                     break;
                 case InvenState.equip_count:
+                    if (Input.GetKeyDown(KeyCode.Escape))
+                        Cancel();
                     break;
                 case InvenState.move:
+                    break;
+                case InvenState.moveItem:
+                    if (tempItem != null)
+                        movingItem.transform.position = Input.mousePosition;
                     break;
             }
         }
