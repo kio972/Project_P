@@ -168,6 +168,7 @@ public class MonController : FSM<MonController>
         }
         else if(same)// 범위 밖으로 나가면 집으로 돌아가기
         {
+            LookAtDir();
             if (anim.GetBool("Run") == true)
                 anim.SetBool("Run", false);
             /*transform.position = Vector2.MoveTowards(transform.position, idlePoint.transform.position, 2f * Time.deltaTime);

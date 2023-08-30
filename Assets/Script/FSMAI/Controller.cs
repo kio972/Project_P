@@ -22,6 +22,8 @@ public class Controller : FSM<Controller>
     {
         InitState(this, FSMStateEx.Instance);
         anim = GetComponentInChildren<Animator>();
+        rb = GetComponent<Rigidbody2D>();
+        groundCheck = GameObject.Find("GroundCheck").transform;
         CharInit();
     }
 
@@ -41,15 +43,45 @@ public class Controller : FSM<Controller>
     private Vector3 RIGHT = new Vector3(0.55f, 0.55f, 1);
     private Vector3 LEFT = new Vector3(-0.55f, 0.55f, 1);
 
+    Vector2 direction;
+    Rigidbody2D rb;
+    [SerializeField]
+    LayerMask groundLayer;
+    Vector2 jump;
+
+    [SerializeField]
+    float jumpPower = 3;
+
+    private Transform groundCheck;
+
     public void Movement()
     {
         x = Input.GetAxisRaw("Horizontal");
+        direction.x = x * moveSpeed;
+        direction.y = rb.velocity.y;
+        rb.velocity = direction;
+
+        anim.SetBool("Run", direction != Vector2.zero);
+
+        if(Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            bool isGround =
+                Physics2D.OverlapCircle(groundCheck.position, 0.1f, groundLayer);
+            Debug.Log("มกวม : " + isGround);
+            if (isGround)
+            {
+                jump = Vector2.up * jumpPower;
+                rb.velocity = jump;
+            }
+        }
+
+        /*x = Input.GetAxisRaw("Horizontal");
         y = Input.GetAxisRaw("Vertical");
 
         moveDirection = new Vector3(x, y, 0);
         transform.position += moveDirection * moveSpeed * Time.deltaTime;
 
-        anim.SetBool("Run", moveDirection != Vector3.zero);
+        anim.SetBool("Run", moveDirection != Vector3.zero);*/
         
         if (x > 0 && transform.localScale != RIGHT)
             transform.GetChild(0).localScale = RIGHT;
