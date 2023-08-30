@@ -16,6 +16,9 @@ namespace JinWon
         private GameObject dataInfoUI;
         [SerializeField]
         private GameObject deleteUI;
+        [SerializeField]
+        private GameObject refreshUI;
+
 
         [SerializeField]
         private FadeInOut fade; 
@@ -29,6 +32,7 @@ namespace JinWon
         {
             dataChoiceUI.SetActive(false);
             dataInfoUI.SetActive(false);
+            refreshUI.SetActive(false);
             // 있으면 키고 없으면 끄기
             for (int i = 0; i < buttonList.Count; i++)
             {
@@ -46,9 +50,19 @@ namespace JinWon
 
         public void Refresh_Click()
         {
-            Debug.Log("아직 구현 안됐습니다!!");
+            for (int i = 0; i < buttonList.Count; i++)
+            {
+                buttonList[i].SetActive(false);
+            }
+            refreshUI.SetActive(true);
             // 저장을 원하는 데이터슬롯을 선택 후 캘린더씬 바로 넘어가기.
             // 하면 시나리오 후 캘린더 시스템이 출력된 후 튜토리얼이 진행되야 함!
+        }
+
+        public void RefreshStart_Click()
+        {
+            fade.Fade_InOut(false, 3.0f); // 3초 Fade하고 넘어감
+            Invoke("NextScene", 3.0f);
         }
 
         public void DataSelection_Click()
