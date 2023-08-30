@@ -26,6 +26,9 @@ public class DrawGizmo : MonoBehaviour
 
     private MonController monController;
 
+    [SerializeField]
+    private Controller controller;
+
     private void Awake()
     {
         monController = GetComponentInParent<MonController>();
@@ -53,7 +56,13 @@ public class DrawGizmo : MonoBehaviour
 
         if (collision.CompareTag(sameName))
         {
-            monController.Same = true;
+            if (targetName == "Player")
+                monController.Same = true;
+            else if (targetName == "Monster")
+            {
+                controller.Same = true;
+            }
+                
         }
     }
 
@@ -73,7 +82,10 @@ public class DrawGizmo : MonoBehaviour
 
         if (collision.CompareTag(sameName))
         {
-            monController.Same = false;
+            if (targetName == "Player")
+                monController.Same = false;
+            else if (targetName == "Monster")
+                controller.Same = false;
         }
     }
 }

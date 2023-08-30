@@ -40,6 +40,9 @@ public class FSM<T> : MonoBehaviour
         if (owner == null)
             return;
 
+        if (curState == nextState)
+            return;
+
         prevState = curState;
         if (prevState != null)
             prevState.Exit(owner);

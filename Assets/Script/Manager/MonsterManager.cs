@@ -14,7 +14,6 @@ public class MonsterManager : MonoBehaviour
         for(int i = 0; i < monControllerArr.Length; i++)
         {
             monControllerArr[i].Init();
-            Debug.Log(monControllerArr[i].transform.name);
         }
     }
 

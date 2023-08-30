@@ -5,7 +5,25 @@ using JinWon;
 
 public class Controller : FSM<Controller>
 {
-    private Animator anim;
+    private bool controllMode;
+    public bool ControllMode
+    {
+        get { return controllMode; }
+        set { controllMode = value; }
+    }
+
+    private bool same;
+    public bool Same
+    {
+        get { return same; }
+        set { same = value; }
+    }
+
+    public ControllerManager controllerManager;
+
+
+
+    public Animator anim;
 
     private float maxHP;
     private float currHP;
@@ -14,7 +32,6 @@ public class Controller : FSM<Controller>
     private Vector3 moveDirection = Vector3.zero;
 
     float x;
-    float y;
 
     public bool basicAttackCool;
 
@@ -24,6 +41,7 @@ public class Controller : FSM<Controller>
         anim = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
         groundCheck = GameObject.Find("GroundCheck").transform;
+        controllerManager = GetComponentInParent<ControllerManager>();
         CharInit();
     }
 
@@ -32,6 +50,7 @@ public class Controller : FSM<Controller>
         moveSpeed = 5f;
         basicAttackCool = true;
         maxHP = currHP = 15f;
+        jumpPower = 8;
     }
 
     // Update is called once per frame
@@ -44,15 +63,23 @@ public class Controller : FSM<Controller>
     private Vector3 LEFT = new Vector3(-0.55f, 0.55f, 1);
 
     Vector2 direction;
-    Rigidbody2D rb;
+    public Rigidbody2D rb;
     [SerializeField]
     LayerMask groundLayer;
     Vector2 jump;
 
     [SerializeField]
-    float jumpPower = 3;
+    float jumpPower;
 
     private Transform groundCheck;
+
+    public void ChangeMode()
+    {
+        if(controllMode)
+            ChangeState(FSMStateEx.Instance);
+        else
+            ChangeState(PlayerAI.Instance);
+    }
 
     public void Movement()
     {
@@ -67,7 +94,6 @@ public class Controller : FSM<Controller>
         {
             bool isGround =
                 Physics2D.OverlapCircle(groundCheck.position, 0.1f, groundLayer);
-            Debug.Log("มกวม : " + isGround);
             if (isGround)
             {
                 jump = Vector2.up * jumpPower;
@@ -92,7 +118,7 @@ public class Controller : FSM<Controller>
     public void BasicAttackAnim()
     {
         basicAttackCool = false;
-        anim.SetTrigger("Attack");
+        anim.SetTrigger("BasicAttack");
         StartCoroutine(CoolTimeBasic(2.0f));
     }
 
@@ -122,5 +148,21 @@ public class Controller : FSM<Controller>
         anim.SetTrigger("Die");
         yield return YieldInstructionCache.WaitForSeconds(2f);
         GameObject.Destroy(gameObject);
+    }
+
+    
+
+    private float standDir = 0.1f;
+    private bool targetDistancRight;
+    public void LookAtPlayer(Transform t)
+    {
+        Vector2 targetDistance = t.position - transform.position;
+
+        targetDistancRight = targetDistance.x > standDir;
+        if (targetDistancRight)
+            transform.GetChild(0).localScale = RIGHT;
+        else
+            transform.GetChild(0).localScale = LEFT;
+
     }
 }
