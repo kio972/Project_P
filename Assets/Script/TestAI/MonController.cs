@@ -35,11 +35,20 @@ public class MonController : FSM<MonController>
         set { basicTarget = value; }
     }
 
+    private bool same;
+    public bool Same
+    {
+        get { return same; }
+        set { same = value; }
+    }
+
     private float patrolSpeed;
     private float chaseSpeed;
     [SerializeField]
     private LayerMask targetLayer;
     private DrawGizmo basicPivot;
+
+    private MonsterManager monsterManager;
 
     // Start is called before the first frame update
     public void Init()
@@ -57,6 +66,7 @@ public class MonController : FSM<MonController>
         if (t != null)
             basicPivot = t.GetComponent<DrawGizmo>();
         poolTextSpawn = GameObject.Find("PoolTextSpawn").GetComponent<PoolTextSpawn>();
+        monsterManager = GetComponentInParent<MonsterManager>();
     }
 
     private void MonInit()
@@ -123,13 +133,18 @@ public class MonController : FSM<MonController>
         {
             if(!mark)
             {
-                mark = true;
-                poolTextSpawn.SpawnMarkText("ExclamationMark", transform.position);
-                AnimRun(false);
-                Invoke("ChaseState", 1.0f);
+                monsterManager.TargetDetectionManager();
             }
-            //ChangeState(MonChase.Instance);
         }
+    }
+
+    public void TargetDetection() // 처음 타겟을 감지했을 때.
+    {
+        mark = true;
+        target = true;
+        poolTextSpawn.SpawnMarkText("ExclamationMark", transform.position);
+        AnimRun(false);
+        Invoke("ChaseState", 1.0f);
     }
 
     private void Flip() // 바라보는 방향을 역으로 바꿔주는 함수
@@ -143,16 +158,21 @@ public class MonController : FSM<MonController>
 
     public void Chase() // 쫒아가는 상태
     {
-        if (Vector2.Distance(transform.position, targetTrans.position) > 1f && target) // 플레이어가 범위 안에 있으면 쫒아가기
+        if (Vector2.Distance(transform.position, targetTrans.position) > 1f && target && !same) // 플레이어가 범위 안에 있으면 쫒아가기
         {
+            if (anim.GetBool("Run") == false)
+                anim.SetBool("Run", true);
+
             transform.position = Vector2.MoveTowards(transform.position, targetTrans.position, chaseSpeed * Time.deltaTime);
             LookAtDir();
         }
-        else // 범위 밖으로 나가면 집으로 돌아가기
+        else if(same)// 범위 밖으로 나가면 집으로 돌아가기
         {
+            if (anim.GetBool("Run") == true)
+                anim.SetBool("Run", false);
             /*transform.position = Vector2.MoveTowards(transform.position, idlePoint.transform.position, 2f * Time.deltaTime);
             if (transform.position == idlePoint.transform.position) // 집에 도착했으면 다시 경비상태로!*/
-            PatrolState();
+            //PatrolState();
         }
 
         if (basicTarget && target)
@@ -167,9 +187,9 @@ public class MonController : FSM<MonController>
 
         targetDistancRight = targetDistance.x > standDir;
         if(targetDistancRight)
-            transform.localScale = new Vector3(1, 1, 1);
+            transform.localScale = new Vector3(-0.7f, 0.7f, 1);
         else
-            transform.localScale = new Vector3(-1, 1, 1);
+            transform.localScale = new Vector3(0.7f, 0.7f, 1);
 
     }
 
@@ -179,7 +199,12 @@ public class MonController : FSM<MonController>
         {
             //Debug.Log(basicAttack + " " + basicTarget);
             if(basicAttackCool && basicTarget)
-                BasicAttack();
+            {
+                LookAtDir();
+                basicAttackCool = false;
+                StartCoroutine(CoolTimeBasic(2));
+                anim.SetTrigger("BasicAttack");
+            }
             else if(!basicTarget)
             {
                 basicPivotArr = null;
@@ -195,10 +220,6 @@ public class MonController : FSM<MonController>
 
     private void BasicAttack()
     {
-        LookAtDir();
-        basicAttackCool = false;
-        StartCoroutine(CoolTimeBasic(2));
-        anim.SetTrigger("BasicAttack");
 
         basicPivotArr =
             Physics2D.OverlapBoxAll(basicPivot.transform.position,
@@ -213,6 +234,14 @@ public class MonController : FSM<MonController>
                 controller.TakeDamage(1);
             }
         }
+    }
+
+    
+
+    private void MonsterDirection()
+    {
+        
+            
     }
 
     private bool basicAttackCool;
@@ -232,7 +261,8 @@ public class MonController : FSM<MonController>
         poolTextSpawn.SpawnDamageText("DamageText", transform.position, damage);
         if(currHP <= 0)
         {
-            StartCoroutine(OnDie());
+            GameObject.Destroy(gameObject);
+            //StartCoroutine(OnDie());
         }
         else
         {

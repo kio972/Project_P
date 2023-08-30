@@ -7,10 +7,6 @@ public class Controller : FSM<Controller>
 {
     private Animator anim;
 
-    private DrawGizmo attackPivot;
-    [SerializeField]
-    private LayerMask targetLayer;
-
     private float maxHP;
     private float currHP;
 
@@ -25,11 +21,7 @@ public class Controller : FSM<Controller>
     void Awake()
     {
         InitState(this, FSMStateEx.Instance);
-        Transform t = transform.Find("BasicPivot");
-        if (t != null)
-            attackPivot = t.GetComponent<DrawGizmo>();
-        anim = GetComponent<Animator>();
-
+        anim = GetComponentInChildren<Animator>();
         CharInit();
     }
 
@@ -46,8 +38,8 @@ public class Controller : FSM<Controller>
         FSMUpdate();
     }
 
-    private Vector3 RIGHT = new Vector3(1, 1, 1);
-    private Vector3 LEFT = new Vector3(-1, 1, 1);
+    private Vector3 RIGHT = new Vector3(0.55f, 0.55f, 1);
+    private Vector3 LEFT = new Vector3(-0.55f, 0.55f, 1);
 
     public void Movement()
     {
@@ -58,11 +50,11 @@ public class Controller : FSM<Controller>
         transform.position += moveDirection * moveSpeed * Time.deltaTime;
 
         anim.SetBool("Run", moveDirection != Vector3.zero);
-
+        
         if (x > 0 && transform.localScale != RIGHT)
-            transform.localScale = RIGHT;
+            transform.GetChild(0).localScale = RIGHT;
         else if (x < 0 && transform.localScale != LEFT)
-            transform.localScale = LEFT;
+            transform.GetChild(0).localScale = LEFT;
     }
 
     public void BasicAttackAnim()
@@ -70,27 +62,6 @@ public class Controller : FSM<Controller>
         basicAttackCool = false;
         anim.SetTrigger("Attack");
         StartCoroutine(CoolTimeBasic(2.0f));
-    }
-
-    public void BasicAttack()
-    {
-        /*basicAttackCool = false;
-        anim.SetTrigger("Attack");
-        StartCoroutine(CoolTimeBasic(2.0f));*/
-
-        Collider2D[] enemyArr =
-            Physics2D.OverlapBoxAll(attackPivot.transform.position,
-                                 attackPivot.size,
-                                 0,
-                                 targetLayer);
-
-        foreach (Collider2D enemy in enemyArr)
-        {
-            if(enemy.TryGetComponent<MonController>(out MonController monController))
-            {
-                monController.TakeDamage(1);
-            }
-        }
     }
 
     IEnumerator CoolTimeBasic(float cool)

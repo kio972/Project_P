@@ -18,4 +18,11 @@ public class MonsterManager : MonoBehaviour
         }
     }
 
+    public void TargetDetectionManager()
+    {
+        for (int i = 0; i < monControllerArr.Length; i++)
+        {
+            monControllerArr[i].TargetDetection();
+        }
+    }
 }

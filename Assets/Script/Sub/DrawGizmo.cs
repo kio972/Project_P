@@ -16,7 +16,10 @@ public class DrawGizmo : MonoBehaviour
     public Color color = Color.red;
 
     [SerializeField]
-    private string tagName;
+    private string targetName; // Å¸°Ù
+
+    [SerializeField]
+    private string sameName; // °°Àº
 
     [SerializeField]
     private PivotType pivotType;
@@ -36,7 +39,7 @@ public class DrawGizmo : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag(tagName))
+        if(collision.CompareTag(targetName))
         {
             switch(pivotType)
             {
@@ -47,11 +50,16 @@ public class DrawGizmo : MonoBehaviour
                     }
             }
         }
+
+        if (collision.CompareTag(sameName))
+        {
+            monController.Same = true;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag(tagName))
+        if (collision.CompareTag(targetName))
         {
             switch (pivotType)
             {
@@ -61,6 +69,11 @@ public class DrawGizmo : MonoBehaviour
                         break;
                     }
             }
+        }
+
+        if (collision.CompareTag(sameName))
+        {
+            monController.Same = false;
         }
     }
 }

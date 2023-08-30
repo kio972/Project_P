@@ -47,7 +47,8 @@ namespace JinWon
         public void Refresh_Click()
         {
             Debug.Log("아직 구현 안됐습니다!!");
-            // 저장을 원하는 데이터슬롯을 선택하면 시나리오 후 캘린더 시스템이 출력된 후 튜토리얼이 진행되야 함!
+            // 저장을 원하는 데이터슬롯을 선택 후 캘린더씬 바로 넘어가기.
+            // 하면 시나리오 후 캘린더 시스템이 출력된 후 튜토리얼이 진행되야 함!
         }
 
         public void DataSelection_Click()
