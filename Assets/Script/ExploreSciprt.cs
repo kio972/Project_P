@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-
 namespace Jun
 {
-    public class ExploreSciprt : MonoBehaviour
+    public class ExploreScript : MonoBehaviour
     {
-
-        public List<Button> buttons; // 8개의 버튼을 저장할 리스트
+        public List<Button> buttons; // 버튼을 저장할 리스트
         private int currentButtonIndex = 0; // 현재 버튼의 인덱스
         private Vector3[] buttonPositions; // 각 버튼의 초기 위치 저장
 
@@ -25,20 +23,55 @@ namespace Jun
 
         public void OnNextButtonClicked()
         {
-            buttons[currentButtonIndex].gameObject.SetActive(false); // 현재 버튼 숨기기
-            buttons[currentButtonIndex+1].gameObject.SetActive(false);
+            if (currentButtonIndex == 3)
+            {
+                buttons[currentButtonIndex].gameObject.SetActive(false); // 현재 버튼 비활성화
+                currentButtonIndex = (currentButtonIndex) % buttons.Count; // 다음 버튼 인덱스로 변경
+                buttons[currentButtonIndex].gameObject.SetActive(true); // 다음 버튼 활성화
+            }
+            else
+            {
+                buttons[currentButtonIndex].gameObject.SetActive(false); // 현재 버튼 비활성화
+                buttons[currentButtonIndex + 1].gameObject.SetActive(false);
+                if(currentButtonIndex == 2)
+                {
+                    currentButtonIndex = (currentButtonIndex + 1) % buttons.Count; // 다음 버튼 인덱스로 변경
+                }
+                else
+                {
+                    currentButtonIndex = (currentButtonIndex + 2) % buttons.Count; // 다음 버튼 인덱스로 변경
+                }
+                
+                buttons[currentButtonIndex].gameObject.SetActive(true); // 다음 버튼 활성화
+                buttons[currentButtonIndex + 1].gameObject.SetActive(true);
+            }
+            
 
-            currentButtonIndex = (currentButtonIndex + 2) % buttons.Count; // 다음 버튼 인덱스로 변경
+            UpdateButtonPositions();
+        }
+
+        public void OnPreviousButtonClicked()
+        {
+            buttons[currentButtonIndex+2].gameObject.SetActive(false); // 현재 버튼 비활성화
+            buttons[currentButtonIndex+3].gameObject.SetActive(false);
+            currentButtonIndex = (currentButtonIndex + buttons.Count - 2) % buttons.Count; // 이전 버튼 인덱스로 변경
+            buttons[currentButtonIndex - 1].gameObject.SetActive(true); // 이전 버튼 활성화
+            buttons[currentButtonIndex - 2].gameObject.SetActive(true);
+
             UpdateButtonPositions();
         }
 
         private void UpdateButtonPositions()
         {
-            buttons[currentButtonIndex].gameObject.SetActive(true); // 다음 버튼 보이도록 설정
-            buttons[currentButtonIndex+1].gameObject.SetActive(true);
-            buttons[currentButtonIndex].transform.position = buttonPositions[currentButtonIndex];
-            buttons[currentButtonIndex+1].transform.position = buttonPositions[currentButtonIndex+1];// 버튼 위치 업데이트
+            int numButtons = buttons.Count;
+
+            for (int i = 0; i < numButtons; i++)
+            {
+                int offset = i - currentButtonIndex;
+                if (offset < 0) offset += numButtons;
+
+                buttons[i].transform.position = buttonPositions[offset];
+            }
         }
     }
 }
-
