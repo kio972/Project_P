@@ -17,22 +17,34 @@ public class PlayerAI : FSMSingleton<PlayerAI>, CharState<Controller>
     public void Excute(Controller e)
     {
         controllPlayer = e.controllerManager.TargetController();
-
-        if (controllPlayer != null)
+        
+        if(!e.basicAttackAI)
         {
-            e.LookAtPlayer(controllPlayer);
-            if (Vector2.Distance(e.transform.position, controllPlayer.position) > 1f && !e.Same)
+            if (controllPlayer != null)
             {
-                if (e.anim.GetBool("Run") == false)
-                    e.anim.SetBool("Run", true);
-                e.transform.position = Vector2.MoveTowards(e.transform.position, controllPlayer.position, 4 * Time.deltaTime);
-                //LookAtDir();
+                /*if(!e.anim.GetBool("Run"))
+                    e.RunAnim(true);*/
+                e.LookAtPlayer(controllPlayer);
+                if (Vector2.Distance(e.transform.position, controllPlayer.position) > 1f && !e.Same)
+                {
+                    if (e.anim.GetBool("Run") == false)
+                        e.anim.SetBool("Run", true);
+                    e.transform.position = Vector2.MoveTowards(e.transform.position, controllPlayer.position, 4 * Time.deltaTime);
+                    //LookAtDir();
+                }
+                else if (e.Same)
+                {
+                    if (e.anim.GetBool("Run") == true)
+                        e.anim.SetBool("Run", false);
+                }
             }
-            else if (e.Same)
-            {
-                if (e.anim.GetBool("Run") == true)
-                    e.anim.SetBool("Run", false);
-            }
+        }
+        else if(e.basicAttackAI)
+        {
+            /*if (e.anim.GetBool("Run"))
+                e.RunAnim(false);*/
+            if(e.basicAttackCool)
+                e.BasicAttackAnim();
         }
     }
 

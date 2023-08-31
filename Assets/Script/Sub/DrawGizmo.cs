@@ -50,6 +50,13 @@ public class DrawGizmo : MonoBehaviour
                     {
                         if (targetName == "Player")
                             monController.BasicTarget = true;
+                        else if (targetName == "Monster")
+                        {
+                            controller.basicAttackAI = true;
+                            controller.RunAnim(false);
+                        }
+                            
+                            
                         break;
                     }
             }
@@ -77,6 +84,12 @@ public class DrawGizmo : MonoBehaviour
                     {
                         if(targetName == "Player")
                             monController.BasicTarget = false;
+                        else if (targetName == "Monster")
+                        {
+                            controller.RunAnim(true);
+                            controller.basicAttackAI = false;
+                        }
+                            
 
                         break;
                     }

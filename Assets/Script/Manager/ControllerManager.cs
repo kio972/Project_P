@@ -71,7 +71,7 @@ public class ControllerManager : MonoBehaviour
 
     private void Update() // 테스트 코드
     {
-        if (Input.GetKeyDown(KeyCode.X))
+        if (Input.GetKeyDown(KeyCode.Z))
         {
             ControllerChange(num);
             Test();

@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using JinWon;
 public class CardArranger : MonoBehaviour
 {
+
+    private CalendarScene calendarScene;
 
     public List<Transform> children;
 
@@ -17,6 +19,7 @@ public class CardArranger : MonoBehaviour
 
     private void Start()
     {
+        calendarScene = GameObject.Find("CalendarScene").GetComponent<CalendarScene>();
         children = new List<Transform>();
 
         UpdateChildren();
@@ -88,11 +91,20 @@ public class CardArranger : MonoBehaviour
 
         return result;
     }
-
+    
     public void SwapCard(int index01, int index02)
     {
         CharCardManager.SwapCards(children[index01], children[index02]);
         UpdateChildren();
     }
 
+    public void GoStageBtnOnClick()
+    {
+        if (children.Count == 3)
+        {
+            GameManager.Inst.AsyncLoadStageScene("Forest1-" + calendarScene.SelectStage);
+        }
+        else
+            Debug.Log("카드 3장이 안 들어왔습니다!!");
+    }
 }

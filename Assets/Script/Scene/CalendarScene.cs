@@ -47,6 +47,13 @@ namespace JinWon
         [SerializeField]
         private List<Button> moveBtnList = new List<Button>();
 
+        private int selectStage;
+        public int SelectStage
+        {
+            get { return selectStage; }
+            set { selectStage = value; }
+        }
+
         void Start()
         {
             mapUI.Init();
@@ -147,7 +154,7 @@ namespace JinWon
             GameManager.Inst.AsyncLoadNextScene(SceneName.TitleScene);
         }
 
-        public void CharInfoUiMove()
+        public void CharInfoUiMove(int stage)
         {
             if(selectStep == 2)
             {
@@ -167,7 +174,8 @@ namespace JinWon
 
                 SelectPointOff();
                 Invoke("MoveBtnTrue", 2.0f);
-                
+
+                selectStage = stage;
             }
         }
 

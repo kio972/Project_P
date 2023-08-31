@@ -12,10 +12,12 @@ public class CharCardManager : MonoBehaviour
     CardArranger workingArranger;
     int oriIndex;
 
-    
+    private CharInfoObj charInfoObj;
 
     private void Start()
     {
+        charInfoObj = GameObject.Find("CharInfoObj").GetComponent<CharInfoObj>();
+
         var arrs = transform.GetComponentsInChildren<CardArranger>();
 
         for(int i = 0; i < arrs.Length; i++)
@@ -223,5 +225,6 @@ public class CharCardManager : MonoBehaviour
         }
 
         ArrangerChildInit();
+        charInfoObj.SelectCardInfo();
     }
 }

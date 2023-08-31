@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using TMPro;
 
 public class CharCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
@@ -10,11 +11,25 @@ public class CharCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     Transform root;
 
     private bool init;
-    
+
+    [SerializeField]
+    private TextMeshProUGUI nameText;
+
+    public string charName;
+    private string CharName
+    {
+        get { return charName; }
+    }
+
+    [SerializeField]
+    private string testText;
 
     private void Start()
     {
         root = transform.root;
+        //nameText.GetTextInfo(charName);
+        nameText.text = testText;
+        charName = testText;
     }
 
     public void CharCardInit(bool value)

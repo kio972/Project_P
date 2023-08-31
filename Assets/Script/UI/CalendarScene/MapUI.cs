@@ -47,6 +47,9 @@ namespace JinWon
         [SerializeField]
         private List<GameObject> regionLoadList = new List<GameObject>();
 
+        [SerializeField]
+        private GameObject forestCloud;
+
         public void Init() // CalendarScene 시작할때 초기화!
         {
             regionCamList[0].SetActive(true);
@@ -268,6 +271,8 @@ namespace JinWon
                         {
                             // 임시 번호
                             regionCamList[1].SetActive(true);
+                            //forestCloud.SetActive(true);
+                            LeanTween.scale(forestCloud, new Vector3(1, 1, 1), 2f);
                             Debug.Log("포레스트 눌러씀");
 
                             if (regionButtonSelect != 6)
@@ -307,6 +312,11 @@ namespace JinWon
                     regionLoadList[i].SetActive(false);
                 }
             }
+            if (forestCloud.transform.localScale == Vector3.one)
+                LeanTween.scale(forestCloud, new Vector3(0, 0, 0), 2f);
+
+            /*if (forestCloud.activeSelf)
+                forestCloud.SetActive(false);*/
         }
 
         private string battleSceneName;

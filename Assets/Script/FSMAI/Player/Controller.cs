@@ -21,7 +21,11 @@ public class Controller : FSM<Controller>
 
     public ControllerManager controllerManager;
 
-
+    public bool basicAttackAI;
+    private bool BasicAttackAI
+    {
+        set { basicAttackAI = value; }
+    }
 
     public Animator anim;
 
@@ -34,6 +38,10 @@ public class Controller : FSM<Controller>
     float x;
 
     public bool basicAttackCool;
+    private bool BasicAttackCool
+    {
+        get { return basicAttackCool; }
+    }
 
     void Awake()
     {
@@ -157,7 +165,13 @@ public class Controller : FSM<Controller>
         GameObject.Destroy(gameObject);
     }
 
-    
+    public void RunAnim(bool init)
+    {
+        if (init)
+            anim.SetBool("Run", true);
+        else
+            anim.SetBool("Run", false);
+    }
 
     private float standDir = 0.1f;
     private bool targetDistancRight;

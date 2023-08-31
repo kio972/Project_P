@@ -13,9 +13,6 @@ namespace JinWon
         private GameObject bg2; // 플레이 기록이 있는 상태의 배경이미지
 
         [SerializeField]
-        private GameObject titleImg;
-
-        [SerializeField]
         private GameObject pressTextObj;
 
         [SerializeField]
@@ -62,7 +59,6 @@ namespace JinWon
 
         private void Press() // 아무키나 눌렸을때 메인메뉴가 보이는 함수
         {
-            titleImg.SetActive(false);
             pressTextObj.SetActive(false); // 텍스트를 꺼줌
             mainMenuObj.SetActive(true);
             mainMenuUI.DataInit();

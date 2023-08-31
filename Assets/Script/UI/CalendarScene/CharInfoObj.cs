@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class CharInfoObj : MonoBehaviour
 {
@@ -10,6 +11,15 @@ public class CharInfoObj : MonoBehaviour
     [SerializeField]
     private List<GameObject> textUIList = new List<GameObject>(); // 특성 스킬 장비
 
+    [SerializeField]
+    private TextMeshProUGUI nameText;
+
+    [SerializeField]
+    private CardArranger selectArranger;
+
+    [SerializeField]
+    private CharCard selectCard;
+
     private void Awake() // 임시코드 / 나중에 Manager스크립트에서 호출하도록 변경!
     {
         Init();
@@ -18,6 +28,7 @@ public class CharInfoObj : MonoBehaviour
     public void Init() // 초기화
     {
         BtnOnClick(0); // 특성을 기본으로 설정해 놓기
+        //SelectCardInfo();
     }
 
     public void BtnOnClick(int whatBtn) // 탭을 클릭했을때.
@@ -48,5 +59,13 @@ public class CharInfoObj : MonoBehaviour
             else
                 textUIList[i].SetActive(false);
         }
+    }
+
+    public void SelectCardInfo()
+    {
+        selectCard = selectArranger.GetComponentInChildren<CharCard>();
+
+        nameText.text = selectCard.charName;
+        
     }
 }
