@@ -35,11 +35,18 @@ public class ControllerManager : MonoBehaviour
         for (int i = 0; i < controllerList.Count; i++)
         {
             if (i == who)
+            {
                 controllerList[i].ControllMode = true;
+                controllerList[i].InitState(true);
+            }
             else
+            {
                 controllerList[i].ControllMode = false;
+                controllerList[i].InitState(false);
+            }
+                
 
-            controllerList[i].ChangeMode();
+            //controllerList[i].ChangeMode();
         }
     }
 
@@ -62,7 +69,7 @@ public class ControllerManager : MonoBehaviour
             num = 0;
     }
 
-    private void Update()
+    private void Update() // 테스트 코드
     {
         if (Input.GetKeyDown(KeyCode.X))
         {

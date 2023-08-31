@@ -48,7 +48,8 @@ public class DrawGizmo : MonoBehaviour
             {
                 case PivotType.basic:
                     {
-                        monController.BasicTarget = true;
+                        if (targetName == "Player")
+                            monController.BasicTarget = true;
                         break;
                     }
             }
@@ -74,7 +75,9 @@ public class DrawGizmo : MonoBehaviour
             {
                 case PivotType.basic:
                     {
-                        monController.BasicTarget = false;
+                        if(targetName == "Player")
+                            monController.BasicTarget = false;
+
                         break;
                     }
             }

@@ -37,12 +37,19 @@ public class Controller : FSM<Controller>
 
     void Awake()
     {
-        InitState(this, FSMStateEx.Instance);
         anim = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
         groundCheck = GameObject.Find("GroundCheck").transform;
         controllerManager = GetComponentInParent<ControllerManager>();
         CharInit();
+    }
+
+    public void InitState(bool controller)
+    {
+        if(controller)
+            InitState(this, FSMStateEx.Instance);
+        else
+            InitState(this, PlayerAI.Instance);
     }
 
     public void CharInit()
@@ -90,7 +97,7 @@ public class Controller : FSM<Controller>
 
         anim.SetBool("Run", direction != Vector2.zero);
 
-        if(Input.GetKeyDown(KeyCode.UpArrow))
+        if(Input.GetKeyDown(KeyCode.C))
         {
             bool isGround =
                 Physics2D.OverlapCircle(groundCheck.position, 0.1f, groundLayer);
