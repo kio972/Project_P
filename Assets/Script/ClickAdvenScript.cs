@@ -12,8 +12,6 @@ public class ClickAdvenScript : MonoBehaviour
         ShowPanelAtIndex(currentPanelIndex);
     }
 
-
-
     public void OnNextButtonClicked()
     {
         HidePanelAtIndex(currentPanelIndex); // 현재 패널 숨기기

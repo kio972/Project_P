@@ -66,23 +66,4 @@ public class ControllerManager : MonoBehaviour
         }
         return null;
     }
-
-    int num = 1;
-
-    private void Test()
-    {
-        num++;
-        if (num > 2)
-            num = 0;
-    }
-
-    private void Update() // 테스트 코드
-    {
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            ControllerChange(num);
-            Test();
-        }
-    }
-
 }

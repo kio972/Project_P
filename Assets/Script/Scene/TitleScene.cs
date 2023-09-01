@@ -21,14 +21,11 @@ namespace JinWon
         private bool press;
 
         [SerializeField]
-        private FadeInOut fade;
-
-        [SerializeField]
         private JinWon.MainMenuUI mainMenuUI;
 
         void Start()
         {
-            fade.Fade_InOut(true, 3.0f);
+            GameManager.Inst.Fade_InOut(true, 3.0f);
             Init();
             BGSetting();
         }
@@ -39,6 +36,11 @@ namespace JinWon
             {
                 press = true;
                 Press();
+            }
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                Application.Quit();
             }
         }
 

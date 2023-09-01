@@ -21,7 +21,6 @@ namespace Jun
             //ExploreUI2.SetActive(false);
         }
 
-
         // Update is called once per frame
         void Update()
         {
@@ -29,7 +28,6 @@ namespace Jun
             {
                 ToggleUI();
             }
-
         }
 
         private void ToggleUI()
