@@ -10,6 +10,11 @@ public class MonsterManager : MonoBehaviour
     private int areaIndex;
     public int AreaIndex { get => areaIndex; }
 
+    /*private void Start()
+    {
+        MonsterManagerInit();   
+    }*/
+
     public void MonsterManagerInit()
     {
         monControllerArr = GetComponentsInChildren<MonController>();
@@ -24,6 +29,8 @@ public class MonsterManager : MonoBehaviour
     {
         foreach(MonController monster in monControllerArr)
         {
+            /*if (monster.CurState != MonIdle.Instance)
+                monster.ChangeState(MonIdle.Instance);*/
             monster.gameObject.SetActive(false);
         }
     }
@@ -32,9 +39,15 @@ public class MonsterManager : MonoBehaviour
     {
         foreach (MonController monster in monControllerArr)
         {
-            monster.gameObject.SetActive(true);
-            if (monster.CurState != MonIdle.Instance)
-                monster.ChangeState(MonPatrol.Instance);
+            if(!monster.Die)
+            {
+                monster.gameObject.SetActive(true);
+                //monster.Target = false;
+                if (monster.CurState == MonIdle.Instance)
+                    monster.ChangeState(MonPatrol.Instance);
+                else if(monster.CurState != MonIdle.Instance)
+                    monster.ChangeState(MonChase.Instance);
+            }
         }
     }
 

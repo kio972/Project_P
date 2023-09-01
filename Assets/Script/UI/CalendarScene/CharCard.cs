@@ -11,7 +11,10 @@ public class CharCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     [SerializeField]
     private PlayerType playerType;
-
+    public PlayerType PlayerType
+    {
+        get { return playerType; }
+    }
 
     Transform root;
 
@@ -88,7 +91,8 @@ public class CharCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
                     charStat.Add(playerInfo.Luk);
                     charHP = playerInfo.HP;
                     charMP = playerInfo.MP;
-                    hiddenList.Add("- 단단해지기!");
+                    hiddenList.Add(playerInfo.hidden1);
+                    hiddenList.Add(playerInfo.hidden2);
                     break;
                 }
             case PlayerType.Priest:
@@ -105,7 +109,8 @@ public class CharCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
                     charStat.Add(playerInfo.Luk);
                     charHP = playerInfo.HP;
                     charMP = playerInfo.MP;
-                    hiddenList.Add("- 기도드리기!");
+                    hiddenList.Add(playerInfo.hidden1);
+                    hiddenList.Add(playerInfo.hidden2);
                     break;
                 }
             case PlayerType.Archer:
@@ -122,11 +127,11 @@ public class CharCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
                     charStat.Add(playerInfo.Luk);
                     charHP = playerInfo.HP;
                     charMP = playerInfo.MP;
-                    hiddenList.Add("- 활쏘고 도망가기!");
+                    hiddenList.Add(playerInfo.hidden1);
+                    hiddenList.Add(playerInfo.hidden2);
                     break;
                 }
         }
-        
     }
 
     public void CharCardInit(bool value)

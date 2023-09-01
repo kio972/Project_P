@@ -3,8 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using JinWon;
 
+public enum MonsterType
+{
+    Mospy_Spear,
+    Mospy_Bow,
+}
+
+
+
+public class MonsterInfo
+{
+    public float Mospy_Spear_Damage = 6;
+    public float Mospy_Spear_HP = 70;
+    public float Mospy_Spear_MP;
+
+    public float Mospy_Bow_Damage = 8;
+    public float Mospy_Bow_HP = 50;
+    public float Mospy_Bow_MP;
+}
+
 public class MonController : FSM<MonController>
 {
+    [SerializeField]
+    private MonsterType monsterType;
+
+    private MonsterInfo monsterInfo;
+
     private Animator anim;
 
     Transform targetTrans;
@@ -14,6 +38,7 @@ public class MonController : FSM<MonController>
     private GameObject pointA;
     [SerializeField]
     private GameObject pointB;
+
     [SerializeField]
     private GameObject idlePoint;
     [SerializeField]
@@ -50,7 +75,10 @@ public class MonController : FSM<MonController>
 
     private MonsterManager monsterManager;
 
-    // Start is called before the first frame update
+    private float currHP;
+    private float maxHP;
+    private float damage;
+
     public void Init()
     {
         InitState(this, MonIdle.Instance);
@@ -67,27 +95,40 @@ public class MonController : FSM<MonController>
             basicPivot = t.GetComponent<DrawGizmo>();
         poolTextSpawn = GameObject.Find("PoolTextSpawn").GetComponent<PoolTextSpawn>();
         monsterManager = GetComponentInParent<MonsterManager>();
+        monsterInfo = new MonsterInfo();
     }
-
-    private Vector3 pointAvec;
-    private Vector3 pointBvec;
-
-    private Vector3 pointInit = new Vector3(5f,0,0);
-    private Vector3 position;
 
     private void MonInit()
     {
+        MonStat();
         target = false;
-        //currPoint = pointB.transform;
+        currPoint = pointB.transform;
         chaseSpeed = 4f;
-        patrolSpeed = 2f;
+        patrolSpeed = 1f;
         basicAttackCool = true;
         basicTarget = false;
-        /*position = transform.position;
-        pointA = position + pointInit;*/
+
     }
 
-    // Update is called once per frame
+    private void MonStat()
+    {
+        switch(monsterType)
+        {
+            case MonsterType.Mospy_Bow:
+                {
+                    maxHP = currHP = monsterInfo.Mospy_Bow_HP;
+                    damage = monsterInfo.Mospy_Bow_Damage;
+                    break;
+                }
+            case MonsterType.Mospy_Spear:
+                {
+                    maxHP = currHP = monsterInfo.Mospy_Spear_HP;
+                    damage = monsterInfo.Mospy_Spear_Damage;
+                    break;
+                }
+        }
+    }
+
     void Update()
     {
         FSMUpdate();
@@ -116,6 +157,9 @@ public class MonController : FSM<MonController>
 
     public void Patrol() // 경비상태
     {
+        if (!anim.GetBool("Run"))
+            anim.SetBool("Run", true);
+
         if(!target)
         {
             if (currPoint == pointB.transform)
@@ -172,7 +216,7 @@ public class MonController : FSM<MonController>
         if (Vector2.Distance(transform.position, targetTrans.position) > 1f && target && !same) // 플레이어가 범위 안에 있으면 쫒아가기
         {
             if (anim.GetBool("Run") == false)
-                anim.SetBool("Run", true);
+                AnimRun(true);
 
             transform.position = Vector2.MoveTowards(transform.position, targetTrans.position, chaseSpeed * Time.deltaTime);
             LookAtDir();
@@ -181,7 +225,7 @@ public class MonController : FSM<MonController>
         {
             LookAtDir();
             if (anim.GetBool("Run") == true)
-                anim.SetBool("Run", false);
+                AnimRun(false);
             /*transform.position = Vector2.MoveTowards(transform.position, idlePoint.transform.position, 2f * Time.deltaTime);
             if (transform.position == idlePoint.transform.position) // 집에 도착했으면 다시 경비상태로!*/
             //PatrolState();
@@ -212,6 +256,7 @@ public class MonController : FSM<MonController>
             //Debug.Log(basicAttack + " " + basicTarget);
             if(basicAttackCool && basicTarget)
             {
+
                 LookAtDir();
                 basicAttackCool = false;
                 StartCoroutine(CoolTimeBasic(2));
@@ -243,7 +288,7 @@ public class MonController : FSM<MonController>
         {
             if (enemy.TryGetComponent<Controller>(out Controller controller))
             {
-                controller.TakeDamage(1);
+                controller.TakeDamage(damage);
             }
         }
     }
@@ -264,15 +309,17 @@ public class MonController : FSM<MonController>
         basicAttackCool = true;
     }
 
-    private float currHP = 10;
+    
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, Transform target)
     {
+        targetTrans = target;
         anim.SetTrigger("TakeDamage");
         currHP -= damage;
         poolTextSpawn.SpawnDamageText("DamageText", transform.position, damage);
         if(currHP <= 0)
         {
+            die = true;
             transform.gameObject.SetActive(false);
             //GameObject.Destroy(gameObject);
             //StartCoroutine(OnDie());
@@ -281,6 +328,12 @@ public class MonController : FSM<MonController>
         {
             Debug.Log(transform.name + "몬스터 체력 : " + currHP);
         }
+    }
+
+    private bool die;
+    public bool Die
+    {
+        get { return die; }
     }
 
     IEnumerator OnDie()

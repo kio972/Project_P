@@ -4,13 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using JinWon;
 using UnityEngine.SceneManagement;
+using YeongJun;
 
 namespace JinWon
 {
     public class CalendarScene : MonoBehaviour
     {
-        [SerializeField]
-        private FadeInOut fade;
+
 
         private int whatMonth; // 임시 Month변수 입니다.
 
@@ -47,6 +47,14 @@ namespace JinWon
         [SerializeField]
         private List<Button> moveBtnList = new List<Button>();
 
+        [SerializeField]
+        private List<GameObject> regionCamList = new List<GameObject>(); // 포레스트
+        [SerializeField]
+        private List<Region> regionList = new List<Region>(); // 포레스트
+
+        [SerializeField]
+        private Clock clock;
+
         private int selectStage;
         public int SelectStage
         {
@@ -56,15 +64,49 @@ namespace JinWon
 
         void Start()
         {
-            mapUI.Init();
+            GameManager.Inst.Fade_InOut(true, 3.0f);
+            mapMove = false;
             Cursor.SetCursor(cursorTexture, hotspot, cursorMode);
+            if (GameManager.Inst.CalendarProd)
+                StartCoroutine(Production());
+            else
+                Init();
+        }
 
-            fade.Fade_InOut(true, 3.0f);
+        private void Init()
+        {
+            if(!calendarCam.activeSelf)
+                calendarCam.SetActive(true);
+
+            mapUI.Init();
+
             whatMonth = Random.Range(0, 12);
             calendarObjList[whatMonth].SetActive(true);
             Debug.Log("몇월일까아아아용? " + (whatMonth + 1));
 
             selectStep = 0;
+
+            for (int i = 0; i < regionList.Count; i++)
+            {
+                regionList[i].CloudeActive(false);
+                regionList[i].LoadActive(false);
+            }
+            mapMove = true;
+        }
+
+        IEnumerator Production()
+        {
+            GameManager.Inst.CalendarProd = false;
+            calendarCam.SetActive(false);
+            regionCamList[GameManager.Inst.CalendarProdRegion - 1].SetActive(true);
+            yield return YieldInstructionCache.WaitForSeconds(4f);
+            regionList[GameManager.Inst.CalendarProdRegion - 1].CloudInit(GameManager.Inst.CalendarProdCloud);
+            yield return YieldInstructionCache.WaitForSeconds(4f);
+            calendarCam.SetActive(true);
+            regionCamList[GameManager.Inst.CalendarProdRegion - 1].SetActive(false);
+            yield return YieldInstructionCache.WaitForSeconds(3f);
+            clock.ChangeTime();
+            Init();
         }
 
         public void UIMove()
@@ -73,7 +115,6 @@ namespace JinWon
             {
                 case 0: // 타이틀씬으로 가지는 상태
                     {
-                        fade.Fade_InOut(false, 2.0f);
                         Invoke("TitleSceneMove", 2.0f);
                         break;
                     }
@@ -118,19 +159,24 @@ namespace JinWon
             }
         }
 
+        private bool mapMove;
+
         public void MapUiMove()
         {
-            MoveBtnFalse();
-            mapUI.RegionInit();
-            calendarCam.SetActive(false);
-            charInfoCam.SetActive(false);
-            mapCam.SetActive(true);
+            if(mapMove)
+            {
+                MoveBtnFalse();
+                mapUI.RegionInit();
+                calendarCam.SetActive(false);
+                charInfoCam.SetActive(false);
+                mapCam.SetActive(true);
 
-            mapUI.RegionBtnInteractable(true);
-            //mapUI.RegionInit();
-            mapUI.SelectMove = true;
-            selectStep = 1;
-            Invoke("MoveBtnTrue", 2.0f);
+                mapUI.RegionBtnInteractable(true);
+                //mapUI.RegionInit();
+                mapUI.SelectMove = true;
+                selectStep = 1;
+                Invoke("MoveBtnTrue", 2.0f);
+            }
         }
 
         private void MoveBtnFalse()

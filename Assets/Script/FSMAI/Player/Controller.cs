@@ -5,6 +5,41 @@ using JinWon;
 
 public class Controller : FSM<Controller>
 {
+    [SerializeField]
+    private PlayerType playerType;
+    public PlayerType PlayerType
+    {
+        get { return playerType; }
+    }
+
+    private void PlayerInfo()
+    {
+        switch (playerType)
+        {
+            case PlayerType.Warrior:
+                {
+                    WarriorInfo playerInfo = new WarriorInfo();
+                    currHP = maxHP = playerInfo.HP;
+                    currHP = maxHP = playerInfo.MP;
+                    break;
+                }
+            case PlayerType.Priest:
+                {
+                    PriestInfo playerInfo = new PriestInfo();
+                    currHP = maxHP = playerInfo.HP;
+                    currHP = maxHP = playerInfo.MP;
+                    break;
+                }
+            case PlayerType.Archer:
+                {
+                    ArcherInfo playerInfo = new ArcherInfo();
+                    currHP = maxHP = playerInfo.HP;
+                    currHP = maxHP = playerInfo.MP;
+                    break;
+                }
+        }
+    }
+
     private bool controllMode;
     public bool ControllMode
     {
@@ -29,7 +64,9 @@ public class Controller : FSM<Controller>
 
     public Animator anim;
 
+    [SerializeField]
     private float maxHP;
+    [SerializeField]
     private float currHP;
     public float _MaxHp { get => maxHP; }
     public float _CurrHp { get => currHP; }
@@ -64,9 +101,9 @@ public class Controller : FSM<Controller>
 
     public void CharInit()
     {
+        PlayerInfo();
         moveSpeed = 5f;
         basicAttackCool = true;
-        maxHP = currHP = 15f;
         jumpPower = 8;
     }
 

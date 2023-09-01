@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Jun;
-
+using JinWon;
 namespace YeongJun
 {
     public class BattleSceneManager : MonoBehaviour
@@ -21,6 +21,7 @@ namespace YeongJun
 
         private void Start()
         {
+            GameManager.Inst.Fade_InOut(true, 3.0f);
             MonsterGroupInit();
             SetBattleScene(area);
             controllerManager = FindObjectOfType<ControllerManager>();
@@ -61,11 +62,20 @@ namespace YeongJun
         {
             ChangeMonsterState(number);
             ChangeCam(number);
+
+
         }
 
         public void ChangeMainChar(Controller target)
         {
             controllerManager.ControllerChange(target);
+        }
+
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+                GameManager.Inst.AsyncLoadNextScene("TitleScene");
         }
 
     }

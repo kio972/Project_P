@@ -28,7 +28,7 @@ public class PriestAI : Controller
         {
             if (enemy.TryGetComponent<MonController>(out MonController monController))
             {
-                monController.TakeDamage(1);
+                monController.TakeDamage(12, transform);
             }
         }
     }

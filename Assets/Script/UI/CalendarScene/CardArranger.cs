@@ -112,13 +112,15 @@ public class CardArranger : MonoBehaviour
         if(!btnClick)
         {
             btnClick = true;
+            Debug.Log("칠드런 카운트는 : " + children.Count);
             if (children.Count == 3)
             {
+                Debug.Log("로드 씬 들어옴");
                 GameManager.Inst.AsyncLoadNextScene("Forest1-" + calendarScene.SelectStage);
             }
             else
             {
-                systemText.text = "파티원이 모두 모이지 않았습니다.";
+                systemText.text = "<color=yellow>"+ "파티" +"</color>"+ "가 구성되지 않으면 탐색을 출발할 수 없어요.";
                 StartCoroutine(SystemUi());
             }
         }

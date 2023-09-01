@@ -278,7 +278,8 @@ namespace JinWon
                             if (regionButtonSelect != 6)
                                 regionButtonList[6].Select();
 
-                            regionLoadList[0].SetActive(true);
+                            Invoke("RegionLoadOn", 2f);
+                            //regionLoadList[0].SetActive(true);
 
                             break;
                         }
@@ -300,6 +301,17 @@ namespace JinWon
                 selectMove = false; // 셀렉트 변경 못하도록 꺼놓기.
                 mapCam.SetActive(false);
                 calendarScene.SelectStep++;
+            }
+        }
+
+        public void RegionLoadOn()
+        {
+            for (int i = 0; i < regionLoadList.Count; i++)
+            {
+                if (!regionLoadList[i].activeSelf)
+                {
+                    regionLoadList[i].SetActive(true);
+                }
             }
         }
 

@@ -22,9 +22,6 @@ namespace JinWon
         [SerializeField]
         private GameObject titleUI;
 
-        [SerializeField]
-        private FadeInOut fade; 
-
         public void Init()
         {
             DataInit();
@@ -64,8 +61,7 @@ namespace JinWon
 
         public void RefreshStart_Click()
         {
-            fade.Fade_InOut(false, 3.0f); // 3초 Fade하고 넘어감
-            Invoke("NextScene", 3.0f);
+            NextScene();
         }
 
         public void DataSelection_Click()
@@ -107,13 +103,12 @@ namespace JinWon
         #region 데이터 정보 UI
         public void Load_Click() // 달력씬으로 넘어가야 함!
         {
-            fade.Fade_InOut(false, 3.0f); // 3초 Fade하고 넘어감
             Invoke("NextScene", 3.0f);
         }
 
         public void NextScene()
         {
-            GameManager.Inst.AsyncLoadNextScene(SceneName.CalendarScene);
+            GameManager.Inst.AsyncLoadNextScene("CalendarScene");
         }
 
         public void Cancel_Click()

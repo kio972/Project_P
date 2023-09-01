@@ -28,7 +28,7 @@ public class ArcherAI : Controller
         {
             if (enemy.TryGetComponent<MonController>(out MonController monController))
             {
-                monController.TakeDamage(1);
+                monController.TakeDamage(24, transform);
             }
         }
     }

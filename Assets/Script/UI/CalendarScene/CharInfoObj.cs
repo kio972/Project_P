@@ -30,6 +30,9 @@ public class CharInfoObj : MonoBehaviour
     private List<TextMeshProUGUI> hiddenTextList = new List<TextMeshProUGUI>();
 
     [SerializeField]
+    private List<GameObject> charImgList = new List<GameObject>(); // 전사 궁수 신관
+
+    [SerializeField]
     private CardArranger selectArranger;
 
     [SerializeField]
@@ -82,6 +85,25 @@ public class CharInfoObj : MonoBehaviour
         {
             selectCard = selectArranger.GetComponentInChildren<CharCard>();
 
+            switch(selectCard.PlayerType)
+            {
+                case PlayerType.Warrior:
+                    {
+                        CharImgSetting(0);
+                        break;
+                    }
+                case PlayerType.Archer:
+                    {
+                        CharImgSetting(1);
+                        break;
+                    }
+                case PlayerType.Priest:
+                    {
+                        CharImgSetting(2);
+                        break;
+                    }
+            }
+
             nameText.text = selectCard.charName;
             levelText.text = "Lv. " + selectCard.charLv;
             infoText.text = selectCard.charInfo;
@@ -94,11 +116,21 @@ public class CharInfoObj : MonoBehaviour
                 statTextList[i].text = selectCard.charStat[i].ToString();
             }
 
-            for(int i = 0; i < hiddenTextList.Count; i++)
+            for(int i = 0; i < selectCard.hiddenList.Count; i++)
             {
                 hiddenTextList[i].text = selectCard.hiddenList[i];
             }
         }
-        
+    }
+
+    public void CharImgSetting(int num)
+    {
+        for(int i = 0; i < charImgList.Count; i++)
+        {
+            if (i == num)
+                charImgList[i].SetActive(true);
+            else
+                charImgList[i].SetActive(false);
+        }
     }
 }
