@@ -13,6 +13,21 @@ public class CharInfoObj : MonoBehaviour
 
     [SerializeField]
     private TextMeshProUGUI nameText;
+    [SerializeField]
+    private TextMeshProUGUI levelText;
+    [SerializeField]
+    private TextMeshProUGUI infoText;
+
+    [SerializeField]
+    private TextMeshProUGUI hpText;
+    [SerializeField]
+    private TextMeshProUGUI mpText;
+
+    [SerializeField]
+    private List<TextMeshProUGUI> statTextList = new List<TextMeshProUGUI>();
+
+    [SerializeField]
+    private List<TextMeshProUGUI> hiddenTextList = new List<TextMeshProUGUI>();
 
     [SerializeField]
     private CardArranger selectArranger;
@@ -63,9 +78,27 @@ public class CharInfoObj : MonoBehaviour
 
     public void SelectCardInfo()
     {
-        selectCard = selectArranger.GetComponentInChildren<CharCard>();
+        if(selectArranger.GetComponentInChildren<CharCard>())
+        {
+            selectCard = selectArranger.GetComponentInChildren<CharCard>();
 
-        nameText.text = selectCard.charName;
+            nameText.text = selectCard.charName;
+            levelText.text = "Lv. " + selectCard.charLv;
+            infoText.text = selectCard.charInfo;
+
+            hpText.text = selectCard.charHP.ToString();
+            mpText.text = selectCard.charMP.ToString();
+
+            for (int i = 0; i < statTextList.Count; i++)
+            {
+                statTextList[i].text = selectCard.charStat[i].ToString();
+            }
+
+            for(int i = 0; i < hiddenTextList.Count; i++)
+            {
+                hiddenTextList[i].text = selectCard.hiddenList[i];
+            }
+        }
         
     }
 }

@@ -24,6 +24,7 @@ public class CharCardManager : MonoBehaviour
         {
             cardArrangers.Add(arrs[i]);
         }
+        charInfoObj.SelectCardInfo();
     }
 
     public static void SwapCards(Transform sour, Transform dest)

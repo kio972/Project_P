@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using JinWon;
+using TMPro;
+
 public class CardArranger : MonoBehaviour
 {
 
@@ -98,13 +100,37 @@ public class CardArranger : MonoBehaviour
         UpdateChildren();
     }
 
+    [SerializeField]
+    private GameObject systemUI;
+    [SerializeField]
+    private TextMeshProUGUI systemText;
+
+    private bool btnClick = false;
+
     public void GoStageBtnOnClick()
     {
-        if (children.Count == 3)
+        if(!btnClick)
         {
-            GameManager.Inst.AsyncLoadNextScene("Forest1-" + calendarScene.SelectStage);
+            btnClick = true;
+            if (children.Count == 3)
+            {
+                GameManager.Inst.AsyncLoadNextScene("Forest1-" + calendarScene.SelectStage);
+            }
+            else
+            {
+                systemText.text = "파티원이 모두 모이지 않았습니다.";
+                StartCoroutine(SystemUi());
+            }
         }
-        else
-            Debug.Log("카드 3장이 안 들어왔습니다!!");
+        
     }
+
+    IEnumerator SystemUi()
+    {
+        LeanTween.scale(systemUI, Vector3.one, 0.5f);
+        yield return YieldInstructionCache.WaitForSeconds(2.0f);
+        LeanTween.scale(systemUI, Vector3.zero, 0.5f);
+        btnClick = false;
+    }
+
 }
