@@ -6,8 +6,7 @@ public class ControllerManager : MonoBehaviour
 {
     public List<Controller> controllerList;
 
-    // Start is called before the first frame update
-    void Start()
+    public void Init()
     {
         ControllerListAdd();
     }
@@ -44,9 +43,17 @@ public class ControllerManager : MonoBehaviour
                 controllerList[i].ControllMode = false;
                 controllerList[i].InitState(false);
             }
-                
-
             //controllerList[i].ChangeMode();
+        }
+    }
+
+    public void ControllerChange(Controller who)
+    {
+        foreach(Controller controller in controllerList)
+        {
+            bool value = (controller == who);
+            controller.ControllMode = value;
+            controller.InitState(value);
         }
     }
 

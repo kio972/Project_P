@@ -589,7 +589,7 @@ GameObject:
   - component: {fileID: 128557154}
   - component: {fileID: 128557156}
   - component: {fileID: 128557155}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3559,6 +3559,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controllerManager: {fileID: 0}
+  basicAttackAI: 0
   anim: {fileID: 0}
   basicAttackCool: 0
   rb: {fileID: 0}
@@ -3957,6 +3958,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controllerManager: {fileID: 0}
+  basicAttackAI: 0
   anim: {fileID: 0}
   basicAttackCool: 0
   rb: {fileID: 0}
@@ -4173,6 +4175,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controllerManager: {fileID: 0}
+  basicAttackAI: 0
   anim: {fileID: 0}
   basicAttackCool: 0
   rb: {fileID: 0}
@@ -4263,7 +4266,7 @@ GameObject:
   - component: {fileID: 1785707699}
   - component: {fileID: 1785707701}
   - component: {fileID: 1785707700}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4430,6 +4433,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controllerManager: {fileID: 0}
+  basicAttackAI: 0
   anim: {fileID: 0}
   basicAttackCool: 0
   rb: {fileID: 0}
@@ -4520,7 +4524,7 @@ GameObject:
   - component: {fileID: 1808386276}
   - component: {fileID: 1808386278}
   - component: {fileID: 1808386277}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4882,6 +4886,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controllerManager: {fileID: 0}
+  basicAttackAI: 0
   anim: {fileID: 0}
   basicAttackCool: 0
   rb: {fileID: 0}
@@ -5010,6 +5015,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controllerManager: {fileID: 0}
+  basicAttackAI: 0
   anim: {fileID: 0}
   basicAttackCool: 0
   rb: {fileID: 0}
@@ -5235,7 +5241,7 @@ GameObject:
   - component: {fileID: 1968931636}
   - component: {fileID: 1968931637}
   - component: {fileID: 1968931638}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}

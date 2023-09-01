@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Jun;
 
 namespace YeongJun
 {
@@ -11,6 +12,7 @@ namespace YeongJun
         private GameObject camGroup; // 버츄얼 카메라 그룹
 
         private List<MonsterManager> monsterGroup;
+        private ControllerManager controllerManager;
 
         private void Awake()
         {
@@ -21,6 +23,12 @@ namespace YeongJun
         {
             MonsterGroupInit();
             SetBattleScene(area);
+            controllerManager = FindObjectOfType<ControllerManager>();
+            if (controllerManager != null)
+                controllerManager.Init();
+            CharChangeScript charChangeScript = FindObjectOfType<CharChangeScript>();
+            if (charChangeScript != null && controllerManager != null)
+                charChangeScript.Init(controllerManager.controllerList[0], controllerManager.controllerList[1], controllerManager.controllerList[2], this);
         }
 
         private void MonsterGroupInit()
@@ -53,6 +61,11 @@ namespace YeongJun
         {
             ChangeMonsterState(number);
             ChangeCam(number);
+        }
+
+        public void ChangeMainChar(Controller target)
+        {
+            controllerManager.ControllerChange(target);
         }
 
     }

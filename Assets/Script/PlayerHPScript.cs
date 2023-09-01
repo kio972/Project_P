@@ -8,34 +8,21 @@ namespace Jun
     public class PlayerHPScript : MonoBehaviour
     {
         [SerializeField]
-        private Slider HPbar;
-        private float maxHP = 100;
-        private float curHP = 100;
-        float HP;
+        private Image hpbar;
+        private Controller target;
 
         // HP 초기 설정
-        void Start()
+        public void Init(Controller target)
         {
-            HPbar.value = (float)curHP / (float)maxHP;
+            this.target = target;
+            hpbar.fillAmount = target._CurrHp / target._MaxHp;
         }
 
         // Update is called once per frame
         void Update()
         {
-
-            // HP 소모 테스트
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                if (curHP > 0)
-                {
-                    curHP -= 10;
-                }
-                else
-                {
-                    curHP = 0;
-                }
-                HP = (float)curHP / (float)maxHP;
-            }
+            if (target == null)
+                return;
 
             HandleHP();
         }
@@ -43,10 +30,8 @@ namespace Jun
         // HP 게이지 소모
         private void HandleHP()
         {
-            HPbar.value = Mathf.Lerp(HPbar.value, (float)curHP / (float)maxHP, Time.deltaTime * 10);
+            hpbar.fillAmount = Mathf.Lerp(hpbar.fillAmount, target._CurrHp / target._MaxHp, Time.deltaTime * 10);
         }
-
-
     }
 }
 

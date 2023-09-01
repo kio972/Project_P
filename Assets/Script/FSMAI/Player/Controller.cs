@@ -31,6 +31,8 @@ public class Controller : FSM<Controller>
 
     private float maxHP;
     private float currHP;
+    public float _MaxHp { get => maxHP; }
+    public float _CurrHp { get => currHP; }
 
     private float moveSpeed;
     private Vector3 moveDirection = Vector3.zero;
