@@ -8169,6 +8169,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: BattleUI
       objectReference: {fileID: 0}
+    - target: {fileID: 5320960206857631776, guid: 8fb656358af3558449499b1085cae7a4,
+        type: 3}
+      propertyPath: m_FillAmount
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5911226580540861034, guid: 8fb656358af3558449499b1085cae7a4,
         type: 3}
       propertyPath: m_AnchorMax.x
