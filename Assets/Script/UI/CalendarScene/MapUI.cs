@@ -272,7 +272,7 @@ namespace JinWon
                             // 임시 번호
                             regionCamList[1].SetActive(true);
                             //forestCloud.SetActive(true);
-                            LeanTween.scale(forestCloud, new Vector3(1, 1, 1), 2f);
+                            LeanTween.scale(forestCloud, new Vector3(1, 1, 1), 1f);
                             Debug.Log("포레스트 눌러씀");
 
                             if (regionButtonSelect != 6)
@@ -313,7 +313,7 @@ namespace JinWon
                 }
             }
             if (forestCloud.transform.localScale == Vector3.one)
-                LeanTween.scale(forestCloud, new Vector3(0, 0, 0), 2f);
+                LeanTween.scale(forestCloud, new Vector3(0, 0, 0), 1f);
 
             /*if (forestCloud.activeSelf)
                 forestCloud.SetActive(false);*/

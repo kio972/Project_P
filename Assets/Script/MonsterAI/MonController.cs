@@ -69,6 +69,12 @@ public class MonController : FSM<MonController>
         monsterManager = GetComponentInParent<MonsterManager>();
     }
 
+    private Vector3 pointAvec;
+    private Vector3 pointBvec;
+
+    private Vector3 pointInit = new Vector3(5f,0,0);
+    private Vector3 position;
+
     private void MonInit()
     {
         target = false;
@@ -77,6 +83,8 @@ public class MonController : FSM<MonController>
         patrolSpeed = 2f;
         basicAttackCool = true;
         basicTarget = false;
+        /*position = transform.position;
+        pointA = position + pointInit;*/
     }
 
     // Update is called once per frame
@@ -265,7 +273,8 @@ public class MonController : FSM<MonController>
         poolTextSpawn.SpawnDamageText("DamageText", transform.position, damage);
         if(currHP <= 0)
         {
-            GameObject.Destroy(gameObject);
+            transform.gameObject.SetActive(false);
+            //GameObject.Destroy(gameObject);
             //StartCoroutine(OnDie());
         }
         else

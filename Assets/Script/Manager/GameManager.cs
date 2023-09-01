@@ -40,10 +40,9 @@ namespace JinWon
             //SceneManager.LoadScene(SceneName.LoadingScene.ToString()); // 로딩씬이 구현 되면 활용
         }
 
-        public void AsyncLoadStageScene(string scene) // 씬 넘어갈때마다 재활용하는 코드
+        public void AsyncLoadNextScene(string scene)
         {
             SceneManager.LoadScene(scene);
-            //SceneManager.LoadScene(SceneName.LoadingScene.ToString()); // 로딩씬이 구현 되면 활용
         }
 
 

@@ -134,6 +134,7 @@ public class CharCardManager : MonoBehaviour
                 }
             }
         }
+        charInfoObj.SelectCardInfo();
     }
 
     public Transform card01Transform;
@@ -158,6 +159,7 @@ public class CharCardManager : MonoBehaviour
         }
 
         ArrangerChildInit();
+        charInfoObj.SelectCardInfo();
     }
 
     private void SelectAtTheParty(Transform card) // 파티에서 셀렉트로 드래그 할때

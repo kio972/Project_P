@@ -102,7 +102,7 @@ public class CardArranger : MonoBehaviour
     {
         if (children.Count == 3)
         {
-            GameManager.Inst.AsyncLoadStageScene("Forest1-" + calendarScene.SelectStage);
+            GameManager.Inst.AsyncLoadNextScene("Forest1-" + calendarScene.SelectStage);
         }
         else
             Debug.Log("카드 3장이 안 들어왔습니다!!");

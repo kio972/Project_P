@@ -6,7 +6,7 @@ using JinWon;
 public class StagePortal : InteractObject
 {
     [SerializeField]
-    private SceneName nextMap;
+    private string nextMap;
 
     public override void Interaction()
     {

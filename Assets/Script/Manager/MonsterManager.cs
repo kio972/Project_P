@@ -10,7 +10,6 @@ public class MonsterManager : MonoBehaviour
     private int areaIndex;
     public int AreaIndex { get => areaIndex; }
 
-    // Start is called before the first frame update
     public void MonsterManagerInit()
     {
         monControllerArr = GetComponentsInChildren<MonController>();
