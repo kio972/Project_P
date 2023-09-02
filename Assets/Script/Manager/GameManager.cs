@@ -82,14 +82,14 @@ namespace JinWon
             set { calendarProd = value; }
         }
 
-        private int calendarProdRegion;
+        private int calendarProdRegion = 1;
         public int CalendarProdRegion
         {
             get { return calendarProdRegion; }
             set { calendarProdRegion = value; }
         }
 
-        private int calendarProdCloud;
+        private int calendarProdCloud = 1;
         public int CalendarProdCloud
         {
             get { return calendarProdCloud; }

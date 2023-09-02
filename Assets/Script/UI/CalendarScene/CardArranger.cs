@@ -105,6 +105,9 @@ public class CardArranger : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI systemText;
 
+    /*[SerializeField]
+    private SystemUI systemUI;*/
+
     private bool btnClick = false;
 
     public void GoStageBtnOnClick()
@@ -122,6 +125,8 @@ public class CardArranger : MonoBehaviour
             {
                 systemText.text = "<color=yellow>"+ "파티" +"</color>"+ "가 구성되지 않으면 탐색을 출발할 수 없어요.";
                 StartCoroutine(SystemUi());
+                //systemUI.SystemUIActive("<color=yellow>" + "파티" + "</color>" + "가 구성되지 않으면 탐색을 출발할 수 없어요.", 2.0f);
+                //btnClick = false;
             }
         }
         
