@@ -4579,7 +4579,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uB300\uC26C : SpaceBar"
+  m_text: "\uAC8C\uC784 \uC7AC\uC2DC\uC791 : P"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 61f1a37a4fe6fa34fac1c04b6a012bae, type: 2}
   m_sharedMaterial: {fileID: 879388664877213265, guid: 61f1a37a4fe6fa34fac1c04b6a012bae,
@@ -8684,6 +8684,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 320892455462031537, guid: 8fb656358af3558449499b1085cae7a4,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 129
+      objectReference: {fileID: 0}
+    - target: {fileID: 320892455462031537, guid: 8fb656358af3558449499b1085cae7a4,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 129
+      objectReference: {fileID: 0}
     - target: {fileID: 521348601409618925, guid: 8fb656358af3558449499b1085cae7a4,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -8844,6 +8854,28 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 8377787399172407676, guid: 8fb656358af3558449499b1085cae7a4,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 129
+      objectReference: {fileID: 0}
+    - target: {fileID: 8377787399172407676, guid: 8fb656358af3558449499b1085cae7a4,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 129
+      objectReference: {fileID: 0}
+    - target: {fileID: 8383782393303718936, guid: 8fb656358af3558449499b1085cae7a4,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 7af70c5a93d28dd4c828c35d5f481290,
+        type: 3}
+    - target: {fileID: 8545266320891654345, guid: 8fb656358af3558449499b1085cae7a4,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f2d476e1667ad2847985bace3fcce3ae,
+        type: 3}
     - target: {fileID: 9034333118355576123, guid: 8fb656358af3558449499b1085cae7a4,
         type: 3}
       propertyPath: m_AnchorMax.x

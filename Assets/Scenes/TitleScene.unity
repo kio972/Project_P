@@ -2281,7 +2281,6 @@ MonoBehaviour:
   bg2: {fileID: 55547740}
   pressTextObj: {fileID: 206644068}
   mainMenuObj: {fileID: 1837509561}
-  fade: {fileID: 1566031200}
   mainMenuUI: {fileID: 1837509564}
 --- !u!4 &729402312
 Transform:
@@ -4660,7 +4659,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 0
 --- !u!114 &1263898138
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5653,18 +5652,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1562207472}
   m_CullTransparentMesh: 1
---- !u!114 &1566031200 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7068549467012163113, guid: 9236a99bcea5fab40a7f84d27062cdb6,
-    type: 3}
-  m_PrefabInstance: {fileID: 4252533541203078475}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c234aeb0e0b07d34caa0e0e9976952fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1594389214
 GameObject:
   m_ObjectHideFlags: 0
@@ -6321,7 +6308,6 @@ MonoBehaviour:
   deleteUI: {fileID: 166098076}
   refreshUI: {fileID: 512088452}
   titleUI: {fileID: 851420453}
-  fade: {fileID: 1566031200}
 --- !u!1 &1842426075
 GameObject:
   m_ObjectHideFlags: 0
@@ -7573,6 +7559,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: FadeUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 2626046800081264387, guid: 9236a99bcea5fab40a7f84d27062cdb6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4157220860562130236, guid: 9236a99bcea5fab40a7f84d27062cdb6,
         type: 3}

@@ -74,7 +74,7 @@ namespace YeongJun
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.P))
                 GameManager.Inst.AsyncLoadNextScene("TitleScene");
         }
 
