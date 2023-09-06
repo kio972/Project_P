@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< Updated upstream:Assets/Script/ExitBtn.cs.meta
 guid: 7fabf29dc33862343a0ea89a3d26f5b6
+========
+guid: 796ac30f7ce4eec4f9aa2ad4d728e273
+>>>>>>>> Stashed changes:Assets/Script/FSMAI/Controller.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
