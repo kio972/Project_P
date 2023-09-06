@@ -3849,7 +3849,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d4085d64053bed4d8555ffd9f2d6edf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerType: 0
+  playerType: 2
   controllerManager: {fileID: 0}
   basicAttackAI: 0
   anim: {fileID: 0}
@@ -5321,7 +5321,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb9138444fd053442acf5903d539dc89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerType: 0
+  playerType: 1
   controllerManager: {fileID: 0}
   basicAttackAI: 0
   anim: {fileID: 0}
