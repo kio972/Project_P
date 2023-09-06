@@ -67,11 +67,11 @@ namespace JinWon
             GameManager.Inst.Fade_InOut(true, 3.0f);
             mapMove = false;
             Cursor.SetCursor(cursorTexture, hotspot, cursorMode);
-            //StartCoroutine(Production());
-            if (GameManager.Inst.CalendarProd)
+            StartCoroutine(Production());
+            /*if (GameManager.Inst.CalendarProd)
                 StartCoroutine(Production());
             else
-                Init();
+                Init();*/
         }
 
         private void Init()
@@ -211,14 +211,10 @@ namespace JinWon
             GameManager.Inst.AsyncLoadNextScene(SceneName.TitleScene);
         }
 
-        [SerializeField]
-        private CharInfoObj charInfoObj;
-
         public void CharInfoUiMove(int stage)
         {
             if(selectStep == 2)
             {
-                charInfoObj.SelectCardInfo();
                 MoveBtnFalse();
                 mapCam.SetActive(true);
 
