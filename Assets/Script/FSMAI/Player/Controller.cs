@@ -173,7 +173,7 @@ public class Controller : FSM<Controller>
     {
         basicAttackCool = false;
         anim.SetTrigger("BasicAttack");
-        StartCoroutine(CoolTimeBasic(1.0f));
+        StartCoroutine(CoolTimeBasic(2.0f));
     }
 
     IEnumerator CoolTimeBasic(float cool)

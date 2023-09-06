@@ -17,7 +17,6 @@ public class FSMStateEx : FSMSingleton<FSMStateEx>, CharState<Controller>
         {
             e.BasicAttackAnim(); // 공격
         }
-
     }
 
     public void Exit(Controller e) //현 상태에서 빠져나갈 경우 호출되는 함수

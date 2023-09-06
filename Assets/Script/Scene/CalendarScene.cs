@@ -67,11 +67,10 @@ namespace JinWon
             GameManager.Inst.Fade_InOut(true, 3.0f);
             mapMove = false;
             Cursor.SetCursor(cursorTexture, hotspot, cursorMode);
-            StartCoroutine(Production());
-            /*if (GameManager.Inst.CalendarProd)
+            if (GameManager.Inst.CalendarProd)
                 StartCoroutine(Production());
             else
-                Init();*/
+                Init();
         }
 
         private void Init()
@@ -107,17 +106,7 @@ namespace JinWon
             regionCamList[GameManager.Inst.CalendarProdRegion - 1].SetActive(false);
             yield return YieldInstructionCache.WaitForSeconds(3f);
             clock.ChangeTime();
-
-            Invoke("SystemUiTitle", 2.0f);
-            //Init();
-        }
-
-        [SerializeField]
-        private SystemUI systemUI;
-
-        private void SystemUiTitle()
-        {
-            systemUI.SystemUiTitle();
+            Init();
         }
 
         public void UIMove()
