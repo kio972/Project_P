@@ -21062,6 +21062,7 @@ MonoBehaviour:
   - {fileID: 1745589508}
   clock: {fileID: 927520804}
   systemUI: {fileID: 1626716612}
+  charInfoObj: {fileID: 453338226}
 --- !u!4 &1772386992
 Transform:
   m_ObjectHideFlags: 0

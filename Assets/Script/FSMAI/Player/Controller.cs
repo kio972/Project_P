@@ -74,7 +74,7 @@ public class Controller : FSM<Controller>
     private float moveSpeed;
     private Vector3 moveDirection = Vector3.zero;
 
-    float x;
+    private float x;
 
     public bool basicAttackCool;
     private bool BasicAttackCool
