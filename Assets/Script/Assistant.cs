@@ -19,7 +19,7 @@ namespace YeongJun
         public void Init()
         {
             count = 1;
-            if (inventory.state == InvenState.unequip)
+            if (inventory.state == InvenState.unequip || inventory.state == InvenState.fill)
             {
                 switch (inventory.pocketNum)
                 {
@@ -74,6 +74,34 @@ namespace YeongJun
                 inventory.EquipItem(count);
                 inventory.RefreshSlot();
             }
+            else if (inventory.state == InvenState.fill)
+            {
+                switch (inventory.pocketNum)
+                {
+                    case 0:
+                        InvenData.Pocket1[0].count += count;
+                        break;
+                    case 1:
+                        InvenData.Pocket1[1].count += count;
+                        break;
+                    case 2:
+                        InvenData.Pocket2[0].count += count;
+                        break;
+                    case 3:
+                        InvenData.Pocket2[1].count += count;
+                        break;
+                    case 4:
+                        InvenData.Pocket3[0].count += count;
+                        break;
+                    case 5:
+                        InvenData.Pocket3[1].count += count;
+                        break;
+                }
+                InvenData.nItem[inventory.selectSlot.slotNumber].count -= count;
+                inventory.RefreshSlot();
+                inventory.RefreshPocket();
+                inventory.Main();
+            }
             gameObject.SetActive(false);
         }
 
@@ -81,7 +109,7 @@ namespace YeongJun
         {
             count = 1;
             gameObject.SetActive(false);
-            inventory.state = InvenState.main;
+            inventory.Main();
         }
 
         public void Plus()

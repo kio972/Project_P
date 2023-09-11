@@ -15,6 +15,7 @@ namespace YeongJun
         move, // 이동할 아이템 개수를 지정할 때
         moveItem, // 아이템을 옮길 위치를 지정할 때
         unequip, // 아이템 장착을 해제할 때
+        fill, // 아이템 채우기를 눌렀을 때
     }
 
     public class Inventory : MonoBehaviour
@@ -73,6 +74,7 @@ namespace YeongJun
 
         public void Main()
         {// 인벤토리를 열었을 때 실행
+            state = InvenState.main;
             Menu.SetActive(false);
             assistant.SetActive(false);
             selectCaracter.SetActive(false);
@@ -459,7 +461,7 @@ namespace YeongJun
                             InvenData.Pocket1[0].count += count;
                             InvenData.nItem[selectSlot.slotNumber].count -= count;
                             pockets[pocketNum].Refresh();
-                            state = InvenState.main;
+                            Main();
                             return true;
                         }
                     }
@@ -475,7 +477,7 @@ namespace YeongJun
                         InvenData.Pocket1[0].grade = InvenData.nItem[selectSlot.slotNumber].grade;
                         InvenData.nItem[selectSlot.slotNumber].count -= count;
                         pockets[pocketNum].Refresh();
-                        state = InvenState.main;
+                        Main();
                         return true;
                     }
                     break;
@@ -487,7 +489,7 @@ namespace YeongJun
                             InvenData.Pocket1[1].count += count;
                             InvenData.nItem[selectSlot.slotNumber].count -= count;
                             pockets[pocketNum].Refresh();
-                            state = InvenState.main;
+                            Main();
                             return true;
                         }
                     }
@@ -503,7 +505,7 @@ namespace YeongJun
                         InvenData.Pocket1[1].grade = InvenData.nItem[selectSlot.slotNumber].grade;
                         InvenData.nItem[selectSlot.slotNumber].count -= count;
                         pockets[pocketNum].Refresh();
-                        state = InvenState.main;
+                        Main();
                         return true;
                     }
                     break;
@@ -515,7 +517,7 @@ namespace YeongJun
                             InvenData.Pocket2[0].count += count;
                             InvenData.nItem[selectSlot.slotNumber].count -= count;
                             pockets[pocketNum].Refresh();
-                            state = InvenState.main;
+                            Main();
                             return true;
                         }
                     }
@@ -531,7 +533,7 @@ namespace YeongJun
                         InvenData.Pocket2[0].grade = InvenData.nItem[selectSlot.slotNumber].grade;
                         InvenData.nItem[selectSlot.slotNumber].count -= count;
                         pockets[pocketNum].Refresh();
-                        state = InvenState.main;
+                        Main();
                         return true;
                     }
                     break;
@@ -543,7 +545,7 @@ namespace YeongJun
                             InvenData.Pocket2[1].count += count;
                             InvenData.nItem[selectSlot.slotNumber].count -= count;
                             pockets[pocketNum].Refresh();
-                            state = InvenState.main;
+                            Main();
                             return true;
                         }
                     }
@@ -559,7 +561,7 @@ namespace YeongJun
                         InvenData.Pocket2[1].grade = InvenData.nItem[selectSlot.slotNumber].grade;
                         InvenData.nItem[selectSlot.slotNumber].count -= count;
                         pockets[pocketNum].Refresh();
-                        state = InvenState.main;
+                        Main();
                         return true;
                     }
                     break;
@@ -571,7 +573,7 @@ namespace YeongJun
                             InvenData.Pocket3[0].count += count;
                             InvenData.nItem[selectSlot.slotNumber].count -= count;
                             pockets[pocketNum].Refresh();
-                            state = InvenState.main;
+                            Main();
                             return true;
                         }
                     }
@@ -587,7 +589,7 @@ namespace YeongJun
                         InvenData.Pocket3[0].grade = InvenData.nItem[selectSlot.slotNumber].grade;
                         InvenData.nItem[selectSlot.slotNumber].count -= count;
                         pockets[pocketNum].Refresh();
-                        state = InvenState.main;
+                        Main();
                         return true;
                     }
                     break;
@@ -599,7 +601,7 @@ namespace YeongJun
                             InvenData.Pocket3[1].count += count;
                             InvenData.nItem[selectSlot.slotNumber].count -= count;
                             pockets[pocketNum].Refresh();
-                            state = InvenState.main;
+                            Main();
                             return true;
                         }
                     }
@@ -615,7 +617,7 @@ namespace YeongJun
                         InvenData.Pocket3[1].grade = InvenData.nItem[selectSlot.slotNumber].grade;
                         InvenData.nItem[selectSlot.slotNumber].count -= count;
                         pockets[pocketNum].Refresh();
-                        state = InvenState.main;
+                        Main();
                         return true;
                     }
                     break;
@@ -668,9 +670,6 @@ namespace YeongJun
                 InvenData.nItem[selectSlot.slotNumber].maxCount = tempItem.maxCount;
                 InvenData.nItem[selectSlot.slotNumber].type = tempItem.type;
                 InvenData.nItem[selectSlot.slotNumber].grade = tempItem.grade;
-                movingItem.SetActive(false);
-                tempItem = null;
-                state = InvenState.main;
                 RefreshSlot();
             }
             else
@@ -681,6 +680,12 @@ namespace YeongJun
                     {
                         tempItem.count -= InvenData.nItem[selectSlot.slotNumber].count + tempItem.count - InvenData.nItem[selectSlot.slotNumber].maxCount;
                         InvenData.nItem[selectSlot.slotNumber].count = InvenData.nItem[selectSlot.slotNumber].maxCount;
+                        if(tempItem.count <= 0)
+                        {
+                            movingItem.SetActive(false);
+                            tempItem = null;
+                            Main();
+                        }
                         RefreshSlot();
                     }
                 }
@@ -694,13 +699,13 @@ namespace YeongJun
             {
                 Menu.SetActive(false);
                 selectMenu.GetComponent<Image>().color = Color.yellow;
-                state = InvenState.main;
+                Main();
             }
             else if(state == InvenState.unequip)
             {
                 equipMenu.SetActive(false);
                 selectEquipMenu.GetComponent<Image>().color = Color.yellow;
-                state = InvenState.main;
+                Main();
             }
         }
 
@@ -717,59 +722,37 @@ namespace YeongJun
             {
                 case 0:
                     if (GetItem(InvenData.Pocket1[0]))
-                    {
                         InvenData.Pocket1[0] = null;
-                        state = InvenState.main;
-                        equipMenu.SetActive(false);
-                    }
                     break;
                 case 1:
                     if (GetItem(InvenData.Pocket1[1]))
-                    {
                         InvenData.Pocket1[1] = null;
-                        state = InvenState.main;
-                        equipMenu.SetActive(false);
-                    }
                     break;
                 case 2:
                     if (GetItem(InvenData.Pocket2[0]))
-                    {
                         InvenData.Pocket2[0] = null;
-                        state = InvenState.main;
-                        equipMenu.SetActive(false);
-                    }
                     break;
                 case 3:
                     if (GetItem(InvenData.Pocket2[1]))
-                    {
                         InvenData.Pocket2[1] = null;
-                        state = InvenState.main;
-                        equipMenu.SetActive(false);
-                    }
                     break;
                 case 4:
                     if (GetItem(InvenData.Pocket3[0]))
-                    {
                         InvenData.Pocket3[0] = null;
-                        state = InvenState.main;
-                        equipMenu.SetActive(false);
-                    }
                     break;
                 case 5:
                     if (GetItem(InvenData.Pocket3[1]))
-                    {
                         InvenData.Pocket3[1] = null;
-                        state = InvenState.main;
-                        equipMenu.SetActive(false);
-                    }
                     break;
             }
+            Main();
             RefreshSlot();
             RefreshPocket();
         }
 
         public void Btn_Fill()
         {
+            state = InvenState.fill;
             assistant.SetActive(true);
             assistant.transform.position = pockets[pocketNum].transform.position + new Vector3(100, 0, 0);
             assistant.GetComponent<Assistant>().Init();
