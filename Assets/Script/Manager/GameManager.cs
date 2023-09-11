@@ -152,8 +152,8 @@ namespace JinWon
 
         public void Fade_InOut(bool init, float time)
         {
-            fade = GameObject.Find("Fade").GetComponent<FadeInOut>();
-            fade.Fade_InOut(init, time);
+            if(fade = GameObject.Find("Fade").GetComponent<FadeInOut>())
+                fade.Fade_InOut(init, time);
         }
 
 

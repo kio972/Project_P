@@ -57,15 +57,17 @@ public class CharCardManager : MonoBehaviour
     public void BeginDrag(Transform card) // 드래그를 시작했을떄
     {
         //workingArranger = cardArrangers.Find(t => ContainPos(t.transform as RectTransform, card.position));
-        workingArranger = card.parent.GetComponent<CardArranger>();
+        workingArranger = card.parent.GetComponent<CardArranger>(); // 움직이는 카드집
         oriIndex = card.GetSiblingIndex();
-        SwapCardsinHierarchy(invisibleCard, card);
+        SwapCardsinHierarchy(invisibleCard, card); // invisibleCard를 임시로 넣어두기.
     }
 
     public void Drag(Transform card) // 드래그 중일때
     {
+
         var whichArrangerCard = cardArrangers.Find(t => ContainPos(t.transform as RectTransform, card.position));
-        if(whichArrangerCard == null)
+
+        if (whichArrangerCard == null) // 카드집에 담겨있는 card가 비었다면
         {
             bool updateChilden = transform != invisibleCard.parent;
 
@@ -76,7 +78,7 @@ public class CharCardManager : MonoBehaviour
                 cardArrangers.ForEach(t => t.UpdateChildren());
             }
         }
-        else if(whichArrangerCard != null && whichArrangerCard != cardArrangers[1])
+        else if(whichArrangerCard != null && whichArrangerCard != cardArrangers[1]) // card가 있고 이동할 수 있는 카드집이라면!
         {
             bool insert = invisibleCard.parent == transform;
 
@@ -97,34 +99,28 @@ public class CharCardManager : MonoBehaviour
                     whichArrangerCard.SwapCard(invisibleCardIndex, targetIndex);
                 }
             }
-            Debug.Log(whichArrangerCard);
         }
     }
 
     public void EndDrag(Transform card) // 드래그가 끝났을때
     {
-        if(invisibleCard.parent == transform)
+        if(invisibleCard.parent == transform) // 카드가 카드집 바깥에 있을 때 다시 집으로 되돌리기
         {
-            Debug.Log(workingArranger);
-            Debug.Log("바깥에 있음");
             card.SetParent(workingArranger.transform); 
-            workingArranger.InsertCard(card, oriIndex);
+            workingArranger.InsertCard(card, oriIndex); 
             workingArranger = null;
             
             oriIndex = -1;
         }
-        else if (invisibleCard.parent == cardArrangers[0].transform)
+        else if (invisibleCard.parent == cardArrangers[0].transform) // 카드가 SelectArranger 안에 있을 때
         {
-            Debug.Log(invisibleCard.parent);
-            SelectAtTheParty(card);
+            SelectAtTheParty(card); 
         }
-        else
+        else // 카드집 안에 있을 경우 해당 카드집에 이동
         {
-            Debug.Log("안에 있음");
-            SwapCardsinHierarchy(invisibleCard, card);
+            SwapCardsinHierarchy(invisibleCard, card); // 카드 바꾸는 함수
             if(cardArrangers[0].GetComponentInChildren<CharCard>() == null)
             {
-                Debug.Log("안에 있음2");
                 if (GameObject.Find("CharCardObj").GetComponentInChildren<CharCard>() != null)
                 {
                     card02Transform = GameObject.Find("CharCardObj").GetComponentInChildren<CharCard>().transform;
@@ -165,14 +161,11 @@ public class CharCardManager : MonoBehaviour
 
     private void SelectAtTheParty(Transform card) // 파티에서 셀렉트로 드래그 할때
     {
-        Debug.Log("Select 1");
         if (GameObject.Find("SelectCardObj").GetComponentInChildren<CharCard>() != null)
         {
-            Debug.Log("Select 2");
             card01Transform = GameObject.Find("SelectCardObj").GetComponentInChildren<CharCard>().transform;
             card01Transform.SetParent(cardArrangers[1].transform);
             cardArrangers[1].InsertCard(card01Transform, -1);
-            //SwapCardsinHierarchy(invisibleCard, card);
         }
 
         SwapCardsinHierarchy(invisibleCard, card);
@@ -197,7 +190,6 @@ public class CharCardManager : MonoBehaviour
                 card01Transform = GameObject.Find("SelectCard").GetComponentInChildren<CharCard>().transform;
                 card01Transform.SetParent(cardArrangers[1].transform);
                 cardArrangers[1].InsertCard(card01Transform, 0);
-                //Debug.Log("셀렉트 카드");
             }
 
             if (GameObject.Find("CharCardObj").GetComponentInChildren<CharCard>() != null)
@@ -205,7 +197,6 @@ public class CharCardManager : MonoBehaviour
                 var card03Transform = GameObject.Find("CharCardObj").GetComponentsInChildren<CharCard>();
                 card03Transform[card03Transform.Length - 1].transform.SetParent(cardArrangers[0].transform);
                 cardArrangers[0].InsertCard(card03Transform[card03Transform.Length - 1].transform, -1);
-                //Debug.Log("캐릭터 카드");
             }
         }
         else // 왼쪽 방향키
@@ -215,7 +206,6 @@ public class CharCardManager : MonoBehaviour
                 card01Transform = GameObject.Find("SelectCard").GetComponentInChildren<CharCard>().transform;
                 card01Transform.SetParent(cardArrangers[1].transform);
                 cardArrangers[1].InsertCard(card01Transform, -1);
-                //Debug.Log("셀렉트 카드");
             }
 
             if (GameObject.Find("CharCardObj").GetComponentInChildren<CharCard>() != null)
@@ -223,7 +213,6 @@ public class CharCardManager : MonoBehaviour
                 var card03Transform = GameObject.Find("CharCardObj").GetComponentsInChildren<CharCard>();
                 card03Transform[0].transform.SetParent(cardArrangers[0].transform);
                 cardArrangers[0].InsertCard(card03Transform[0].transform, -1);
-                //Debug.Log("캐릭터 카드");
             }
         }
 

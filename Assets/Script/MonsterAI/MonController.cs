@@ -251,26 +251,30 @@ public class MonController : FSM<MonController>
 
     public void Attack()
     {
-        if(target)
+        if(target) // 몬스터의 공격 범위 안에 타겟이 있다면
         {
-            //Debug.Log(basicAttack + " " + basicTarget);
-            if(basicAttackCool && basicTarget)
+            // 기본 공격이 가능한 상태고, 
+            // 기본공격 범위안에 타겟이 있다면
+            if (basicAttackCool && basicTarget) 
             {
-
-                LookAtDir();
-                basicAttackCool = false;
-                StartCoroutine(CoolTimeBasic(2));
+                LookAtDir(); // 타겟을 바라보기
+                basicAttackCool = false; // 공격 불가능
+                // 쿨타임 돌리는 코루틴
+                StartCoroutine(CoolTimeBasic(2)); 
                 anim.SetTrigger("BasicAttack");
             }
-            else if(!basicTarget)
+            // 타겟은 있지만 공격범위에는 있지 않았을 때
+            else if (!basicTarget) 
             {
                 basicPivotArr = null;
+                // 타겟을 찾아 쫒아가는 상태로 변경
                 ChangeState(MonChase.Instance);
             }
         }
         else
         {
             basicPivotArr = null;
+            // 타겟을 찾아 쫒아가는 상태로 변경
             ChangeState(MonChase.Instance);
         }
     }
