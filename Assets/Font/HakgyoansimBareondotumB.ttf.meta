@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 8cfac0a31a239b042b8df7a91c5e5516
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Hakgyoansim Bareondotum
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: b19d14aa45237404b92f638027228ab3, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
