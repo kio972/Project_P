@@ -62,8 +62,6 @@ namespace YeongJun
         {
             ChangeMonsterState(number);
             ChangeCam(number);
-
-
         }
 
         public void ChangeMainChar(Controller target)
