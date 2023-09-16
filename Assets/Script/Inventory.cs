@@ -16,6 +16,7 @@ namespace YeongJun
         moveItem, // 아이템을 옮길 위치를 지정할 때
         unequip, // 아이템 장착을 해제할 때
         fill, // 아이템 채우기를 눌렀을 때
+        drop, // 아이템 버리기를 눌렀을 때
     }
 
     public class Inventory : MonoBehaviour
@@ -670,6 +671,9 @@ namespace YeongJun
                 InvenData.nItem[selectSlot.slotNumber].maxCount = tempItem.maxCount;
                 InvenData.nItem[selectSlot.slotNumber].type = tempItem.type;
                 InvenData.nItem[selectSlot.slotNumber].grade = tempItem.grade;
+                movingItem.SetActive(false);
+                tempItem = null;
+                Main();
                 RefreshSlot();
             }
             else
@@ -690,6 +694,16 @@ namespace YeongJun
                     }
                 }
             }
+        }
+        #endregion
+
+        #region Btn_Drop
+        public void Btn_Drop()
+        {
+            state = InvenState.drop;
+            assistant.SetActive(true);
+            assistant.transform.position = selectSlot.transform.position + new Vector3(100, 0, 0);
+            assistant.GetComponent<Assistant>().Init();
         }
         #endregion
 

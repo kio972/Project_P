@@ -102,6 +102,13 @@ namespace YeongJun
                 inventory.RefreshPocket();
                 inventory.Main();
             }
+            else if(inventory.state == InvenState.drop)
+            {
+                InvenData.nItem[inventory.selectSlot.slotNumber].count -= count;
+                // (필드에 아이템을 드랍하는 코드 추가)
+                inventory.RefreshSlot();
+                inventory.Main();
+            }
             gameObject.SetActive(false);
         }
 
