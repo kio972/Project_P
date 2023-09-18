@@ -8,8 +8,9 @@ namespace Jun
     public class ExploreScript : MonoBehaviour
     {
         public List<Button> buttons; // 버튼을 저장할 리스트
-        private int currentButtonIndex = 0; // 현재 버튼의 인덱스
+        private static int currentButtonIndex = 0; // 현재 버튼의 인덱스
         private Vector3[] buttonPositions; // 각 버튼의 초기 위치 저장
+        public GameObject Explore;
 
         private void Start()
         {
@@ -23,6 +24,7 @@ namespace Jun
 
         public void OnNextButtonClicked()
         {
+            Debug.Log(currentButtonIndex);
             if (currentButtonIndex == 3)
             {
                 buttons[currentButtonIndex].gameObject.SetActive(false); // 현재 버튼 비활성화
@@ -52,12 +54,19 @@ namespace Jun
 
         public void OnPreviousButtonClicked()
         {
-            buttons[currentButtonIndex+2].gameObject.SetActive(false); // 현재 버튼 비활성화
-            buttons[currentButtonIndex+3].gameObject.SetActive(false);
-            currentButtonIndex = (currentButtonIndex + buttons.Count - 2) % buttons.Count; // 이전 버튼 인덱스로 변경
-            buttons[currentButtonIndex - 1].gameObject.SetActive(true); // 이전 버튼 활성화
-            buttons[currentButtonIndex - 2].gameObject.SetActive(true);
+            Debug.Log(currentButtonIndex);
+            if (buttons.Count < 4)
+            {
+                // 예외 처리: 버튼 개수가 4개 미만인 경우 무시
+                return;
+            }
 
+            buttons[currentButtonIndex+2].gameObject.SetActive(false); // 현재 버튼 비활성화
+            buttons[currentButtonIndex + 3].gameObject.SetActive(false);
+            buttons[(currentButtonIndex + buttons.Count - 2) % buttons.Count].gameObject.SetActive(true); // 이전 버튼 활성화
+            buttons[(currentButtonIndex + buttons.Count - 1) % buttons.Count].gameObject.SetActive(true); // 이이전 버튼 활성화
+
+            currentButtonIndex = (currentButtonIndex + buttons.Count - 2) % buttons.Count; // 이전 버튼 인덱스로 변경
             UpdateButtonPositions();
         }
 
@@ -72,6 +81,14 @@ namespace Jun
 
                 buttons[i].transform.position = buttonPositions[offset];
             }
+        }
+
+        private void test()
+        {
+            for(int i = 0; i < buttons.Count; i++){
+                Explore.transform.position = Vector3.Lerp(Explore.transform.position, buttons[i - 1], Time.deltaTime);
+            }
+            
         }
     }
 }
