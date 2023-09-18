@@ -13055,7 +13055,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2886566302410615857}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 856ccbc3d1099f5459a31775e4f9f8db, type: 3}
   m_Name: 
@@ -13068,6 +13068,7 @@ MonoBehaviour:
   - {fileID: 1203446043334365128}
   - {fileID: 2678308119301333293}
   - {fileID: 172301269382855731}
+  Explore: {fileID: 0}
 --- !u!1 &1431702924
 GameObject:
   m_ObjectHideFlags: 0
@@ -23805,7 +23806,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -667, y: 15}
+  m_AnchoredPosition: {x: -680, y: 15}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2299894666828730546
@@ -24295,6 +24296,7 @@ GameObject:
   - component: {fileID: 5747322185406050054}
   - component: {fileID: 1980555721502350582}
   - component: {fileID: 4623550874987274463}
+  - component: {fileID: 7623938081193316633}
   - component: {fileID: 1417236057}
   m_Layer: 5
   m_Name: NextBtn
@@ -24559,9 +24561,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7035749461594582692}
-        m_TargetAssemblyTypeName: Jun.ExploreScript, Assembly-CSharp
-        m_MethodName: OnPreviousButtonClicked
+      - m_Target: {fileID: 7035749461594582693}
+        m_TargetAssemblyTypeName: MoveIcon, Assembly-CSharp
+        m_MethodName: PrevBtn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -24990,7 +24992,7 @@ GameObject:
   - component: {fileID: 2296454176456030723}
   - component: {fileID: 15242664915960343}
   m_Layer: 5
-  m_Name: IconBtn
+  m_Name: IconLayout
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26112,9 +26114,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1417236057}
-        m_TargetAssemblyTypeName: Jun.ExploreScript, Assembly-CSharp
-        m_MethodName: OnNextButtonClicked
+      - m_Target: {fileID: 7623938081193316633}
+        m_TargetAssemblyTypeName: MoveIcon, Assembly-CSharp
+        m_MethodName: NextBtn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -28333,7 +28335,7 @@ GameObject:
   - component: {fileID: 7035749461594582691}
   - component: {fileID: 5813902771450668384}
   - component: {fileID: 3177722004026487370}
-  - component: {fileID: 7035749461594582692}
+  - component: {fileID: 7035749461594582693}
   m_Layer: 5
   m_Name: PrevBtn
   m_TagString: Untagged
@@ -28789,7 +28791,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6814876469105192359}
   m_CullTransparentMesh: 1
---- !u!114 &7035749461594582692
+--- !u!114 &7035749461594582693
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -28798,9 +28800,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6814876469105192359}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 856ccbc3d1099f5459a31775e4f9f8db, type: 3}
+  m_Script: {fileID: 11500000, guid: b67991b9a2563224ba0297d12c7c1d87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  layout: {fileID: 3594952846477539778}
   buttons:
   - {fileID: 6858586620811345660}
   - {fileID: 6704422619370070259}
@@ -29384,6 +29387,27 @@ RectTransform:
   m_AnchoredPosition: {x: -80, y: 15}
   m_SizeDelta: {x: 110, y: 180}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &7623938081193316633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2886566302410615857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b67991b9a2563224ba0297d12c7c1d87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layout: {fileID: 3594952846477539778}
+  buttons:
+  - {fileID: 6858586620811345660}
+  - {fileID: 6704422619370070259}
+  - {fileID: 5299973870099709908}
+  - {fileID: 4259148762778284014}
+  - {fileID: 1203446043334365128}
+  - {fileID: 2678308119301333293}
+  - {fileID: 172301269382855731}
 --- !u!1 &7637176525611575619
 GameObject:
   m_ObjectHideFlags: 0

@@ -85,9 +85,9 @@ namespace Jun
 
         private void test()
         {
-            for(int i = 0; i < buttons.Count; i++){
+            /*for(int i = 0; i < buttons.Count; i++){
                 Explore.transform.position = Vector3.Lerp(Explore.transform.position, buttons[i - 1], Time.deltaTime);
-            }
+            }*/
             
         }
     }
