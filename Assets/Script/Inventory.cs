@@ -51,6 +51,8 @@ namespace YeongJun
 
         public Slot selectSlot = null; // 참조중인 슬롯
         public Item tempItem = null; // 옮길 아이템
+        public ItemPool itemPool;
+        public Controller[] player;
 
         private void Awake()
         {
@@ -702,6 +704,7 @@ namespace YeongJun
         {
             state = InvenState.drop;
             assistant.SetActive(true);
+            Menu.SetActive(false);
             assistant.transform.position = selectSlot.transform.position + new Vector3(100, 0, 0);
             assistant.GetComponent<Assistant>().Init();
         }
