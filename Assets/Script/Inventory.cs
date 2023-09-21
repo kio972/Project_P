@@ -64,6 +64,7 @@ namespace YeongJun
                 slots[i] = obj.GetComponent<Slot>();
                 slots[i].slotNumber = i;
                 slots[i].inventory = this;
+                slots[i].transform.localScale = new Vector3(1, 1, 1);
             }
             layerMask = 1 << LayerMask.NameToLayer("UI");
         }
