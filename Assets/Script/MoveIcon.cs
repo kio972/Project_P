@@ -28,9 +28,12 @@ public class MoveIcon : MonoBehaviour
     public void NextBtn()
     {
         move = 0;
+        int screenWidth = Screen.width;
+
+
         if(index == 2)
         {
-            endPos = startPos - new Vector3(560, 0, 0);
+            endPos = startPos - new Vector3(screenWidth * 0.21875f, 0, 0);
             if (!isMoving)
             {
                 StartCoroutine(MoveCoroutine());
@@ -39,7 +42,7 @@ public class MoveIcon : MonoBehaviour
         }
         else if(index < 2)
         {
-            endPos = startPos - new Vector3(1120, 0, 0);
+            endPos = startPos - new Vector3(screenWidth * 0.4375f, 0, 0);
             if (!isMoving)
             {
 
@@ -55,9 +58,11 @@ public class MoveIcon : MonoBehaviour
     public void PrevBtn()
     {
         move = 1;
+        int screenWidth = Screen.width;
+
         if(index > 2)
         {
-            endPos = startPos + new Vector3(1120, 0, 0);
+            endPos = startPos + new Vector3(screenWidth * 0.4375f, 0, 0);
             if (!isMoving)
             {
                 buttons[(index + buttons.Count - 1) % buttons.Count].gameObject.SetActive(true); // 이전 버튼 활성화
@@ -70,7 +75,7 @@ public class MoveIcon : MonoBehaviour
         }
         else if(index == 1)
         {
-            endPos = startPos + new Vector3(560, 0, 0);
+            endPos = startPos + new Vector3(screenWidth * 0.21875f, 0, 0);
             if (!isMoving)
             {
                 buttons[(index + buttons.Count - 1) % buttons.Count].gameObject.SetActive(true); // 이전 버튼 활성화
@@ -101,12 +106,12 @@ public class MoveIcon : MonoBehaviour
             if(index < 2)
             {
                 index += 2;
-                startPos.x -= 1120;
+                startPos.x -= Screen.width * 0.4375f;
             }
             else if(index == 2)
             {
                 index += 1;
-                startPos.x -=560;
+                startPos.x -= Screen.width * 0.21875f;
             }
             if(index >= 3)
             {
@@ -119,12 +124,12 @@ public class MoveIcon : MonoBehaviour
             if(index >= 2)
             {
                 index -= 2;
-                startPos.x += 1120;
+                startPos.x += Screen.width * 0.4375f;
             }
             else if(index == 1)
             {
                 index -= 1;
-                startPos.x += 560;
+                startPos.x += Screen.width * 0.21875f;
                 
             }
             if(index <= 0)
