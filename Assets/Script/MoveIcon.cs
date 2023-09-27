@@ -18,18 +18,16 @@ public class MoveIcon : MonoBehaviour
     public List<Button> buttons; // 버튼을 저장할 리스트
 
     private bool isMoving = false;
+    private int screenWidth = Screen.width;
 
     private void Start()
     {
         startPos = layout.transform.position;
-
     }
 
     public void NextBtn()
     {
         move = 0;
-        int screenWidth = Screen.width;
-
 
         if(index == 2)
         {
@@ -37,7 +35,6 @@ public class MoveIcon : MonoBehaviour
             if (!isMoving)
             {
                 StartCoroutine(MoveCoroutine());
-
             }
         }
         else if(index < 2)
@@ -58,7 +55,6 @@ public class MoveIcon : MonoBehaviour
     public void PrevBtn()
     {
         move = 1;
-        int screenWidth = Screen.width;
 
         if(index > 2)
         {
@@ -68,8 +64,6 @@ public class MoveIcon : MonoBehaviour
                 buttons[(index + buttons.Count - 1) % buttons.Count].gameObject.SetActive(true); // 이전 버튼 활성화
                 buttons[(index + buttons.Count - 2) % buttons.Count].gameObject.SetActive(true); // 이전 버튼 활성화
                 StartCoroutine(MoveCoroutine());
-                buttons[index + 2].gameObject.SetActive(false);
-                buttons[index + 3].gameObject.SetActive(false);
 
             }
         }
@@ -80,7 +74,7 @@ public class MoveIcon : MonoBehaviour
             {
                 buttons[(index + buttons.Count - 1) % buttons.Count].gameObject.SetActive(true); // 이전 버튼 활성화
                 StartCoroutine(MoveCoroutine());
-                buttons[index + 1].gameObject.SetActive(false);
+
             }
         }
 
@@ -107,13 +101,16 @@ public class MoveIcon : MonoBehaviour
             {
                 index += 2;
                 startPos.x -= Screen.width * 0.4375f;
+                buttons[index - 2].gameObject.SetActive(false);
+                buttons[index - 1].gameObject.SetActive(false);
             }
             else if(index == 2)
             {
+                buttons[index].gameObject.SetActive(false);
                 index += 1;
                 startPos.x -= Screen.width * 0.21875f;
             }
-            if(index >= 3)
+            else if(index >= 3)
             {
                 index = 3;
             }
@@ -123,16 +120,19 @@ public class MoveIcon : MonoBehaviour
         {
             if(index >= 2)
             {
+                buttons[index + 2].gameObject.SetActive(false);
+                buttons[index + 3].gameObject.SetActive(false);
                 index -= 2;
                 startPos.x += Screen.width * 0.4375f;
+
             }
             else if(index == 1)
             {
+                buttons[index + 3].gameObject.SetActive(false);
                 index -= 1;
                 startPos.x += Screen.width * 0.21875f;
-                
             }
-            if(index <= 0)
+            else if(index <= 0)
             {
                 index = 0;
             }
