@@ -170,6 +170,68 @@ namespace JinWon
             }
         }
 
+        public ObjHighlight[] btnGroup;
+        public ObjHighlight selectedButton;
+        [SerializeField]
+        private Image highlightImg;
+        [SerializeField]
+        private Button btn;
+        private int highlight = 0;
+
+        public void RefreshHighlight(ObjHighlight highlight)
+        {
+            for(int i = 0; i < btnGroup.Length; i++)
+            {
+                if (btnGroup[i] == highlight)
+                    this.highlight = i;
+            }
+            selectedButton = highlight;
+            highlightImg.gameObject.SetActive(true);
+            highlightImg.sprite = selectedButton.highlightImg;
+            highlightImg.rectTransform.sizeDelta = highlight.highlightImg.rect.size;
+            highlightImg.transform.position = selectedButton.transform.position;
+        }
+
+        private void Update()
+        {
+            if(selectStep == 3)
+            {
+                // 하이라이트 이동 넣기
+                if(selectedButton != null)
+                {
+                    if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.LeftArrow))
+                    {
+                        if(highlight > 0)
+                        {
+                            highlight--;
+                            if (!btnGroup[highlight].gameObject.activeSelf)
+                                highlight--;
+                            highlight = Mathf.Clamp(highlight, 0, btnGroup.Length);
+                            RefreshHighlight(btnGroup[highlight]);
+                        }
+                    }
+                    else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.RightArrow))
+                    {
+                        if(highlight < btnGroup.Length - 1)
+                        {
+                            highlight++;
+                            if (!btnGroup[highlight].gameObject.activeSelf)
+                                highlight++;
+                            highlight = Mathf.Clamp(highlight, 0, btnGroup.Length);
+                            RefreshHighlight(btnGroup[highlight]);
+                        }
+                    }
+                    if(Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Space))
+                    {
+                        if (selectedButton.TryGetComponent<Button>(out btn))
+                            btn.onClick.Invoke();
+                    }
+                }
+                else
+                    highlightImg.gameObject.SetActive(false);
+            }
+        }
+
         private bool mapMove;
 
         public void MapUiMove()

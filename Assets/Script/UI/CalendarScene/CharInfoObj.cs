@@ -41,6 +41,9 @@ public class CharInfoObj : MonoBehaviour
     [SerializeField]
     private GameObject leftUI;
 
+    [SerializeField]
+    private GameObject partyAddBtn;
+
     private void Awake() // 임시코드 / 나중에 Manager스크립트에서 호출하도록 변경!
     {
         Init();
@@ -57,9 +60,15 @@ public class CharInfoObj : MonoBehaviour
         BtnScaleInit(whatBtn);
         TextUIInit(whatBtn);
         if (whatBtn == 0)
+        {
             leftUI.SetActive(true);
+            partyAddBtn.SetActive(true);
+        }
         else
+        {
             leftUI.SetActive(false);
+            partyAddBtn.SetActive(false);
+        }
     }
 
     private Vector3 btnScale = new Vector3(0.8f, 0.8f, 1f);
@@ -129,6 +138,8 @@ public class CharInfoObj : MonoBehaviour
             }
         }
     }
+
+    // 스킬 + 장비 UI 변경할 함수 추가 예정
 
     public void CharImgSetting(int num)
     {
