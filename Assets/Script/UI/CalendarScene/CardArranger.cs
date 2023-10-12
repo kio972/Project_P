@@ -115,11 +115,11 @@ public class CardArranger : MonoBehaviour
         if(!btnClick)
         {
             btnClick = true;
-            Debug.Log("Ä¥µå·± Ä«¿îÆ®´Â : " + children.Count);
             if (children.Count == 3)
             {
-                Debug.Log("·Îµå ¾À µé¾î¿È");
-                GameManager.Inst.AsyncLoadNextScene("Forest1-" + calendarScene.SelectStage);
+                //GameManager.Inst.AsyncLoadNextScene("Forest1-" + calendarScene.SelectStage);
+                GameManager.Inst.Fade_InOut(false, 1.0f);
+                Invoke("NextScene", 1.0f);
             }
             else
             {
@@ -138,6 +138,11 @@ public class CardArranger : MonoBehaviour
         yield return YieldInstructionCache.WaitForSeconds(2.0f);
         LeanTween.scale(systemUI, Vector3.zero, 0.5f);
         btnClick = false;
+    }
+
+    public void NextScene()
+    {
+        GameManager.Inst.AsyncLoadNextScene(SceneName.Forest1_1);
     }
 
 }

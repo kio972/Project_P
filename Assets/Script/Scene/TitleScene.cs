@@ -25,7 +25,7 @@ namespace JinWon
 
         void Start()
         {
-            GameManager.Inst.Fade_InOut(true, 3.0f);
+           // GameManager.Inst.Fade_InOut(true, 3.0f);
             Init();
             BGSetting();
         }

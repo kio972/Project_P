@@ -14,6 +14,8 @@ namespace YeongJun
         private List<MonsterManager> monsterGroup;
         private ControllerManager controllerManager;
 
+        private CharChangeScript charChangeScript;
+
         private void Awake()
         {
             monsterGroup = new List<MonsterManager>(FindObjectsOfType<MonsterManager>());
@@ -27,9 +29,34 @@ namespace YeongJun
             controllerManager = FindObjectOfType<ControllerManager>();
             if (controllerManager != null)
                 controllerManager.Init();
-            CharChangeScript charChangeScript = FindObjectOfType<CharChangeScript>();
+            charChangeScript = FindObjectOfType<CharChangeScript>();
             if (charChangeScript != null && controllerManager != null)
-                charChangeScript.Init(controllerManager.controllerList[0], controllerManager.controllerList[1], controllerManager.controllerList[2], this);
+                CharChangeScriptInit();
+        }
+
+        private string controller;
+
+        private void CharChangeScriptInit()
+        {
+            controller = GameManager.Inst.PlayerInfo.controller;
+            switch(controller)
+            {
+                case "Warrior":
+                    {
+                        charChangeScript.Init(controllerManager.controllerList[0], controllerManager.controllerList[1], controllerManager.controllerList[2], this);
+                        break;
+                    }
+                case "Priest":
+                    {
+                        charChangeScript.Init(controllerManager.controllerList[1], controllerManager.controllerList[2], controllerManager.controllerList[0], this);
+                        break;
+                    }
+                case "Archer":
+                    {
+                        charChangeScript.Init(controllerManager.controllerList[2], controllerManager.controllerList[0], controllerManager.controllerList[1], this);
+                        break;
+                    }
+            }
         }
 
         private void MonsterGroupInit()

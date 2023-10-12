@@ -1206,15 +1206,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 425287326}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40d135369d316b9468460b6f8ab84aaf, type: 3}
+  m_Script: {fileID: 11500000, guid: 42e398df25a62644781887c1b7b8ba2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   size: {x: 1, y: 0.1, z: 1}
   color: {r: 1, g: 0, b: 0, a: 1}
-  targetName: 
-  sameName: 
-  pivotType: 0
-  controller: {fileID: 0}
 --- !u!1 &512110039
 GameObject:
   m_ObjectHideFlags: 0
@@ -1469,17 +1465,17 @@ PrefabInstance:
     - target: {fileID: 1529925073837344930, guid: 9236a99bcea5fab40a7f84d27062cdb6,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1529925073837344930, guid: 9236a99bcea5fab40a7f84d27062cdb6,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1529925073837344930, guid: 9236a99bcea5fab40a7f84d27062cdb6,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1949338258277236715, guid: 9236a99bcea5fab40a7f84d27062cdb6,
         type: 3}
@@ -3510,15 +3506,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1459389449}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40d135369d316b9468460b6f8ab84aaf, type: 3}
+  m_Script: {fileID: 11500000, guid: 42e398df25a62644781887c1b7b8ba2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   size: {x: 1, y: 0.1, z: 1}
   color: {r: 1, g: 0, b: 0, a: 1}
-  targetName: 
-  sameName: 
-  pivotType: 0
-  controller: {fileID: 0}
 --- !u!1 &1477932075
 GameObject:
   m_ObjectHideFlags: 0
@@ -4183,15 +4175,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1557520552}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40d135369d316b9468460b6f8ab84aaf, type: 3}
+  m_Script: {fileID: 11500000, guid: 42e398df25a62644781887c1b7b8ba2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   size: {x: 1, y: 0.1, z: 1}
   color: {r: 1, g: 0, b: 0, a: 1}
-  targetName: 
-  sameName: 
-  pivotType: 0
-  controller: {fileID: 0}
 --- !u!114 &1584337566 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6996573647635147337, guid: 8fb656358af3558449499b1085cae7a4,
@@ -4733,7 +4721,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 383891db13309834ea21e4370ff76d5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerType: 0
+  playerType: 2
   controllerManager: {fileID: 0}
   basicAttackAI: 0
   anim: {fileID: 0}
@@ -5189,7 +5177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 383891db13309834ea21e4370ff76d5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerType: 0
+  playerType: 1
   controllerManager: {fileID: 0}
   basicAttackAI: 0
   anim: {fileID: 0}

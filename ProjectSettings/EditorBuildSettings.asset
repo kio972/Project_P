@@ -15,7 +15,10 @@ EditorBuildSettings:
     path: Assets/Scenes/BattleScene/Castle/Castle1.unity
     guid: a1c0cace9be3e0e469de324dccd7a25e
   - enabled: 1
-    path: Assets/Scenes/Forest1-1.unity
+    path: Assets/Scenes/LoadingScene.unity
+    guid: 21e9d4fd9e51cb04d9ae3c28992d33ed
+  - enabled: 1
+    path: Assets/Scenes/Forest1_1.unity
     guid: e6b5f5a92405caa4ebc4f9300b3b12d2
   - enabled: 1
     path: Assets/Scenes/Forest1-2.unity

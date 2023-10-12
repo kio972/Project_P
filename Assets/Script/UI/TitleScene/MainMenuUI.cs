@@ -61,7 +61,8 @@ namespace JinWon
 
         public void RefreshStart_Click()
         {
-            NextScene();
+            GameManager.Inst.Fade_InOut(false, 1.0f);
+            Invoke("NextScene", 1.0f);
         }
 
         public void DataSelection_Click()
@@ -103,12 +104,13 @@ namespace JinWon
         #region 데이터 정보 UI
         public void Load_Click() // 달력씬으로 넘어가야 함!
         {
+            GameManager.Inst.Fade_InOut(false, 3.0f);
             Invoke("NextScene", 3.0f);
         }
 
         public void NextScene()
         {
-            GameManager.Inst.AsyncLoadNextScene("CalendarScene");
+            GameManager.Inst.AsyncLoadNextScene(SceneName.CalendarScene);
         }
 
         public void Cancel_Click()
