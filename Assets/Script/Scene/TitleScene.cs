@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using JinWon;
+using UnityEngine.Audio;
 
 namespace JinWon
 {
@@ -46,11 +47,28 @@ namespace JinWon
 
         private void Init() // 초기 세팅 함수
         {
+            bgmAudio = GameObject.Find("SoundManager").transform.GetChild(0).GetComponent<AudioSource>();
+            SoundInit();
             press = false;
             bg1.SetActive(false);
             bg2.SetActive(false);
             mainMenuObj.SetActive(false);
             mainMenuUI.Init();
+        }
+
+        [SerializeField]
+        private AudioMixer audioMixer;
+
+        private AudioSource bgmAudio;
+
+        private void SoundInit()
+        {
+            SoundManager.Inst.ChangeBGM(BGM_Type.BGM_Title);
+            /*if (!bgmAudio.playOnAwake)
+            {
+                bgmAudio.playOnAwake = true;
+                bgmAudio.Play();
+            }*/
         }
 
         private void BGSetting() // 배경이미지를 세팅하는 함수

@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2181611698587197647}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.32434845, y: -1.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -1
-  m_Sprite: {fileID: 21300000, guid: 12e5e37ba031cfb4ab7650106c3cea9c, type: 3}
+  m_Sprite: {fileID: -241117019, guid: 5b385827bf304ae439c58e201cdaba72, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -97,7 +97,7 @@ Animator:
   m_GameObject: {fileID: 2181611698587197647}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 3cb9552c1596ae54f91fd8c64affc0a1, type: 2}
+  m_Controller: {fileID: 9100000, guid: 36f7f26490c72144aa70bc4fe4913196, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -120,7 +120,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42c720a54c84b3e4bbf29e73d573fc86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextMap: 
+  stage: 1
+  nextMap: Forest2
+  charVec: Left
+  potalOpen: 0
 --- !u!61 &4729599010174730799
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -157,7 +160,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.73, y: 3.95}
+    oldSize: {x: 1.4066668, y: 2.035}
     newSize: {x: 2.73, y: 3.95}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using JinWon;
 using UnityEngine.SceneManagement;
 using YeongJun;
+using TMPro;
 
 namespace JinWon
 {
@@ -15,9 +16,9 @@ namespace JinWon
         [SerializeField]
         private List<GameObject> calendarObjList = new List<GameObject>();
 
-        public Texture2D cursorTexture;
+        /*public Texture2D cursorTexture;
         public Vector2 hotspot = Vector2.zero;
-        public CursorMode cursorMode = CursorMode.Auto;
+        public CursorMode cursorMode = CursorMode.Auto;*/
 
         [SerializeField]
         private JinWon.MapUI mapUI;
@@ -62,12 +63,20 @@ namespace JinWon
             set { selectStage = value; }
         }
 
+        [SerializeField]
+        private GameObject townGo;
+
         void Start()
         {
+            SoundManager.Inst.ChangeBGM(BGM_Type.BGM_Calendar);
             GameManager.Inst.Fade_InOut(true, 3.0f);
             mapMove = false;
+<<<<<<< HEAD
             maintenanceMove = false;
             Cursor.SetCursor(cursorTexture, hotspot, cursorMode);
+=======
+            /*Cursor.SetCursor(cursorTexture, hotspot, cursorMode);*/
+>>>>>>> Jun
             //StartCoroutine(Production());
             if (GameManager.Inst.CalendarProd)
                 StartCoroutine(Production());
@@ -81,6 +90,8 @@ namespace JinWon
                 calendarCam.SetActive(true);
 
             mapUI.Init();
+            if(townGo.activeSelf)
+                townGo.SetActive(false);
 
             whatMonth = Random.Range(0, 12);
             calendarObjList[whatMonth].SetActive(true);
@@ -99,6 +110,7 @@ namespace JinWon
 
         IEnumerator Production()
         {
+            calendarMove.SetActive(false);
             GameManager.Inst.CalendarProd = false;
             calendarCam.SetActive(false);
             regionCamList[GameManager.Inst.CalendarProdRegion - 1].SetActive(true);
@@ -108,9 +120,11 @@ namespace JinWon
             calendarCam.SetActive(true);
             regionCamList[GameManager.Inst.CalendarProdRegion - 1].SetActive(false);
             yield return YieldInstructionCache.WaitForSeconds(3f);
-            clock.ChangeTime();
+            //clock.ChangeTime();
 
-            Invoke("SystemUiTitle", 2.0f);
+            townGo.SetActive(true);
+
+            //Invoke("SystemUiTitle", 2.0f);
             //Init();
         }
 
@@ -124,16 +138,20 @@ namespace JinWon
 
         public void UIMove()
         {
+            
             switch (selectStep)
             {
                 case 0: // 타이틀씬으로 가지는 상태
                     {
-                        Invoke("TitleSceneMove", 2.0f);
+                        SoundManager.Inst.PlaySFX("Click_on");
+                        //Invoke("TitleSceneMove", 2.0f);
+                        TitleSceneMove();
                         break;
                     }
 
                 case 1: // 달력으로 가지는 상태
                     {
+                        SoundManager.Inst.PlaySFX("Click_on");
                         MoveBtnFalse();
                         calendarCam.SetActive(true);
 
@@ -147,6 +165,7 @@ namespace JinWon
                     }
                 case 2: // 지역 확대가 풀리는 상태
                     {
+                        SoundManager.Inst.PlaySFX("Click_on");
                         MoveBtnFalse();
                         selectStep--;
                         mapCam.SetActive(true);
@@ -178,7 +197,8 @@ namespace JinWon
 
         public void MapUiMove()
         {
-            if(mapMove)
+            SoundManager.Inst.PlaySFX("Click_on");
+            if (mapMove)
             {
                 MoveBtnFalse();
                 mapUI.RegionInit();
@@ -226,7 +246,27 @@ namespace JinWon
 
         private void TitleSceneMove()
         {
-            GameManager.Inst.AsyncLoadNextScene(SceneName.TitleScene);
+            SoundManager.Inst.PlaySFX("Click_on");
+            GameManager.Inst.AsyncLoadNextScene("TitleScene");
+        }
+
+        [SerializeField]
+        private GameObject systemUIObj;
+        [SerializeField]
+        private TextMeshProUGUI systemText;
+
+        public void OffBtn()
+        {
+            SoundManager.Inst.PlaySFX("Click_off");
+            systemText.text = "<color=yellow>" + "아직 " + "</color>" + "활성화 되지 않았습니다.";
+            StartCoroutine(SystemUi());
+        }
+
+        IEnumerator SystemUi()
+        {
+            LeanTween.scale(systemUIObj, Vector3.one, 0.5f);
+            yield return YieldInstructionCache.WaitForSeconds(2.0f);
+            LeanTween.scale(systemUIObj, Vector3.zero, 0.5f);
         }
 
         [SerializeField]
@@ -236,6 +276,7 @@ namespace JinWon
         {
             if(selectStep == 2)
             {
+                SoundManager.Inst.PlaySFX("Click_on");
                 charInfoObj.SelectCardInfo();
                 MoveBtnFalse();
                 mapCam.SetActive(true);
@@ -265,6 +306,12 @@ namespace JinWon
                 if(selectPointList[i].activeSelf)
                     selectPointList[i].SetActive(false);
             }
+        }
+
+        public void TownSceneMove()
+        {
+            SoundManager.Inst.PlaySFX("Click_on");
+            GameManager.Inst.AsyncLoadNextScene("TownScene");
         }
     }
 }

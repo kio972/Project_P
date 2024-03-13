@@ -115,14 +115,25 @@ public class CardArranger : MonoBehaviour
         if(!btnClick)
         {
             btnClick = true;
+<<<<<<< HEAD
             if (children.Count == 3)
             {
                 //GameManager.Inst.AsyncLoadNextScene("Forest1-" + calendarScene.SelectStage);
                 GameManager.Inst.Fade_InOut(false, 1.0f);
                 Invoke("NextScene", 1.0f);
+=======
+            Debug.Log("칠드런 카운트는 : " + children.Count);
+            if (children.Count == 1)
+            {
+                SoundManager.Inst.PlaySFX("Click_on");
+                GameManager.Inst.CharHPInit(220f); // 임시 워리어 MaxHP
+                Debug.Log("로드 씬 들어옴");
+                GameManager.Inst.AsyncLoadNextScene("Forest" + calendarScene.SelectStage);
+>>>>>>> Jun
             }
             else
             {
+                SoundManager.Inst.PlaySFX("Click_off");
                 systemText.text = "<color=yellow>"+ "파티" +"</color>"+ "가 구성되지 않으면 탐색을 출발할 수 없어요.";
                 StartCoroutine(SystemUi());
                 //systemUI.SystemUIActive("<color=yellow>" + "파티" + "</color>" + "가 구성되지 않으면 탐색을 출발할 수 없어요.", 2.0f);
@@ -130,6 +141,13 @@ public class CardArranger : MonoBehaviour
             }
         }
         
+    }
+
+    public void hiddenBtn()
+    {
+        SoundManager.Inst.PlaySFX("Click_off");
+        systemText.text = "<color=yellow>" + "아직 " + "</color>" + "활성화 되지 않았습니다.";
+        StartCoroutine(SystemUi());
     }
 
     IEnumerator SystemUi()

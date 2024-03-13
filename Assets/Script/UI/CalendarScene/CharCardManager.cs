@@ -139,7 +139,8 @@ public class CharCardManager : MonoBehaviour
 
     public void PartyAdd()
     {
-        if(GameObject.Find("SelectCard").GetComponentInChildren<CharCard>() != null)
+        SoundManager.Inst.PlaySFX("Click_on");
+        if (GameObject.Find("SelectCard").GetComponentInChildren<CharCard>() != null)
         {
             card01Transform = GameObject.Find("SelectCard").GetComponentInChildren<CharCard>().transform;
             card01Transform.SetParent(cardArrangers[2].transform);

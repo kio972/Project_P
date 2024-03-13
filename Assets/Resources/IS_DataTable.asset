@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 8
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efff34086cf65d44c9da5c27218029c3, type: 3}
+  m_Name: IS_DataTable
+  m_EditorClassIdentifier: 
+  Inside:
+  - ObjectID: 2230101
+    Chapter: 1
+    Month: 3
+    Condition: Normal
+    NPC_Name: "\uBE44\uC559\uCE74 \uD558\uBC84"
+    Text1: "\uC5B4\uB5A4 \uC6A9\uBB34\uC774\uC2ED\uB2C8\uAE4C?"
+    Text2: "\uC5C5\uBB34\uAC00 \uBC00\uB824\uC788\uC2B5\uB2C8\uB2E4. \uC2DC\uAE09\uD788
+      \uCC98\uB9AC\uD574\uC8FC\uC138\uC694."
+    Text3: "\uD6C4.. \uC624\uC168\uC2B5\uB2C8\uAE4C? \uC790\uB8CC \uD655\uC778 \uBD80\uD0C1\uB4DC\uB9BD\uB2C8\uB2E4."
+  Dialogue:
+  - ObjectID: 2230101
+    Chapter: 1
+    Month: 3
+    Condition: Normal
+    NPC_Name: "\uBE44\uC559\uCE74 \uD558\uBC84"
+    Text1: "\uD560 \uC77C\uC774 \uC5C6\uC73C\uC2ED\uB2C8\uAE4C?"
+    Text2: "\uC7A5\uB09C\uCE60 \uC2DC\uAC04 \uC5C6\uC2B5\uB2C8\uB2E4."
+    Text3: "\uD1F4\uC9C1\uD558\uACE0 \uC2F6\uB2E4\u2026 \uD639\uC2DC \uB4E4\uC73C\uC168\uC2B5\uB2C8\uAE4C?
+      \uC9C4\uC2EC\uC785\uB2C8\uB2E4."

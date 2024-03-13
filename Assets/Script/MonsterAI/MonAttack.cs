@@ -19,6 +19,13 @@ public class MonAttack : FSMSingleton<MonAttack>, CharState<MonController>
     // 공격 상태에서 나갈 때
     public void Exit(MonController e)
     {
+<<<<<<< HEAD
         e.AnimRun(true); // 다시 움직이기.
+=======
+        //e.AnimRun(true);
+        Debug.Log("MonAttack 나감!");
+>>>>>>> Jun
     }
+
+    
 }
