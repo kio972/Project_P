@@ -21,7 +21,7 @@ namespace YeongJun
 
             float direction = (player.transform.position.x - transform.position.x);
             int nextArea = portalNumber;
-            
+
             if (direction > 0)
                 nextArea++;
 

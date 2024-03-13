@@ -117,12 +117,49 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8251038476014687942, guid: 77778f466c6071d4b98d9dd5133ea871,
         type: 3}
+      propertyPath: _pools.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8251038476014687942, guid: 77778f466c6071d4b98d9dd5133ea871,
+        type: 3}
+      propertyPath: _pools.Array.data[2]._name
+      value: Ston
+      objectReference: {fileID: 0}
+    - target: {fileID: 8251038476014687942, guid: 77778f466c6071d4b98d9dd5133ea871,
+        type: 3}
+      propertyPath: _pools.Array.data[3]._name
+      value: Gold
+      objectReference: {fileID: 0}
+    - target: {fileID: 8251038476014687942, guid: 77778f466c6071d4b98d9dd5133ea871,
+        type: 3}
       propertyPath: _pools.Array.data[0]._container
       value: 
       objectReference: {fileID: 6227640202137970610}
     - target: {fileID: 8251038476014687942, guid: 77778f466c6071d4b98d9dd5133ea871,
         type: 3}
       propertyPath: _pools.Array.data[1]._container
+      value: 
+      objectReference: {fileID: 6227640202137970610}
+    - target: {fileID: 8251038476014687942, guid: 77778f466c6071d4b98d9dd5133ea871,
+        type: 3}
+      propertyPath: _pools.Array.data[2]._component
+      value: 
+      objectReference: {fileID: 1304940352048420660, guid: 1d0940378d9846c4496ce7f685d27f49,
+        type: 3}
+    - target: {fileID: 8251038476014687942, guid: 77778f466c6071d4b98d9dd5133ea871,
+        type: 3}
+      propertyPath: _pools.Array.data[2]._container
+      value: 
+      objectReference: {fileID: 6227640202137970610}
+    - target: {fileID: 8251038476014687942, guid: 77778f466c6071d4b98d9dd5133ea871,
+        type: 3}
+      propertyPath: _pools.Array.data[3]._component
+      value: 
+      objectReference: {fileID: 6696797494919668583, guid: 8adfcc67f1cd78048911402b36cfa983,
+        type: 3}
+    - target: {fileID: 8251038476014687942, guid: 77778f466c6071d4b98d9dd5133ea871,
+        type: 3}
+      propertyPath: _pools.Array.data[3]._container
       value: 
       objectReference: {fileID: 6227640202137970610}
     - target: {fileID: 8669369654030302602, guid: 77778f466c6071d4b98d9dd5133ea871,

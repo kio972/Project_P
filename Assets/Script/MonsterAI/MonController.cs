@@ -13,8 +13,8 @@ public enum MonsterType
 
 public class MonsterInfo
 {
-    public float Mospy_Spear_Damage = 6;
-    public float Mospy_Spear_HP = 70;
+    public float Mospy_Spear_Damage = 4;
+    public float Mospy_Spear_HP = 33;
     public float Mospy_Spear_MP;
 
     public float Mospy_Bow_Damage = 8;
@@ -103,7 +103,7 @@ public class MonController : FSM<MonController>
         MonStat();
         target = false;
         currPoint = pointB.transform;
-        chaseSpeed = 4f;
+        chaseSpeed = 2f;
         patrolSpeed = 1f;
         basicAttackCool = true;
         basicTarget = false;
@@ -137,7 +137,7 @@ public class MonController : FSM<MonController>
     public void AnimRun(bool value)
     {
         if (value)
-            chaseSpeed = 4f;
+            chaseSpeed = 2f;
         else
             chaseSpeed = 0;
         anim.SetBool("Run", value);
@@ -154,6 +154,8 @@ public class MonController : FSM<MonController>
     }
 
     bool mark = false;
+
+    
 
     public void Patrol() // 경비상태
     {
@@ -183,14 +185,28 @@ public class MonController : FSM<MonController>
 
         if (target) // 플레이어가 MonScan범위안에 들어오면 쫒아가는 상태로 바꿔주는 함수 
         {
-            if(!mark)
+            if (!mark)
             {
-                monsterManager.TargetDetectionManager();
+                TargetDetection();
+                //monsterManager.TargetDetectionManager();
             }
+            
         }
 
         if (pointA == null || pointB == null)
             return;
+    }
+
+    public void PatrolInit()
+    {
+        if (target) // 플레이어가 MonScan범위안에 들어오면 쫒아가는 상태로 바꿔주는 함수 
+        {
+            if (mark)
+            {
+                ChaseState();
+            }
+
+        }
     }
 
     public void TargetDetection() // 처음 타겟을 감지했을 때.
@@ -213,26 +229,44 @@ public class MonController : FSM<MonController>
 
     public void Chase() // 쫒아가는 상태
     {
-        if (Vector2.Distance(transform.position, targetTrans.position) > 1f && target && !same) // 플레이어가 범위 안에 있으면 쫒아가기
+        if(targetTrans != null && !pause)
         {
-            if (anim.GetBool("Run") == false)
-                AnimRun(true);
+            Vector2 targetPosition = new Vector2(targetTrans.position.x, transform.position.y);
+            if (Vector2.Distance(transform.position, targetPosition) > 0.5f && target && !same) // 플레이어가 범위 안에 있으면 쫒아가기 targetTrans.position
+            {
+                if (anim.GetBool("Run") == false)
+                    AnimRun(true);
 
-            transform.position = Vector2.MoveTowards(transform.position, targetTrans.position, chaseSpeed * Time.deltaTime);
-            LookAtDir();
-        }
-        else if(same)// 범위 밖으로 나가면 집으로 돌아가기
-        {
-            LookAtDir();
-            if (anim.GetBool("Run") == true)
-                AnimRun(false);
-            /*transform.position = Vector2.MoveTowards(transform.position, idlePoint.transform.position, 2f * Time.deltaTime);
-            if (transform.position == idlePoint.transform.position) // 집에 도착했으면 다시 경비상태로!*/
-            //PatrolState();
-        }
+                //Vector2 targetPosition = new Vector2(targetTrans.position.x, transform.position.y);
 
-        if (basicTarget && target)
-            ChangeState(MonAttack.Instance);
+                transform.position = Vector2.MoveTowards(transform.position, targetPosition, chaseSpeed * Time.deltaTime);
+                //transform.position = Vector2.MoveTowards(transform.position, targetTrans.position, chaseSpeed * Time.deltaTime);
+                
+                LookAtDir();
+            }
+            else if (same)// 범위 밖으로 나가면 집으로 돌아가기
+            {
+                LookAtDir();
+                if (anim.GetBool("Run") == true)
+                    AnimRun(false);
+                /*transform.position = Vector2.MoveTowards(transform.position, idlePoint.transform.position, 2f * Time.deltaTime);
+                if (transform.position == idlePoint.transform.position) // 집에 도착했으면 다시 경비상태로!*/
+                //PatrolState();
+            }
+
+            if (basicTarget && target && !pause)
+                ChangeState(MonAttack.Instance);
+        }
+    }
+
+    private bool pause = false;
+
+    public void Pause(bool state)
+    {
+        if (state)
+            pause = true;
+        else
+            pause = false;
     }
 
     private float standDir = 0.1f;
@@ -243,10 +277,9 @@ public class MonController : FSM<MonController>
 
         targetDistancRight = targetDistance.x > standDir;
         if(targetDistancRight)
-            transform.localScale = new Vector3(-0.7f, 0.7f, 1);
+            transform.localScale = new Vector3(1f, 1f, 1f); // -0.7f, 0.7f, 1 이였음
         else
-            transform.localScale = new Vector3(0.7f, 0.7f, 1);
-
+            transform.localScale = new Vector3(-1f, 1f, 1f);
     }
 
     public void Attack()
@@ -256,28 +289,41 @@ public class MonController : FSM<MonController>
             //Debug.Log(basicAttack + " " + basicTarget);
             if(basicAttackCool && basicTarget)
             {
-
                 LookAtDir();
                 basicAttackCool = false;
-                StartCoroutine(CoolTimeBasic(2));
+                chaseSpeed = 0f;
+                anim.SetBool("Run", false);
+                StartCoroutine(CoolTimeBasic(3f));
                 anim.SetTrigger("BasicAttack");
+                SoundManager.Inst.PlaySFX("Spear_Day_Sting");
+                //StartCoroutine(CoolTimeMove(2f));
             }
             else if(!basicTarget)
             {
                 basicPivotArr = null;
-                ChangeState(MonChase.Instance);
+                StartCoroutine(CoolTimeMove(1.5f));
             }
         }
         else
         {
             basicPivotArr = null;
-            ChangeState(MonChase.Instance);
+            StartCoroutine(CoolTimeMove(1.5f));
+            //ChangeState(MonChase.Instance);
         }
     }
 
+    IEnumerator CoolTimeMove(float cool)
+    {
+        //target = false;
+        yield return YieldInstructionCache.WaitForSeconds(cool);
+        ChangeState(MonChase.Instance);
+    }
+
+    private int basicDamage;
+
     private void BasicAttack()
     {
-
+        basicDamage = Random.Range(2, 7);
         basicPivotArr =
             Physics2D.OverlapBoxAll(basicPivot.transform.position,
                                  basicPivot.size,
@@ -288,7 +334,7 @@ public class MonController : FSM<MonController>
         {
             if (enemy.TryGetComponent<Controller>(out Controller controller))
             {
-                controller.TakeDamage(damage);
+                controller.TakeDamage(basicDamage, transform.position);
             }
         }
     }
@@ -307,9 +353,8 @@ public class MonController : FSM<MonController>
     {
         yield return YieldInstructionCache.WaitForSeconds(cool);
         basicAttackCool = true;
+        chaseSpeed = 2f;
     }
-
-    
 
     public void TakeDamage(float damage, Transform target)
     {
@@ -317,17 +362,55 @@ public class MonController : FSM<MonController>
         anim.SetTrigger("TakeDamage");
         currHP -= damage;
         poolTextSpawn.SpawnDamageText("DamageText", transform.position, damage);
-        if(currHP <= 0)
+        SoundManager.Inst.PlaySFX("Smash_TakeDamage");
+        if (currHP <= 0)
         {
-            die = true;
-            transform.gameObject.SetActive(false);
+            if(!die)
+                StartCoroutine(OnDie());
+            //transform.gameObject.SetActive(false);
             //GameObject.Destroy(gameObject);
             //StartCoroutine(OnDie());
         }
         else
         {
+            float x = transform.position.x - target.position.x;
+            if (x < 0)
+                x = 1;
+            else
+                x = -1;
+            //StartCoroutine(Knockback(x));
             Debug.Log(transform.name + "몬스터 체력 : " + currHP);
         }
+
+    }
+
+    private bool isKnockback;
+
+    IEnumerator Knockback(float dir)
+    {
+        isKnockback = true;
+        float ctime = 0;
+        while (ctime < 0.2f)
+        {
+            if (transform.rotation.y == 0)
+            {
+                transform.Translate(Vector2.left * 3f * Time.deltaTime * dir);
+                //transform.Translate(Vector2.up * 3f * Time.deltaTime * dir);
+                Debug.Log("왼쪽");
+            }
+            else
+            {
+                transform.Translate(Vector2.left * 3f * Time.deltaTime * -1f * dir);
+
+                Debug.Log("오른쪽");
+            }
+
+            transform.Translate(Vector2.up * 3f * Time.deltaTime);
+
+            ctime += Time.deltaTime;
+            yield return null;
+        }
+        isKnockback = false;
     }
 
     private bool die;
@@ -336,11 +419,21 @@ public class MonController : FSM<MonController>
         get { return die; }
     }
 
+    private int whatItem;
+
     IEnumerator OnDie()
     {
-        Debug.Log("주금!");
+        die = true;
+        monsterManager.MonsterDie();
         anim.SetTrigger("Die");
-        yield return YieldInstructionCache.WaitForSeconds(2f);
-        GameObject.Destroy(gameObject);
+
+        whatItem = Random.Range(0, 2);
+        if (whatItem > 0)
+            poolTextSpawn.SpawnDropItem("Gold", transform.position);
+        else
+            poolTextSpawn.SpawnDropItem("Ston", transform.position);
+
+        yield return YieldInstructionCache.WaitForSeconds(0.2f);
+        transform.gameObject.SetActive(false);
     }
 }

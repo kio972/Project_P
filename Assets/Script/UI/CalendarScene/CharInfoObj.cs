@@ -45,12 +45,15 @@ public class CharInfoObj : MonoBehaviour
 
     public void Init() // 초기화
     {
-        BtnOnClick(0); // 특성을 기본으로 설정해 놓기
+        BtnScaleInit(0);
+        TextUIInit(0);
+        //BtnOnClick(0); // 특성을 기본으로 설정해 놓기
         //SelectCardInfo();
     }
 
     public void BtnOnClick(int whatBtn) // 탭을 클릭했을때.
     {
+        SoundManager.Inst.PlaySFX("Click_on");
         BtnScaleInit(whatBtn);
         TextUIInit(whatBtn);
     }

@@ -16,7 +16,7 @@ public class PoolTextSpawn : MonoBehaviour
     {
         DamageText damageText = poolManager.GetFromPool<DamageText>(name);
         damageText.DAMAGE = damage;
-        pos += new Vector2(0f, 1f);
+        pos += new Vector2(0f, 0.4f);
         damageText.transform.position = pos;
     }
     public void ReturnDamageText(DamageText text)
@@ -27,7 +27,7 @@ public class PoolTextSpawn : MonoBehaviour
     public void SpawnMarkText(string name, Vector2 pos)
     {
         ExclamationMarkText damageText = poolManager.GetFromPool<ExclamationMarkText>(name);
-        pos += new Vector2(0f, 1.5f);
+        pos += new Vector2(0f, 0.4f);
         damageText.transform.position = pos;
     }
     public void ReturnMarkText(ExclamationMarkText text)
@@ -35,5 +35,15 @@ public class PoolTextSpawn : MonoBehaviour
         poolManager.TakeToPool<ExclamationMarkText>(text.POOLNAME, text);
     }
 
+    public void SpawnDropItem(string name, Vector2 pos)
+    {
+        DropItem dropItem = poolManager.GetFromPool<DropItem>(name);
+        pos += new Vector2(0f, -1.5f);
+        dropItem.transform.position = pos;
+    }
 
+    public void ReturnGoldItem(DropItem item)
+    {
+        poolManager.TakeToPool<DropItem>(item.POOLNAME, item);
+    }
 }
