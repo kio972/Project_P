@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using JinWon;
 
 public class ControllerManager : MonoBehaviour
 {
@@ -27,24 +26,7 @@ public class ControllerManager : MonoBehaviour
             controllerList.Add(transform.Find("Archer").GetComponentInChildren<Controller>());
         }
 
-        switch (GameManager.Inst.PlayerInfo.controller)
-        {
-            case "Warrior":
-                {
-                    ControllerChange(0);
-                    break;
-                }
-            case "Priest":
-                {
-                    ControllerChange(1);
-                    break;
-                }
-            case "Archer":
-                {
-                    ControllerChange(2);
-                    break;
-                }
-        }
+        ControllerChange(0);
     }
 
     public void ControllerChange(int who)
@@ -61,7 +43,7 @@ public class ControllerManager : MonoBehaviour
                 controllerList[i].ControllMode = false;
                 controllerList[i].InitState(false);
             }
-            controllerList[i].ControllerSetting();
+            //controllerList[i].ChangeMode();
         }
     }
 
@@ -83,13 +65,5 @@ public class ControllerManager : MonoBehaviour
                 return controllerList[i].transform;
         }
         return null;
-    }
-
-    public void ControllerInfoSet()
-    {
-        for (int i = 0; i < controllerList.Count; i++)
-        {
-            controllerList[i].PlayerInfoSave();
-        }
     }
 }

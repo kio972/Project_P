@@ -11,13 +11,6 @@ public class StagePortal : InteractObject
     [SerializeField]
     private string nextMap;
 
-<<<<<<< HEAD
-    private ControllerManager controllerManager;
-
-    private void Awake()
-    {
-        controllerManager = GameObject.Find("PlayerParty").GetComponent<ControllerManager>();
-=======
     [SerializeField]
     private string charVec;
 
@@ -40,15 +33,10 @@ public class StagePortal : InteractObject
             anim.SetTrigger("Open");
         }
             
->>>>>>> Jun
     }
 
     public override void Interaction()
     {
-<<<<<<< HEAD
-        PlayerInfoSet();
-        GameManager.Inst.AsyncLoadNextScene(nextMap);
-=======
         if(potalOpen)
         {
             if(stage != 0)
@@ -57,11 +45,5 @@ public class StagePortal : InteractObject
             GameManager.Inst.CharactorVec(charVec);
             GameManager.Inst.AsyncLoadNextScene(nextMap);
         }
->>>>>>> Jun
-    }
-
-    private void PlayerInfoSet()
-    {
-        controllerManager.ControllerInfoSet();
     }
 }

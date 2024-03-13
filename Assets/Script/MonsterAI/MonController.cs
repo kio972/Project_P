@@ -284,50 +284,31 @@ public class MonController : FSM<MonController>
 
     public void Attack()
     {
-        if(target) // 몬스터의 공격 범위 안에 타겟이 있다면
+        if(target)
         {
-            // 기본 공격이 가능한 상태고, 
-            // 기본공격 범위안에 타겟이 있다면
-            if (basicAttackCool && basicTarget) 
+            //Debug.Log(basicAttack + " " + basicTarget);
+            if(basicAttackCool && basicTarget)
             {
-<<<<<<< HEAD
-                LookAtDir(); // 타겟을 바라보기
-                basicAttackCool = false; // 공격 불가능
-                // 쿨타임 돌리는 코루틴
-                StartCoroutine(CoolTimeBasic(2)); 
-=======
                 LookAtDir();
                 basicAttackCool = false;
                 chaseSpeed = 0f;
                 anim.SetBool("Run", false);
                 StartCoroutine(CoolTimeBasic(3f));
->>>>>>> Jun
                 anim.SetTrigger("BasicAttack");
                 SoundManager.Inst.PlaySFX("Spear_Day_Sting");
                 //StartCoroutine(CoolTimeMove(2f));
             }
-            // 타겟은 있지만 공격범위에는 있지 않았을 때
-            else if (!basicTarget) 
+            else if(!basicTarget)
             {
                 basicPivotArr = null;
-<<<<<<< HEAD
-                // 타겟을 찾아 쫒아가는 상태로 변경
-                ChangeState(MonChase.Instance);
-=======
                 StartCoroutine(CoolTimeMove(1.5f));
->>>>>>> Jun
             }
         }
         else
         {
             basicPivotArr = null;
-<<<<<<< HEAD
-            // 타겟을 찾아 쫒아가는 상태로 변경
-            ChangeState(MonChase.Instance);
-=======
             StartCoroutine(CoolTimeMove(1.5f));
             //ChangeState(MonChase.Instance);
->>>>>>> Jun
         }
     }
 

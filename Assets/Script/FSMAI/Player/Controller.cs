@@ -19,31 +19,23 @@ public class Controller : FSM<Controller>
             case PlayerType.Warrior:
                 {
                     WarriorInfo playerInfo = new WarriorInfo();
-<<<<<<< HEAD
-                    maxHP = playerInfo.HP;
-                    currHP = GameManager.Inst.PlayerInfo.warrior_HP;
-
-=======
                     currHP = GameManager.Inst.PlayerInfo.currHP;
                     maxHP = playerInfo.HP;
                     //currMP = maxHP = playerInfo.MP;
->>>>>>> Jun
                     break;
                 }
             case PlayerType.Priest:
                 {
                     PriestInfo playerInfo = new PriestInfo();
-                    maxHP = playerInfo.HP;
-                    currHP = GameManager.Inst.PlayerInfo.priest_HP;
-
+                    currHP = maxHP = playerInfo.HP;
+                    currHP = maxHP = playerInfo.MP;
                     break;
                 }
             case PlayerType.Archer:
                 {
                     ArcherInfo playerInfo = new ArcherInfo();
-                    maxHP = playerInfo.HP;
-                    currHP = GameManager.Inst.PlayerInfo.archer_HP;
-
+                    currHP = maxHP = playerInfo.HP;
+                    currHP = maxHP = playerInfo.MP;
                     break;
                 }
         }
@@ -60,59 +52,7 @@ public class Controller : FSM<Controller>
         }
     }
 
-<<<<<<< HEAD
-    public void PlayerInfoSave()
-    {
-        
-        switch (playerType)
-        {
-            case PlayerType.Warrior:
-                {
-                    GameManager.Inst.PlayerInfo.warrior_HP = currHP;
-                    break;
-                }
-            case PlayerType.Priest:
-                {
-                    GameManager.Inst.PlayerInfo.priest_HP = currHP;
-                    break;
-                }
-            case PlayerType.Archer:
-                {
-                    GameManager.Inst.PlayerInfo.archer_HP = currHP;
-                    break;
-                }
-        }
-    }
-
-    public void ControllerSetting()
-    {
-        if (controllMode)
-        {
-            switch (playerType)
-            {
-                case PlayerType.Warrior:
-                    {
-                        GameManager.Inst.PlayerInfo.controller = "Warrior";
-                        break;
-                    }
-                case PlayerType.Priest:
-                    {
-                        GameManager.Inst.PlayerInfo.controller = "Priest";
-                        break;
-                    }
-                case PlayerType.Archer:
-                    {
-                        GameManager.Inst.PlayerInfo.controller = "Archer";
-                        break;
-                    }
-            }
-        }
-        else
-            return;
-    }
-=======
     private CharStateUI charStateUI;
->>>>>>> Jun
 
     private bool controllMode;
     public bool ControllMode
@@ -169,12 +109,8 @@ public class Controller : FSM<Controller>
         charStateUI = GameObject.Find("MainChar (1)").GetComponent<CharStateUI>();
         anim = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
-<<<<<<< HEAD
-        groundCheck = GetComponentInChildren<GroundCheckGizmos>().transform;
-=======
         groundCheck = GameObject.Find("GroundCheck").transform;
         jumpCheck = GameObject.Find("JumpCheck").transform;
->>>>>>> Jun
         controllerManager = GetComponentInParent<ControllerManager>();
         sr = GetComponentInChildren<SpriteRenderer>();
         CharInit();
@@ -249,9 +185,6 @@ public class Controller : FSM<Controller>
             {
                 return;
             }
-<<<<<<< HEAD
-            Debug.Log("점프" + isGround);
-=======
 
             x = Input.GetAxisRaw("Horizontal");
             direction.x = x * moveSpeed;
@@ -306,7 +239,6 @@ public class Controller : FSM<Controller>
 
 
             //Debug.Log(x + " 현재 로컬 스케일은? : " + transform.GetChild(0).localScale);
->>>>>>> Jun
         }
     }
 

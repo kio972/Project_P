@@ -11,7 +11,6 @@ public enum SceneName
     TitleScene,
     CalendarScene,
     LoadingScene, // 임시
-    Forest1_1,
 }
 
 public enum PlayerType
@@ -26,18 +25,6 @@ public class PlayerData
     public Dictionary<int, bool> forestClear = new Dictionary<int, bool>();
     public float currHP;
     // 저장할 플레이어 데이터
-<<<<<<< HEAD
-    public float warrior_HP;
-    public float warrior_MP;
-
-    public float priest_HP;
-    public float priest_MP;
-
-    public float archer_HP;
-    public float archer_MP;
-
-    public string controller = "Warrior";
-=======
 
     public string charactorVec; // 임시, 좌 우 어디로 스폰할지.
 
@@ -47,7 +34,6 @@ public class PlayerData
     public float bgm;
     public float sfx;
     public List<string> sfxList;
->>>>>>> Jun
 }
 
 public class WarriorInfo
@@ -64,8 +50,6 @@ public class WarriorInfo
     public string Info = "전사";
     public string hidden1 = "단련된 몸 : 받는 데미지 감소";
     public string hidden2 = "깨달음 : 탐색 경험치 획득률 증가";
-
-
 }
 
 public class PriestInfo
@@ -82,8 +66,6 @@ public class PriestInfo
     public string Info = "인간 (여) 신관";
     public string hidden1 = "플라시보 : 낮은 확률로 아이템 소비 무효";
     public string hidden2 = "허약 : 주는 피해 소폭 감소";
-
-
 }
 
 public class ArcherInfo
@@ -100,8 +82,6 @@ public class ArcherInfo
     public string Info = "엘프 (여) 궁수";
     public string hidden1 = "노련한 알바생 : 아르바이트 리커버리 증가";
     public string hidden2 = "야맹증 : 밤 전투 시    명중률 감소";
-
-
 }
 
 namespace JinWon
@@ -151,10 +131,11 @@ namespace JinWon
         public void AsyncLoadNextScene(SceneName scene) // 씬 넘어갈때마다 재활용하는 코드
         {
             nextScene = scene;
-            //SceneManager.LoadScene(nextScene.ToString());
-            SceneManager.LoadScene(SceneName.LoadingScene.ToString()); // 로딩씬이 구현 되면 활용
+            SceneManager.LoadScene(nextScene.ToString());
+            //SceneManager.LoadScene(SceneName.LoadingScene.ToString()); // 로딩씬이 구현 되면 활용
         }
 
+        
         public void AsyncLoadNextScene(string scene)
         {
             if(!sceneLoad)
@@ -188,30 +169,14 @@ namespace JinWon
             pData = new PlayerData();
             Fade_InOut(true, 3.0f);
             sceneLoad = false;
-<<<<<<< HEAD
-=======
             Debug.Log("페이드 인");
             Cursor.SetCursor(cursorTexture, hotspot, cursorMode);
 
->>>>>>> Jun
             PlayerDataInit();
         }
 
         public void PlayerDataInit()
         {
-<<<<<<< HEAD
-            WarriorInfo warriorInfo = new WarriorInfo();
-            pData.warrior_HP = warriorInfo.HP;
-            pData.warrior_MP = warriorInfo.MP;
-
-            PriestInfo priestInfo = new PriestInfo();
-            pData.priest_HP = priestInfo.HP;
-            pData.priest_MP = priestInfo.MP;
-
-            ArcherInfo archerInfo = new ArcherInfo();
-            pData.archer_HP = archerInfo.HP;
-            pData.archer_MP = archerInfo.MP;
-=======
             pData.charactorVec = "Left";
             pData.currHP = 220f;
             pData.gold = pData.ston = 10;
@@ -243,13 +208,12 @@ namespace JinWon
                 "Coin_Drop",
                 "Walk_1.4"
             };
->>>>>>> Jun
         }
 
         public void Fade_InOut(bool init, float time)
         {
-            if(fade = GameObject.Find("Fade").GetComponent<FadeInOut>())
-                fade.Fade_InOut(init, time);
+            fade = GameObject.Find("Fade").GetComponent<FadeInOut>();
+            fade.Fade_InOut(init, time);
         }
 
         public void CharHPInit(float hp)

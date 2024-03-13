@@ -115,13 +115,6 @@ public class CardArranger : MonoBehaviour
         if(!btnClick)
         {
             btnClick = true;
-<<<<<<< HEAD
-            if (children.Count == 3)
-            {
-                //GameManager.Inst.AsyncLoadNextScene("Forest1-" + calendarScene.SelectStage);
-                GameManager.Inst.Fade_InOut(false, 1.0f);
-                Invoke("NextScene", 1.0f);
-=======
             Debug.Log("칠드런 카운트는 : " + children.Count);
             if (children.Count == 1)
             {
@@ -129,7 +122,6 @@ public class CardArranger : MonoBehaviour
                 GameManager.Inst.CharHPInit(220f); // 임시 워리어 MaxHP
                 Debug.Log("로드 씬 들어옴");
                 GameManager.Inst.AsyncLoadNextScene("Forest" + calendarScene.SelectStage);
->>>>>>> Jun
             }
             else
             {
@@ -156,11 +148,6 @@ public class CardArranger : MonoBehaviour
         yield return YieldInstructionCache.WaitForSeconds(2.0f);
         LeanTween.scale(systemUI, Vector3.zero, 0.5f);
         btnClick = false;
-    }
-
-    public void NextScene()
-    {
-        GameManager.Inst.AsyncLoadNextScene(SceneName.Forest1_1);
     }
 
 }

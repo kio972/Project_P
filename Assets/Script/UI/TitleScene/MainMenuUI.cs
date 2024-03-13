@@ -63,8 +63,7 @@ namespace JinWon
 
         public void RefreshStart_Click()
         {
-            GameManager.Inst.Fade_InOut(false, 1.0f);
-            Invoke("NextScene", 1.0f);
+            NextScene();
         }
 
         public void DataSelection_Click()
@@ -111,19 +110,14 @@ namespace JinWon
         #region 데이터 정보 UI
         public void Load_Click() // 달력씬으로 넘어가야 함!
         {
-            GameManager.Inst.Fade_InOut(false, 3.0f);
             Invoke("NextScene", 3.0f);
         }
 
         public void NextScene()
         {
-<<<<<<< HEAD
-            GameManager.Inst.AsyncLoadNextScene(SceneName.CalendarScene);
-=======
             SoundManager.Inst.PlaySFX("Click_on");
             //GameManager.Inst.AsyncLoadNextScene("Forest3");
             GameManager.Inst.AsyncLoadNextScene("CalendarScene");
->>>>>>> Jun
         }
 
         public void Cancel_Click()

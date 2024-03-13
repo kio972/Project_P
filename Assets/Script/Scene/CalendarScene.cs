@@ -11,6 +11,8 @@ namespace JinWon
 {
     public class CalendarScene : MonoBehaviour
     {
+
+
         private int whatMonth; // 임시 Month변수 입니다.
 
         [SerializeField]
@@ -29,8 +31,6 @@ namespace JinWon
         private GameObject mapCam;
         [SerializeField]
         private GameObject charInfoCam;
-        [SerializeField]
-        private GameObject maintenanceCam;
 
         [SerializeField]
         private GameObject calendarMove; // 달력으로 이동하는 버튼
@@ -71,12 +71,7 @@ namespace JinWon
             SoundManager.Inst.ChangeBGM(BGM_Type.BGM_Calendar);
             GameManager.Inst.Fade_InOut(true, 3.0f);
             mapMove = false;
-<<<<<<< HEAD
-            maintenanceMove = false;
-            Cursor.SetCursor(cursorTexture, hotspot, cursorMode);
-=======
             /*Cursor.SetCursor(cursorTexture, hotspot, cursorMode);*/
->>>>>>> Jun
             //StartCoroutine(Production());
             if (GameManager.Inst.CalendarProd)
                 StartCoroutine(Production());
@@ -105,7 +100,6 @@ namespace JinWon
                 regionList[i].LoadActive(false);
             }
             mapMove = true;
-            maintenanceMove = true;
         }
 
         IEnumerator Production()
@@ -159,8 +153,6 @@ namespace JinWon
                         selectStep--;
                         mapUI.RegionBtnInteractable(false);
                         Invoke("MoveBtnTrue", 2.0f);
-                        mapCam.SetActive(false);
-                        maintenanceCam.SetActive(false);
                         break;
                     }
                 case 2: // 지역 확대가 풀리는 상태
@@ -209,20 +201,6 @@ namespace JinWon
                 mapUI.RegionBtnInteractable(true);
                 //mapUI.RegionInit();
                 mapUI.SelectMove = true;
-                selectStep = 1;
-                Invoke("MoveBtnTrue", 2.0f);
-            }
-        }
-
-        private bool maintenanceMove;
-
-        public void MaintenanceMove()
-        {
-            if(maintenanceMove)
-            {
-                MoveBtnFalse();
-                calendarCam.SetActive(false);
-                maintenanceCam.SetActive(true);
                 selectStep = 1;
                 Invoke("MoveBtnTrue", 2.0f);
             }

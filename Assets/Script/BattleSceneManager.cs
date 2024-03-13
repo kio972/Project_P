@@ -21,9 +21,6 @@ namespace YeongJun
         private List<MonsterManager> monsterGroup;
         private ControllerManager controllerManager;
 
-<<<<<<< HEAD
-        private CharChangeScript charChangeScript;
-=======
         [SerializeField]
         private int stage;
 
@@ -38,7 +35,6 @@ namespace YeongJun
         private List<StagePortal> stagePotal = new List<StagePortal>(); // 0은 왼쪽 1은 오른쪽
 
         private Revealer revealer;
->>>>>>> Jun
 
         private void Awake()
         {
@@ -87,40 +83,9 @@ namespace YeongJun
             // 원래는 켜있어야 함.
             if (controllerManager != null)
                 controllerManager.Init();
-<<<<<<< HEAD
-            charChangeScript = FindObjectOfType<CharChangeScript>();
-            if (charChangeScript != null && controllerManager != null)
-                CharChangeScriptInit();
-        }
-
-        private string controller;
-
-        private void CharChangeScriptInit()
-        {
-            controller = GameManager.Inst.PlayerInfo.controller;
-            switch(controller)
-            {
-                case "Warrior":
-                    {
-                        charChangeScript.Init(controllerManager.controllerList[0], controllerManager.controllerList[1], controllerManager.controllerList[2], this);
-                        break;
-                    }
-                case "Priest":
-                    {
-                        charChangeScript.Init(controllerManager.controllerList[1], controllerManager.controllerList[2], controllerManager.controllerList[0], this);
-                        break;
-                    }
-                case "Archer":
-                    {
-                        charChangeScript.Init(controllerManager.controllerList[2], controllerManager.controllerList[0], controllerManager.controllerList[1], this);
-                        break;
-                    }
-            }
-=======
             /*CharChangeScript charChangeScript = FindObjectOfType<CharChangeScript>();
             if (charChangeScript != null && controllerManager != null)
                 charChangeScript.Init(controllerManager.controllerList[0], controllerManager.controllerList[1], controllerManager.controllerList[2], this);*/
->>>>>>> Jun
         }
 
         private void MonsterGroupInit()
