@@ -19,7 +19,7 @@ namespace YeongJun
         public void Init()
         {
             count = 1;
-            if (inventory.state == InvenState.unequip || inventory.state == InvenState.fill)
+            if (inventory.state == InvenState.unequip)
             {
                 switch (inventory.pocketNum)
                 {
@@ -67,47 +67,14 @@ namespace YeongJun
                 inventory.RefreshSlot();
             }
             else if(inventory.state == InvenState.move)
-                inventory.SelectItem(InvenData.nItem[inventory.selectSlot.slotNumber], count);
+            {
+
+            }
             else if(inventory.state == InvenState.unequip)
             {
                 inventory.assistCount = slotNumber;
                 inventory.EquipItem(count);
                 inventory.RefreshSlot();
-            }
-            else if (inventory.state == InvenState.fill)
-            {
-                switch (inventory.pocketNum)
-                {
-                    case 0:
-                        InvenData.Pocket1[0].count += count;
-                        break;
-                    case 1:
-                        InvenData.Pocket1[1].count += count;
-                        break;
-                    case 2:
-                        InvenData.Pocket2[0].count += count;
-                        break;
-                    case 3:
-                        InvenData.Pocket2[1].count += count;
-                        break;
-                    case 4:
-                        InvenData.Pocket3[0].count += count;
-                        break;
-                    case 5:
-                        InvenData.Pocket3[1].count += count;
-                        break;
-                }
-                InvenData.nItem[inventory.selectSlot.slotNumber].count -= count;
-                inventory.RefreshSlot();
-                inventory.RefreshPocket();
-                inventory.Main();
-            }
-            else if(inventory.state == InvenState.drop)
-            {
-                InvenData.nItem[inventory.selectSlot.slotNumber].count -= count;
-                inventory.itemPool.DropItem(InvenData.nItem[inventory.selectSlot.slotNumber], count);
-                inventory.RefreshSlot();
-                inventory.Main();
             }
             gameObject.SetActive(false);
         }
@@ -116,7 +83,7 @@ namespace YeongJun
         {
             count = 1;
             gameObject.SetActive(false);
-            inventory.Main();
+            inventory.state = InvenState.main;
         }
 
         public void Plus()

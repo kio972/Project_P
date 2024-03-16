@@ -43,12 +43,14 @@ namespace JinWon
         #region 메인메뉴 Button_Click함수
         public void Continue_Click()
         {
+            SoundManager.Inst.PlaySFX("Click_on");
             Debug.Log("아직 구현 안됐습니다!!");
             // 저장된 곳으로 가야 함! 현재 플레이 데이터가 없는 경우는 표시하지 않아야 함!
         }
 
         public void Refresh_Click()
         {
+            SoundManager.Inst.PlaySFX("Click_on");
             for (int i = 0; i < buttonList.Count; i++)
             {
                 buttonList[i].SetActive(false);
@@ -66,15 +68,17 @@ namespace JinWon
 
         public void DataSelection_Click()
         {
-            for (int i = 0; i < buttonList.Count; i++)
+            SoundManager.Inst.PlaySFX("Click_off");
+            /*for (int i = 0; i < buttonList.Count; i++)
             {
                 buttonList[i].SetActive(false);
             }
-            dataChoiceUI.SetActive(true);
+            dataChoiceUI.SetActive(true);*/
         }
 
         public void Option_Click()
         {
+            SoundManager.Inst.PlaySFX("Click_off");
             Debug.Log("아직 구현 안됐습니다!!");
             // 게임의 시스템 옵션을 변경! 추후 추가될 예정.
         }
@@ -83,17 +87,20 @@ namespace JinWon
         #region 데이터 초이스 UI
         public void DataButton_Click(int num) // 데이터 정보를 띄움
         {
+            SoundManager.Inst.PlaySFX("Click_on");
             // 텍스트들을 수정시키고 띄어야 함!!
             dataInfoUI.SetActive(true);
         }
 
         public void Goback_Click()
         {
+            SoundManager.Inst.PlaySFX("Click_on");
             DataInit();
         }
 
         public void Delete_Click()
         {
+            SoundManager.Inst.PlaySFX("Click_on");
             dataChoiceUI.SetActive(false);
             dataInfoUI.SetActive(false);
             deleteUI.SetActive(true);
@@ -108,11 +115,14 @@ namespace JinWon
 
         public void NextScene()
         {
+            SoundManager.Inst.PlaySFX("Click_on");
+            //GameManager.Inst.AsyncLoadNextScene("Forest3");
             GameManager.Inst.AsyncLoadNextScene("CalendarScene");
         }
 
         public void Cancel_Click()
         {
+            SoundManager.Inst.PlaySFX("Click_on");
             dataInfoUI.SetActive(false);
         }
         #endregion

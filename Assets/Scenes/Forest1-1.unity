@@ -5311,7 +5311,7 @@ GameObject:
   - component: {fileID: 1528644414}
   - component: {fileID: 1528644417}
   - component: {fileID: 1528644416}
-  - component: {fileID: 1528644418}
+  - component: {fileID: 1528644415}
   m_Layer: 3
   m_Name: Archer
   m_TagString: Player
@@ -5336,6 +5336,34 @@ Transform:
   - {fileID: 1557520553}
   m_Father: {fileID: 1794778058}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1528644415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1528644413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d4085d64053bed4d8555ffd9f2d6edf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerType: 2
+  controllerManager: {fileID: 0}
+  basicAttackAI: 0
+  anim: {fileID: 0}
+  maxHP: 0
+  currHP: 0
+  basicAttackCool: 0
+  rb: {fileID: 0}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  jumpPower: 3
+  attackPivot: {fileID: 0}
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!95 &1528644416
 Animator:
   serializedVersion: 5
@@ -5409,34 +5437,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1528644418
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1528644413}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ccce17f6fe9e2c848bae4ce79ef24913, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerType: 2
-  controllerManager: {fileID: 0}
-  basicAttackAI: 0
-  anim: {fileID: 0}
-  maxHP: 0
-  currHP: 0
-  basicAttackCool: 0
-  rb: {fileID: 0}
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  jumpPower: 0
-  attackPivot: {fileID: 0}
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!1 &1537532666
 GameObject:
   m_ObjectHideFlags: 0
@@ -5752,7 +5752,7 @@ GameObject:
   - component: {fileID: 1593893972}
   - component: {fileID: 1593893975}
   - component: {fileID: 1593893974}
-  - component: {fileID: 1593893976}
+  - component: {fileID: 1593893973}
   m_Layer: 3
   m_Name: Warrior
   m_TagString: Player
@@ -5777,6 +5777,34 @@ Transform:
   - {fileID: 425287327}
   m_Father: {fileID: 1683972114}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1593893973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1593893971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b54723952ec1334c8035e079ef7c044, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerType: 0
+  controllerManager: {fileID: 0}
+  basicAttackAI: 0
+  anim: {fileID: 0}
+  maxHP: 0
+  currHP: 0
+  basicAttackCool: 0
+  rb: {fileID: 0}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  jumpPower: 7
+  attackPivot: {fileID: 0}
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!95 &1593893974
 Animator:
   serializedVersion: 5
@@ -5850,34 +5878,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1593893976
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1593893971}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a4f19449ceeb444c96c96a264672aea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerType: 0
-  controllerManager: {fileID: 0}
-  basicAttackAI: 0
-  anim: {fileID: 0}
-  maxHP: 0
-  currHP: 0
-  basicAttackCool: 0
-  rb: {fileID: 0}
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  jumpPower: 0
-  attackPivot: {fileID: 0}
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!1 &1601822295
 GameObject:
   m_ObjectHideFlags: 0
@@ -7242,7 +7242,7 @@ GameObject:
   - component: {fileID: 1884631522}
   - component: {fileID: 1884631525}
   - component: {fileID: 1884631524}
-  - component: {fileID: 1884631526}
+  - component: {fileID: 1884631523}
   m_Layer: 3
   m_Name: Priest
   m_TagString: Player
@@ -7267,6 +7267,34 @@ Transform:
   - {fileID: 1459389450}
   m_Father: {fileID: 1857813947}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1884631523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1884631521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb9138444fd053442acf5903d539dc89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerType: 1
+  controllerManager: {fileID: 0}
+  basicAttackAI: 0
+  anim: {fileID: 0}
+  maxHP: 0
+  currHP: 0
+  basicAttackCool: 0
+  rb: {fileID: 0}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  jumpPower: 7
+  attackPivot: {fileID: 0}
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!95 &1884631524
 Animator:
   serializedVersion: 5
@@ -7340,34 +7368,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1884631526
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1884631521}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f85b4b1cd56a7254698c674ae97fc97b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerType: 1
-  controllerManager: {fileID: 0}
-  basicAttackAI: 0
-  anim: {fileID: 0}
-  maxHP: 0
-  currHP: 0
-  basicAttackCool: 0
-  rb: {fileID: 0}
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  jumpPower: 0
-  attackPivot: {fileID: 0}
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!1001 &1916429362
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7379,17 +7379,17 @@ PrefabInstance:
     - target: {fileID: 1529925073837344930, guid: 9236a99bcea5fab40a7f84d27062cdb6,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1529925073837344930, guid: 9236a99bcea5fab40a7f84d27062cdb6,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1529925073837344930, guid: 9236a99bcea5fab40a7f84d27062cdb6,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1949338258277236715, guid: 9236a99bcea5fab40a7f84d27062cdb6,
         type: 3}

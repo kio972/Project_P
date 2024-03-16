@@ -187,7 +187,7 @@ namespace YeongJun
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            if (inventory.state == InvenState.main && inventory.pocketItem != null)
+            if (inventory.state == InvenState.main)
                 inventory.EquipMenu();
             else if (inventory.state == InvenState.equip)
                 inventory.SelectPocket(pocketNumber);

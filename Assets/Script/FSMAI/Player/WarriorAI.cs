@@ -15,9 +15,11 @@ public class WarriorAI : Controller
             attackPivot = t.GetComponent<DrawGizmo>();
     }
 
+    private int basicDamage;
+
     public void BasicAttack()
     {
-
+        basicDamage = Random.Range(14, 19);
         Collider2D[] enemyArr =
             Physics2D.OverlapBoxAll(attackPivot.transform.position,
                                  attackPivot.size,
@@ -28,7 +30,7 @@ public class WarriorAI : Controller
         {
             if (enemy.TryGetComponent<MonController>(out MonController monController))
             {
-                monController.TakeDamage(18, transform);
+                monController.TakeDamage(basicDamage, transform);
             }
         }
     }

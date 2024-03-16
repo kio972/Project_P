@@ -12,13 +12,27 @@ public class Revealer : InteractObject
     [SerializeField]
     private int region;
 
+    [SerializeField]
+    private bool potalOpen;
+
+    public void PortalOpen()
+    {
+        potalOpen = true;
+    }
+
     public override void Interaction()
     {
-        GameManager.Inst.CalendarProd = true;
-        GameManager.Inst.CalendarProdRegion = region;
-        GameManager.Inst.CalendarProdCloud = stage;
+        if(potalOpen)
+        {
+            GameManager.Inst.StageClear(3);
+            SoundManager.Inst.PlaySFX("PotalWarp");
 
-        GameManager.Inst.AsyncLoadNextScene(SceneName.CalendarScene);
+            GameManager.Inst.CalendarProd = true;
+            GameManager.Inst.CalendarProdRegion = region;
+            GameManager.Inst.CalendarProdCloud = stage;
+
+            GameManager.Inst.AsyncLoadNextScene(SceneName.CalendarScene);
+        }
     }
 
     private void SetHighLight(bool value)
@@ -31,7 +45,10 @@ public class Revealer : InteractObject
 
     protected override void Update()
     {
-        base.Update();
-        SetHighLight(interactable);
+        if(potalOpen)
+        {
+            base.Update();
+            SetHighLight(interactable);
+        }
     }
 }

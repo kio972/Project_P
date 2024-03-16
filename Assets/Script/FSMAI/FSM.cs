@@ -20,7 +20,7 @@ public class FSM<T> : MonoBehaviour
     public CharState<T> CurState { get { return curState; } }
     public CharState<T> PrevState { get { return prevState; } }
 
-    protected void InitState(T owner, CharState<T> initState) // 스테이트 초기화
+    protected void InitState(T owner, CharState<T> initState)
     {
         this.owner = owner;
         ChangeState(initState);
@@ -32,20 +32,20 @@ public class FSM<T> : MonoBehaviour
             return;
 
         if (curState != null)
-            curState.Excute(owner); // 상태를 유지하고 있을때 호출되고있는 함수
+            curState.Excute(owner);
     }
 
-    public void ChangeState(CharState<T> nextState) // 상태를 변경하는 함수
+    public void ChangeState(CharState<T> nextState) // 상태 변경
     {
         if (owner == null)
             return;
 
         prevState = curState;
-        if (prevState != null) 
-            prevState.Exit(owner); // 기존의 상태를 나갈때 호출하는 함수
+        if (prevState != null)
+            prevState.Exit(owner);
         curState = nextState;
         if (curState != null)
-            curState.Enter(owner); // 새로운 상태에 들어올때 호출하는 함수
+            curState.Enter(owner);
     }
 
     public void RevertState()

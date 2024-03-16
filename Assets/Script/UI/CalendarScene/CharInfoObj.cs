@@ -38,12 +38,6 @@ public class CharInfoObj : MonoBehaviour
     [SerializeField]
     private CharCard selectCard;
 
-    [SerializeField]
-    private GameObject leftUI;
-
-    [SerializeField]
-    private GameObject partyAddBtn;
-
     private void Awake() // 임시코드 / 나중에 Manager스크립트에서 호출하도록 변경!
     {
         Init();
@@ -51,24 +45,17 @@ public class CharInfoObj : MonoBehaviour
 
     public void Init() // 초기화
     {
-        BtnOnClick(0); // 특성을 기본으로 설정해 놓기
+        BtnScaleInit(0);
+        TextUIInit(0);
+        //BtnOnClick(0); // 특성을 기본으로 설정해 놓기
         //SelectCardInfo();
     }
 
     public void BtnOnClick(int whatBtn) // 탭을 클릭했을때.
     {
+        SoundManager.Inst.PlaySFX("Click_on");
         BtnScaleInit(whatBtn);
         TextUIInit(whatBtn);
-        if (whatBtn == 0)
-        {
-            leftUI.SetActive(true);
-            partyAddBtn.SetActive(true);
-        }
-        else
-        {
-            leftUI.SetActive(false);
-            partyAddBtn.SetActive(false);
-        }
     }
 
     private Vector3 btnScale = new Vector3(0.8f, 0.8f, 1f);
@@ -138,8 +125,6 @@ public class CharInfoObj : MonoBehaviour
             }
         }
     }
-
-    // 스킬 + 장비 UI 변경할 함수 추가 예정
 
     public void CharImgSetting(int num)
     {

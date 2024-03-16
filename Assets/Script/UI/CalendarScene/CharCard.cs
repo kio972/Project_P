@@ -93,7 +93,6 @@ public class CharCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
                     charMP = playerInfo.MP;
                     hiddenList.Add(playerInfo.hidden1);
                     hiddenList.Add(playerInfo.hidden2);
-                    // 스킬 정보까지 넣기
                     break;
                 }
             case PlayerType.Priest:
@@ -112,7 +111,6 @@ public class CharCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
                     charMP = playerInfo.MP;
                     hiddenList.Add(playerInfo.hidden1);
                     hiddenList.Add(playerInfo.hidden2);
-                    // 스킬 정보까지 넣기
                     break;
                 }
             case PlayerType.Archer:
@@ -131,7 +129,6 @@ public class CharCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
                     charMP = playerInfo.MP;
                     hiddenList.Add(playerInfo.hidden1);
                     hiddenList.Add(playerInfo.hidden2);
-                    // 스킬 정보까지 넣기
                     break;
                 }
         }
@@ -167,4 +164,5 @@ public class CharCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         if(init)
             root.transform.SendMessageUpwards("EndDrag", transform, SendMessageOptions.DontRequireReceiver);
     }
+
 }

@@ -50,11 +50,11 @@ public class DrawGizmo : MonoBehaviour
                     {
                         if (targetName == "Player")
                             monController.BasicTarget = true;
-                        else if (targetName == "Monster")
+                        /*else if (targetName == "Monster")
                         {
                             controller.basicAttackAI = true;
                             controller.RunAnim(false);
-                        }
+                        }*/
                             
                             
                         break;
@@ -62,7 +62,7 @@ public class DrawGizmo : MonoBehaviour
             }
         }
 
-        if (collision.CompareTag(sameName))
+        /*if (collision.CompareTag(sameName))
         {
             if (targetName == "Player")
                 monController.Same = true;
@@ -70,8 +70,8 @@ public class DrawGizmo : MonoBehaviour
             {
                 controller.Same = true;
             }
-                
-        }
+
+        }*/
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -84,11 +84,11 @@ public class DrawGizmo : MonoBehaviour
                     {
                         if(targetName == "Player")
                             monController.BasicTarget = false;
-                        else if (targetName == "Monster")
+                        /*else if (targetName == "Monster")
                         {
                             controller.RunAnim(true);
                             controller.basicAttackAI = false;
-                        }
+                        }*/
                             
 
                         break;
@@ -96,12 +96,12 @@ public class DrawGizmo : MonoBehaviour
             }
         }
 
-        if (collision.CompareTag(sameName))
+        /*if (collision.CompareTag(sameName))
         {
             if (targetName == "Player")
                 monController.Same = false;
             else if (targetName == "Monster")
                 controller.Same = false;
-        }
+        }*/
     }
 }

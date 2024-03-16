@@ -71,7 +71,7 @@ namespace YeongJun
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            if (inventory.state == InvenState.main || inventory.state == InvenState.moveItem)
+            if (inventory.state == InvenState.main)
             {
                 inventory.selectSlot = inventory.slots[slotNumber];
                 inventory.EnterSlot(slotNumber);
@@ -82,8 +82,6 @@ namespace YeongJun
         {
             if (inventory.state == InvenState.main)
                 inventory.SelectItem(slotNumber);
-            else if (inventory.state == InvenState.moveItem)
-                inventory.MoveItem();
         }
     }
 }

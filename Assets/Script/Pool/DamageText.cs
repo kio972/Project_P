@@ -34,19 +34,19 @@ public class DamageText : MonoBehaviour, IPoolObject
         transform.Translate(transform.up * Time.deltaTime * 2f);
     }
 
-    public void OnCreatedInPool() // 처음 생성됐을 때
+    public void OnCreatedInPool()
     {
         Init();
     }
 
-    public void OnGettingFromPool() // 사용 될 때 
+    public void OnGettingFromPool()
     {
 
         //MoveText();
         Invoke("Return", 1f);
     }
 
-    public void Return() // 오브젝트 끄기
+    public void Return()
     {
         spawn.ReturnDamageText(this);
     }
