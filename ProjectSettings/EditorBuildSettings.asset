@@ -15,12 +15,24 @@ EditorBuildSettings:
     path: Assets/Scenes/BattleScene/Castle/Castle1.unity
     guid: a1c0cace9be3e0e469de324dccd7a25e
   - enabled: 1
-    path: Assets/Scenes/Forest1-1.unity
+    path: Assets/Scenes/Forest1.unity
+    guid: 303a12762aab50f4bbab381c0f9bda1a
+  - enabled: 1
+    path: Assets/Scenes/Forest2.unity
+    guid: e5ba481ecd04a2544aa8872a352c1217
+  - enabled: 1
+    path: Assets/Scenes/Forest3.unity
+    guid: 731d2620d57db194e840ab5762441db6
+  - enabled: 1
+    path: Assets/Scenes/Forest1_1.unity
     guid: e6b5f5a92405caa4ebc4f9300b3b12d2
   - enabled: 1
     path: Assets/Scenes/Forest1-2.unity
     guid: 6f75db3b6c59ee44aa72dfab9b9bb08d
   - enabled: 1
-    path: Assets/Scenes/Forest1.unity
+    path: Assets/Scenes/Forest1-3.unity
     guid: a146afc1813368c4d8fa32457eb8d082
+  - enabled: 1
+    path: Assets/Scenes/TownScene.unity
+    guid: 32905c6d90ead544aa02c86a349848aa
   m_configObjects: {}

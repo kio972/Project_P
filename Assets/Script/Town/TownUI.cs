@@ -18,6 +18,8 @@ public class TownUI : MonoBehaviour
     [SerializeField] private SimpleCalender simpleCalender;
     [SerializeField] private EndBtn endBtn;
     [SerializeField] private SelectBuilding selectBuilding; // 선택된 건물 UI
+    [SerializeField] private GameObject interaction; // 건물과 상호작용 시 UI
+    [SerializeField] private Text interText;
 
     [Header("EditCanvas")]
     [SerializeField] private Edit editCanvas;
@@ -53,6 +55,22 @@ public class TownUI : MonoBehaviour
         selectBuilding.gameObject.SetActive(true);
         selectBuilding.transform.GetChild(0).GetComponent<Image>().sprite = sb.image;
         selectBuilding.transform.GetChild(2).GetComponent<Text>().text = sb.name;
+    }
+
+    public void EnterBuilding()
+    {
+        interaction.SetActive(true);
+        interText.text = townManager.selectedBuilding.name;
+    }
+
+    public void ExitBuilding()
+    {
+        interaction.SetActive(false);
+    }
+
+    public void InteractionBuilding()
+    {
+        OpenSelectBuilding(townManager.selectedBuilding);
     }
     #endregion
 

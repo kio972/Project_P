@@ -21,14 +21,14 @@ namespace YeongJun
             itemInfo.type = _item.type;
             itemInfo.grade = _item.grade;
             GetComponent<SpriteRenderer>().sprite = itemInfo.iconImg;
-            for (int i = 0; i < inventory.player.Length; i++)
+            /*for (int i = 0; i < inventory.player.Length; i++)
             {
                 if (inventory.player[i].ControllMode)
                 {
                     transform.position = inventory.player[i].transform.position;
                     break;
                 }
-            }
+            }*/
         }
 
         private void OnTriggerStay2D(Collider2D collision)

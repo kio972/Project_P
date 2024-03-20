@@ -15,6 +15,6 @@ public class ObjHighlight : MonoBehaviour, IPointerEnterHandler
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
-        calendarScene.RefreshHighlight(this);
+        //calendarScene.RefreshHighlight(this);
     }
 }

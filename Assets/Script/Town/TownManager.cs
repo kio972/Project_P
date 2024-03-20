@@ -10,7 +10,7 @@ public class TownManager : MonoBehaviour
     public Building selectedBuilding; // 선택한 건물
 
     public Building[] building; // 설치될 건물
-    public Building[] buildingOrder = new Building[11]; // 건물 설치 순서
+    public Building[] buildingOrder = new Building[11]; // 건물이 설치된 위치
     public GameObject[] buildPlace = new GameObject[11]; // 건물이 설치될 장소
     public GameObject[] sign = new GameObject[11]; // 빈 공간에 세울 표지판
     public bool[] isBuild = new bool[11]; // 장소별 건설 가능 여부
