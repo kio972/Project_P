@@ -13,9 +13,13 @@ public class FSMStateEx : FSMSingleton<FSMStateEx>, CharState<Controller>
     public void Excute(Controller e) //FSMUpdate함수가 호출될 경우 실행되는 함수
     {
         e.Movement(); // 이동
-        if (Input.GetKeyDown(KeyCode.X) && e.basicAttackCool && e.isGround)
+        if (Input.GetKeyDown(KeyCode.X) && e.basicAttackCool) // && e.isGround
         {
-            e.BasicAttackAnim(); // 공격
+            if (e.isGround)
+                e.BasicAttackAnim(); // 공격
+            else
+                e.JumpAttackAnim(); // 점프 공격
+
         }
     }
 

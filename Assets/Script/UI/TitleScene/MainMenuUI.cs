@@ -116,8 +116,8 @@ namespace JinWon
         public void NextScene()
         {
             SoundManager.Inst.PlaySFX("Click_on");
-            //GameManager.Inst.AsyncLoadNextScene("Forest3");
-            GameManager.Inst.AsyncLoadNextScene("CalendarScene");
+            GameManager.Inst.AsyncLoadNextScene("Forest1");
+            //GameManager.Inst.AsyncLoadNextScene("CalendarScene");
         }
 
         public void Cancel_Click()

@@ -100,6 +100,7 @@ public class Controller : FSM<Controller>
     }
 
     public bool isGround;
+    private bool jumpAttack;
 
     [SerializeField]
     private List<MonsterManager> msm = new List<MonsterManager>();
@@ -204,19 +205,27 @@ public class Controller : FSM<Controller>
             //isJump = Physics2D.OverlapCircle(jumpCheck.position, 0.1f, groundLayer);
 
             if (Input.GetKeyDown(KeyCode.C))
-            {    
-                if (isGround)
+            {
+                /*if (isGround)
                 {
                     SoundManager.Inst.PlaySFX("Warrior_Jump");
                     jump = Vector2.up * jumpPower;
                     rb.velocity = jump;
-                }
+                }*/
+
+                SoundManager.Inst.PlaySFX("Warrior_Jump");
+                jump = Vector2.up * jumpPower;
+                rb.velocity = jump;
             }
 
-            if (!isGround && !onDie && !isDashing)
-                anim.SetBool("Jump", true);
-            else
-                anim.SetBool("Jump", false);
+            if(!jumpAttack)
+            {
+                if (!isGround && !onDie && !isDashing)
+                    anim.SetBool("Jump", true);
+                else
+                    anim.SetBool("Jump", false);
+            }
+            
 
             /*x = Input.GetAxisRaw("Horizontal");
             y = Input.GetAxisRaw("Vertical");
@@ -271,6 +280,17 @@ public class Controller : FSM<Controller>
         StartCoroutine(CoolTimeBasic(1.0f));
     }
 
+    public void JumpAttackAnim()
+    {
+        anim.SetBool("Jump", false);
+        jumpAttack = true;
+        isMove = false;
+        basicAttackCool = false;
+        anim.SetTrigger("BasicAttack");
+        StartCoroutine(CoolTimeMove(0.8f));
+        StartCoroutine(CoolTimeJumpAttack(1.0f));
+    }
+
     IEnumerator CoolTimeMove(float cool)
     {
         direction.x = x * 0;
@@ -287,6 +307,15 @@ public class Controller : FSM<Controller>
         SoundManager.Inst.PlaySFX("Warrior_BasicAttack");
         yield return YieldInstructionCache.WaitForSeconds(cool - 0.3f);
         basicAttackCool = true;
+    }
+
+    IEnumerator CoolTimeJumpAttack(float cool)
+    {
+        yield return YieldInstructionCache.WaitForSeconds(0.3f);
+        SoundManager.Inst.PlaySFX("Warrior_BasicAttack");
+        yield return YieldInstructionCache.WaitForSeconds(cool - 0.3f);
+        basicAttackCool = true;
+        jumpAttack = false;
     }
 
     private bool onDie = false;
