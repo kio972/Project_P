@@ -156,6 +156,7 @@ public class TownUI : MonoBehaviour
         buildList.SetActive(false);
         btnMenu.SetActive(false);
         RefreshBuild();
+        buildCanvas.ChooseBuild(0);
         isControll = false;
     }
 

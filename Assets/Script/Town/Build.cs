@@ -55,6 +55,11 @@ public class Build : MonoBehaviour
             build.GetComponent<Image>().color = Color.gray;
             build.interactable = false; // 자원이 모자라면 건설버튼 비활성화
         }
+        if(townManager.building[0].isBuild && number == 0)
+        {
+            build.GetComponent<Image>().color = Color.gray;
+            build.interactable = false;
+        }
     }
 
     void Update()
