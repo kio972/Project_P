@@ -19,6 +19,7 @@ public class SystemUI : MonoBehaviour
     {
         LeanTween.scale(transform.gameObject, Vector3.one, 0.5f);
         yield return YieldInstructionCache.WaitForSeconds(2.0f);
+        GameManager.Inst.GameManagerInit();
         GameManager.Inst.AsyncLoadNextScene("TitleScene");
         //LeanTween.scale(transform.gameObject, Vector3.zero, 0.5f);
         //btnClick = false;

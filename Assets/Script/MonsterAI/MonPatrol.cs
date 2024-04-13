@@ -7,6 +7,7 @@ public class MonPatrol : FSMSingleton<MonPatrol>, CharState<MonController>
     public void Enter(MonController e)
     {
         e.AnimRun(true);
+        e.PatrolInit();
         Debug.Log("MonPatrol µé¾î¿È!");
     }
 

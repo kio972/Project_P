@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonsterManager : MonoBehaviour
+public class MonsterManager : MonoBehaviour 
 {
     private MonController[] monControllerArr;
 
@@ -14,6 +14,18 @@ public class MonsterManager : MonoBehaviour
     {
         MonsterManagerInit();   
     }*/
+
+    private YeongJun.BattleSceneManager battleSceneManager;
+
+    private void Awake()
+    {
+        battleSceneManager = GameObject.Find("BattleSceneManager").GetComponent<YeongJun.BattleSceneManager>();
+    }
+
+    public void MonsterDie()
+    {
+        battleSceneManager.PotalOpen();
+    }
 
     public void MonsterManagerInit()
     {
@@ -31,8 +43,17 @@ public class MonsterManager : MonoBehaviour
         {
             /*if (monster.CurState != MonIdle.Instance)
                 monster.ChangeState(MonIdle.Instance);*/
-            monster.gameObject.SetActive(false);
+            //monster.gameObject.SetActive(false);
+
+            /*if (monster.CurState == MonPatrol.Instance)
+                monster.ChangeState(MonIdle.Instance);
+            else if(monster.CurState != MonPatrol.Instance)
+                monster.ChangeState(MonPatrol.Instance);*/
+
+            monster.Pause(true);
+            monster.ChangeState(MonIdle.Instance);
         }
+        
     }
 
     public void StartMonster()
@@ -41,8 +62,9 @@ public class MonsterManager : MonoBehaviour
         {
             if(!monster.Die)
             {
-                monster.gameObject.SetActive(true);
+                //monster.gameObject.SetActive(true);
                 //monster.Target = false;
+                monster.Pause(false);
                 if (monster.CurState == MonIdle.Instance)
                     monster.ChangeState(MonPatrol.Instance);
                 else if(monster.CurState != MonIdle.Instance)

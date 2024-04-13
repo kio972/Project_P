@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using JinWon;
+using TMPro;
+
 
 public enum SceneName
 {
@@ -20,7 +22,18 @@ public enum PlayerType
 
 public class PlayerData
 {
+    public Dictionary<int, bool> forestClear = new Dictionary<int, bool>();
+    public float currHP;
     // 저장할 플레이어 데이터
+
+    public string charactorVec; // 임시, 좌 우 어디로 스폰할지.
+
+    public int gold;
+    public int ston;
+
+    public float bgm;
+    public float sfx;
+    public List<string> sfxList;
 }
 
 public class WarriorInfo
@@ -34,7 +47,7 @@ public class WarriorInfo
     public int Vit = 15;
     public int Dex = 8;
     public int Luk = 7;
-    public string Info = "인간 (남) 전사";
+    public string Info = "전사";
     public string hidden1 = "단련된 몸 : 받는 데미지 감소";
     public string hidden2 = "깨달음 : 탐색 경험치 획득률 증가";
 }
@@ -103,6 +116,7 @@ namespace JinWon
         public PlayerData PlayerInfo
         {
             get { return pData; }
+            set { pData = value; }
         }
 
         private SceneName nextScene;
@@ -140,14 +154,60 @@ namespace JinWon
             SceneManager.LoadScene(strNextScene);
         }
 
+        public Texture2D cursorTexture;
+        public Vector2 hotspot = Vector2.zero;
+        public CursorMode cursorMode = CursorMode.Auto;
 
         void Start()
         {
             base.Awake();
+            GameManagerInit();
+        }
+
+        public void GameManagerInit()
+        {
             pData = new PlayerData();
             Fade_InOut(true, 3.0f);
             sceneLoad = false;
             Debug.Log("페이드 인");
+            Cursor.SetCursor(cursorTexture, hotspot, cursorMode);
+
+            PlayerDataInit();
+        }
+
+        public void PlayerDataInit()
+        {
+            pData.charactorVec = "Left";
+            pData.currHP = 220f;
+            pData.gold = pData.ston = 10;
+            SoundInit();
+
+            pData.forestClear.Clear();
+            // 포레스트 배틀씬 미클리어로 설정
+            for (int i = 1; i <= 3; i++)
+            {
+                pData.forestClear.Add(i, false);
+            }
+        }
+
+        private void SoundInit()
+        {
+            pData.bgm = 1f;
+            pData.sfx = 1f;
+            pData.sfxList = new List<string>
+            {
+                "Warrior_BasicAttack",
+                "Smash_TakeDamage",
+                "Warrior_Dash",
+                "Warrior_Jump",
+                "PotalWarp",
+                "Spear_Day_Sting",
+                "Spear_Sting_TakeDamage",
+                "Click_on",
+                "Click_off",
+                "Coin_Drop",
+                "Walk_1.4"
+            };
         }
 
         public void Fade_InOut(bool init, float time)
@@ -156,6 +216,27 @@ namespace JinWon
             fade.Fade_InOut(init, time);
         }
 
+        public void CharHPInit(float hp)
+        {
+            pData.currHP = hp;
+            Debug.Log("@@@@@@@@플레이어 체력 : " + pData.currHP);
+        }
+
+        public void StageClear(int stage)
+        {
+            if(pData.forestClear[stage] == false)
+                pData.forestClear[stage] = true;
+        }
+
+        public void CharactorVec(string vec)
+        {
+            if (vec == "Right")
+                pData.charactorVec = vec;
+            else if (vec == "Left")
+                pData.charactorVec = vec;
+            else
+                Debug.Log("스펠링이 틀렸는지 확인!!");
+        }
 
     }
 }
