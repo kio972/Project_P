@@ -24,8 +24,8 @@ public class Dialog : MonoBehaviour
 
     private void Start()
     {
-        SoundManager.Inst.ChangeBGM(BGM_Type.BGM_Guild);
-        GameManager.Inst.Fade_InOut(true, 3.0f);
+       //SoundManager.Inst.ChangeBGM(BGM_Type.BGM_Guild);
+       //GameManager.Inst.Fade_InOut(true, 3.0f);
         insideTable = Resources.Load<IS_DataTable>("IS_DataTable");
         dialogTable = Resources.Load<IS_DataTable>("IS_DataTable");
 
@@ -77,27 +77,27 @@ public class Dialog : MonoBehaviour
 
     private void OnClick_Btn1()
     {
-        SoundManager.Inst.PlaySFX("Click_off");
+        //SoundManager.Inst.PlaySFX("Click_off");
         //GameManager.Inst.AsyncLoadNextScene(SceneName.RunGame);
     }
 
     private void OnClick_Btn2()
     {
-        SoundManager.Inst.PlaySFX("Click_off");
+        //SoundManager.Inst.PlaySFX("Click_off");
     }
 
     private void OnClick_Btn3()
     {
-        SoundManager.Inst.PlaySFX("Click_off");
+        //SoundManager.Inst.PlaySFX("Click_off");
     }
     private void OnClick_Btn4()
     {
-        SoundManager.Inst.PlaySFX("Click_off");
+        //SoundManager.Inst.PlaySFX("Click_off");
     }
 
     private void OnClick_Btn5()
     {
-        SoundManager.Inst.PlaySFX("Click_on");
+        //SoundManager.Inst.PlaySFX("Click_on");
         num = Random.Range(0, 3);
         if (num == 0)
         {
@@ -116,7 +116,7 @@ public class Dialog : MonoBehaviour
     private void OnClick_Btn6()
     {
         // 종료 텍스트 띄우고 종료?
-        SoundManager.Inst.PlaySFX("Click_on");
+        //SoundManager.Inst.PlaySFX("Click_on");
         sysUI.SystemUiTitle();
         //GameManager.Inst.AsyncLoadNextScene("CalendarScene");
     }
