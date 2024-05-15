@@ -11,11 +11,13 @@ public class getResource
 
 public class Toast : MonoBehaviour
 {
-    private string basicText = " 획득";
+    private string getText = " 획득";
+    private string useText = " 사용";
     [SerializeField] private GameObject[] lists;
     [SerializeField] private Image[] images; // 각 리스트의 이미지
     [SerializeField] private Text[] texts; // 각 리스트의 텍스트
     [SerializeField] private Sprite[] sprites; // 자원 이미지
+    [SerializeField] private Animation[] animations;
     private Queue<getResource> queue = new Queue<getResource>();
     private getResource temp;
 
@@ -25,18 +27,31 @@ public class Toast : MonoBehaviour
         Refresh();
     }
 
+    public void UseResource(int type, int value)
+    {// 자원 소모 및 획득시 토스트 메세지 출력
+        PushQueue(type, value);
+        Refresh();
+    }
+
     public void PushQueue(int type, int value)
     {// 토스트 메세지 정보를 큐에 저장
-        temp = new getResource();
-        temp.type = type;
-        temp.value = value;
-        queue.Enqueue(temp);
+        if (value != 0)
+        {
+            temp = new getResource();
+            temp.type = type;
+            temp.value = value;
+            queue.Enqueue(temp);
+        }
     }
 
     private void PopQueue(int number)
     {// 토스트 메세지 출력
         images[number].sprite = sprites[queue.Peek().type];
-        texts[number].text = queue.Dequeue().value.ToString() + basicText;
+        if (queue.Peek().value > 0)
+            texts[number].text = queue.Dequeue().value.ToString() + getText;
+        else
+            texts[number].text = Mathf.Abs(queue.Dequeue().value).ToString() + useText;
+        animations[number].Play();
     }
 
     private void SortList()

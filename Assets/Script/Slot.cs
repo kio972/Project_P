@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 
 namespace YeongJun
 {
-    public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler
+    public class Slot : MonoBehaviour, IPointerEnterHandler,IPointerExitHandler, IPointerClickHandler
     {
         public Inventory inventory;
         public int slotNumber; // ½½·Ô ¹øÈ£
@@ -21,51 +21,29 @@ namespace YeongJun
         }
 
         
-        public void Refresh(bool mode)
+        public void Refresh()
         {// ½½·Ô »õ·Î°íÄ§
-            if (mode)
+            if (InvenData.item[slotNumber] != null)
             {
-                if (InvenData.iItem[slotNumber] != null)
+                if (InvenData.item[slotNumber].count <= 0)
                 {
-                    if (InvenData.iItem[slotNumber].count <= 0)
-                    {
-                        InvenData.iItem[slotNumber] = null;
-                        itemImg.gameObject.SetActive(false);
-                        countText.gameObject.SetActive(false);
-                        return;
-                    }
-                    itemImg.gameObject.SetActive(true);
-                    countText.gameObject.SetActive(true);
-                    itemImg.sprite = InvenData.iItem[slotNumber].iconImg;
-                    countText.text = InvenData.iItem[slotNumber].count.ToString();
-                }
-                else
-                {
+                    InvenData.item[slotNumber] = null;
                     itemImg.gameObject.SetActive(false);
                     countText.gameObject.SetActive(false);
+                    return;
                 }
+                itemImg.gameObject.SetActive(true);
+                countText.gameObject.SetActive(true);
+                itemImg.sprite = InvenData.item[slotNumber].iconImg;
+                if (InvenData.item[slotNumber].count <= 1)
+                    countText.gameObject.SetActive(false);
+                else
+                    countText.text = InvenData.item[slotNumber].count.ToString();
             }
             else
             {
-                if (InvenData.nItem[slotNumber] != null)
-                {
-                    if (InvenData.nItem[slotNumber].count <= 0)
-                    {
-                        InvenData.nItem[slotNumber] = null;
-                        itemImg.gameObject.SetActive(false);
-                        countText.gameObject.SetActive(false);
-                        return;
-                    }
-                    itemImg.gameObject.SetActive(true);
-                    countText.gameObject.SetActive(true);
-                    itemImg.sprite = InvenData.nItem[slotNumber].iconImg;
-                    countText.text = InvenData.nItem[slotNumber].count.ToString();
-                }
-                else
-                {
-                    itemImg.gameObject.SetActive(false);
-                    countText.gameObject.SetActive(false);
-                }
+                itemImg.gameObject.SetActive(false);
+                countText.gameObject.SetActive(false);
             }
         }
 
@@ -75,13 +53,74 @@ namespace YeongJun
             {
                 inventory.selectSlot = inventory.slots[slotNumber];
                 inventory.EnterSlot(slotNumber);
+                if(InvenData.item[slotNumber] != null)
+                {
+                    inventory.OpenItemInfo(InvenData.item[slotNumber]);
+                }
             }
+            else if(inventory.state == InvenState.move2)
+            {
+                inventory.selectSlot = inventory.slots[slotNumber];
+                inventory.EnterSlot(slotNumber);
+            }
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            inventory.CloseItemInfo();
         }
 
         public void OnPointerClick(PointerEventData eventData)
         {
             if (inventory.state == InvenState.main)
                 inventory.SelectItem(slotNumber);
+            else if(inventory.state == InvenState.move2)
+            {
+                if(InvenData.item[slotNumber] == null)
+                {
+                    InvenData.item[slotNumber] = new Item();
+                    InvenData.item[slotNumber].uid = inventory.selectedItem.uid;
+                    InvenData.item[slotNumber].name = inventory.selectedItem.name;
+                    InvenData.item[slotNumber].type = inventory.selectedItem.type;
+                    InvenData.item[slotNumber].grade = inventory.selectedItem.grade;
+                    InvenData.item[slotNumber].detailsGrade = inventory.selectedItem.detailsGrade;
+                    InvenData.item[slotNumber].option = inventory.selectedItem.option;
+                    InvenData.item[slotNumber].set = inventory.selectedItem.set;
+                    InvenData.item[slotNumber].explain = inventory.selectedItem.explain;
+                    InvenData.item[slotNumber].cooldown = inventory.selectedItem.cooldown;
+                    InvenData.item[slotNumber].iconImg = inventory.selectedItem.iconImg;
+                    InvenData.item[slotNumber].count = inventory.selectedItem.count;
+                    InvenData.item[slotNumber].maxCount = inventory.selectedItem.maxCount;
+                    inventory.moveItem.gameObject.SetActive(false);
+                    inventory.selectedItem = null;
+                    inventory.RefreshSlot();
+                    inventory.state = InvenState.main;
+                }
+                else
+                {
+                    if(InvenData.item[slotNumber].uid == inventory.selectedItem.uid)
+                    {
+                        if (InvenData.item[slotNumber].count + inventory.selectedItem.count > InvenData.item[slotNumber].maxCount)
+                        {
+                            inventory.selectedItem.count -= InvenData.item[slotNumber].maxCount - InvenData.item[slotNumber].count;
+                            InvenData.item[slotNumber].count = InvenData.item[slotNumber].maxCount;
+                            inventory.RefreshSlot();
+                        }
+                        else
+                        {
+                            InvenData.item[slotNumber].count += inventory.selectedItem.count;
+                            inventory.moveItem.gameObject.SetActive(false);
+                            inventory.selectedItem = null;
+                            inventory.RefreshSlot();
+                            inventory.state = InvenState.main;
+                        }
+                    }
+                    else
+                    {
+                        // ¾È ¹Ù²ñ
+                    }
+                }
+            }
         }
     }
 }

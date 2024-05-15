@@ -12,10 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cc3df05dfe827e469b862f84a59600c, type: 3}
   m_Name: TestItem3
   m_EditorClassIdentifier: 
-  uid: 200001
+  uid: 300001
   name: "\uC7AC\uB8CC"
-  iconImg: {fileID: 21300000, guid: 8665f7c630efe224fb399c4282f033db, type: 3}
-  count: 1
-  maxCount: 10
-  type: 2
+  type: 7
   grade: 0
+  detailsGrade: 0
+  option: 
+  set: 
+  explain: "\uADF8\uB0E5 \uC7AC\uB8CC"
+  cooldown: 0
+  iconImg: {fileID: 21300000, guid: ae4d2385dafdf6e43be742b1c2c787d7, type: 3}
+  count: 1
+  maxCount: 11

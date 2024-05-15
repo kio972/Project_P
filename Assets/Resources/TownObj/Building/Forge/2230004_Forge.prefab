@@ -105,8 +105,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 13.714565, y: 14.6197195, z: 11.279421}
-  m_Center: {x: 0, y: 0, z: 5.6082582}
+  m_Size: {x: 17, y: 17, z: 4}
+  m_Center: {x: 0, y: 0.3, z: 2}
 --- !u!54 &-987197054524119663
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -147,9 +147,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: "\uB300\uC7A5\uAC04"
-  image: {fileID: 21300000, guid: 8fc63dbfe8bec6e408d16a95b21f6b9e, type: 3}
+  image: {fileID: 21300000, guid: 49a75614b1c16434da6f7c4df6a6cdb0, type: 3}
   level: 1
-  needResource: 0
-  explan: 
+  needManaStone: 0
+  needGold: 0
+  explan: "\uB300\uC7A5\uAC04 \uC785\uB2C8\uB2E4."
   isBuild: 0
   placeNum: 4

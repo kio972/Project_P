@@ -252,6 +252,8 @@ public class TownUI : MonoBehaviour
         SoundManager.Inst.PlaySFX("Click_on");
         GameManager.Inst.PlayerInfo.gold -= townManager.selectedBuilding.needGold;
         GameManager.Inst.PlayerInfo.ston -= townManager.selectedBuilding.needManaStone;
+        toast.UseResource(0, townManager.selectedBuilding.needGold);
+        toast.UseResource(1, townManager.selectedBuilding.needManaStone);
         resource.Refresh();
         townManager.BuildBuilding(townManager.selectedBuilding, placeNum);
         buildCanvas.gameObject.SetActive(false);

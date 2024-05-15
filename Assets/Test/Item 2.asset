@@ -10,12 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cc3df05dfe827e469b862f84a59600c, type: 3}
-  m_Name: TestItem4
+  m_Name: Item 2
   m_EditorClassIdentifier: 
-  uid: 400001
-  name: "\uC911\uC694"
-  iconImg: {fileID: 21300000, guid: 352581b6d421f7a45b92720fde5022d8, type: 3}
+  uid: 4120001
+  name: "\uB179\uC2A8 \uCCA0 \uD22C\uAD6C"
+  type: 1
+  grade: 1
+  detailsGrade: 1
+  option: STR + 1
+  set: "\uAE30\uBCF8 \uC138\uD2B8"
+  explain: 
+  cooldown: 0
+  iconImg: {fileID: 21300000, guid: fa8fcabc731aba2459da0c824dfcb50b, type: 3}
   count: 1
-  maxCount: 10
-  type: 3
-  grade: 0
+  maxCount: 1
