@@ -26,4 +26,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Forest1.unity
     guid: 303a12762aab50f4bbab381c0f9bda1a
+  - enabled: 1
+    path: Assets/Scenes/Forge.unity
+    guid: bac9dfd062782134e94f569c70db4b6e
+  - enabled: 1
+    path: Assets/Scenes/MiniGame/UpGame.unity
+    guid: bd63a90951fb01d4b87781ab9b485f74
   m_configObjects: {}

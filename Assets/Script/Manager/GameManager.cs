@@ -10,6 +10,9 @@ public enum SceneName
 {
     TitleScene,
     CalendarScene,
+    UpGame,
+    RunGame,
+    Forge,
     LoadingScene, // юс╫ц
 }
 

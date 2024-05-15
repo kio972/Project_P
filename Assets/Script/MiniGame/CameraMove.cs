@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class CameraMove : MonoBehaviour
 {
-    [SerializeField] private Transform target;
-    [SerializeField] private Vector3 offset = new Vector3(0, 1, -10);
+    [SerializeField]
+    private Transform target;
+    private float zOffset = -10f; // Z축의 고정된 오프셋
 
     private void Awake()
     {
@@ -14,6 +15,8 @@ public class CameraMove : MonoBehaviour
 
     private void Update()
     {
-        transform.position = new Vector3(target.position.x + offset.x, target.position.y + offset.y, target.position.z + offset.z);
+        // 카메라의 위치를 설정
+        Vector3 newPosition = new Vector3(0f, target.position.y, zOffset);
+        transform.position = newPosition;
     }
 }
