@@ -43,7 +43,7 @@ public class Build : MonoBehaviour
         townUI.SelectBuilding(townManager.building[number]);
         BI.sprite = townManager.building[number].image;
         NRGold.text = GameManager.Inst.PlayerInfo.gold.ToString() + " / " + townManager.building[number].needGold.ToString();
-        NRMana.text = GameManager.Inst.PlayerInfo.gold.ToString() + " / " + townManager.building[number].needManaStone.ToString();
+        NRMana.text = GameManager.Inst.PlayerInfo.ston.ToString() + " / " + townManager.building[number].needManaStone.ToString();
         EX.text = townManager.building[number].explan;
         if (GameManager.Inst.PlayerInfo.gold >= townManager.building[number].needGold && GameManager.Inst.PlayerInfo.ston >= townManager.building[number].needManaStone)
         {
@@ -54,6 +54,11 @@ public class Build : MonoBehaviour
         {
             build.GetComponent<Image>().color = Color.gray;
             build.interactable = false; // 자원이 모자라면 건설버튼 비활성화
+        }
+        if(townManager.building[0].isBuild && number == 0)
+        {
+            build.GetComponent<Image>().color = Color.gray;
+            build.interactable = false;
         }
     }
 

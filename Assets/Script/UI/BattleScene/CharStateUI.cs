@@ -19,6 +19,15 @@ public class CharStateUI : MonoBehaviour
         hpbar?.Init(controller);
     }
 
+    public void UseHP()
+    {
+        hpbar?.HandleHP();
+    }
+    public void UseMP()
+    {
+        hpbar?.HandleMP();
+    }
+
     public void SwapCharState(CharStateUI charStateUI)
     {
         //마크 스왑

@@ -9,7 +9,12 @@ namespace YeongJun
 {
     public class BattleSceneManager : MonoBehaviour
     {
-        
+
+        [SerializeField]
+        public Vector2 playerLeftPos;
+        [SerializeField]
+        public Vector2 playerRightPos;
+
         public int area = 0; // 맵의 구간번호
 
         [SerializeField]
@@ -28,8 +33,12 @@ namespace YeongJun
 
         private int monCount;
 
+        //탐색 스테이지
         [SerializeField]
-        private List<GameObject> monObjList = new List<GameObject>();
+        private int questCount;
+
+        [SerializeField]
+        private List<GameObject> monObjList = new List<GameObject>(); 
 
         [SerializeField]
         private List<StagePortal> stagePotal = new List<StagePortal>(); // 0은 왼쪽 1은 오른쪽
@@ -107,11 +116,33 @@ namespace YeongJun
             }
         }
 
+        [SerializeField]
+        private Transform player;
+
         private void ChangeCam(int number)
         {
             for (int i = 0; i < camGroup.transform.childCount; i++)
                 camGroup.transform.GetChild(i).gameObject.SetActive(false);
-            camGroup.transform.GetChild(number).gameObject.SetActive(true);
+            //camGroup.transform.GetChild(number).gameObject.SetActive(true);
+
+            if (player.transform.position.y >= 5f)
+            {
+                if(stage == 3 || stage == 8)
+                    camGroup.transform.GetChild(number + 4).gameObject.SetActive(true);
+                else
+                    camGroup.transform.GetChild(number + 3).gameObject.SetActive(true);
+                //Debug.Log("캠 넘버는 " + number);
+            }
+            else
+            {
+                camGroup.transform.GetChild(number).gameObject.SetActive(true);
+                /*if (number != 0)
+                    camGroup.transform.GetChild(number).gameObject.SetActive(true);
+                else
+                    camGroup.transform.GetChild(number).gameObject.SetActive(true);*/
+            }
+
+
         }
 
         public void SetBattleScene(int number)
@@ -119,7 +150,6 @@ namespace YeongJun
             if(!stageClear)
                 ChangeMonsterState(number);
             ChangeCam(number);
-
 
         }
 
@@ -138,17 +168,19 @@ namespace YeongJun
         public void PotalOpen() // 포탈이 열려야 하는지 체크 
         {
             monCount--;
-            if (monCount <= 0)
+            if (stage == 3 || stage == 8)
             {
-                if (stage == 3)
+                questCount--;
+                if(questCount <= 0)
                 {
                     revealer.PortalOpen();
                 }
-                else
-                {
-                    for (int i = 0; i < stagePotal.Count; i++)
-                        stagePotal[i].PotalOpen(true);
-                }   
+            }
+
+            if (monCount <= 0)
+            {
+                for (int i = 0; i < stagePotal.Count; i++)
+                    stagePotal[i].PotalOpen(true);
             }
         }
 

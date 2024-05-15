@@ -22,16 +22,21 @@ public class MonsterInfo
     public float Mospy_Bow_MP;
 }
 
-public class MonController : FSM<MonController>
+public abstract class MonController : FSM<MonController>
 {
     [SerializeField]
     private MonsterType monsterType;
 
     private MonsterInfo monsterInfo;
 
-    private Animator anim;
+    protected Animator anim;
 
-    Transform targetTrans;
+    protected Transform targetTrans;
+    public Transform TargetTrans
+    {
+        get { return targetTrans; }
+    }
+
     Rigidbody2D rb;
 
     [SerializeField]
@@ -67,8 +72,12 @@ public class MonController : FSM<MonController>
         set { same = value; }
     }
 
+    [SerializeField]
+    private bool moveType;
+    [SerializeField]
     private float patrolSpeed;
-    private float chaseSpeed;
+    [SerializeField]
+    protected float chaseSpeed;
     [SerializeField]
     private LayerMask targetLayer;
     private DrawGizmo basicPivot;
@@ -102,9 +111,10 @@ public class MonController : FSM<MonController>
     {
         MonStat();
         target = false;
-        currPoint = pointB.transform;
-        chaseSpeed = 2f;
-        patrolSpeed = 1f;
+        if(pointB != null)
+            currPoint = pointB.transform;
+        //chaseSpeed = 2f;
+        //patrolSpeed = 1f;
         basicAttackCool = true;
         basicTarget = false;
 
@@ -136,11 +146,14 @@ public class MonController : FSM<MonController>
 
     public void AnimRun(bool value)
     {
-        if (value)
-            chaseSpeed = 2f;
-        else
-            chaseSpeed = 0;
-        anim.SetBool("Run", value);
+        if(moveType)
+        {
+            if (value)
+                chaseSpeed = 2f;
+            else
+                chaseSpeed = 0;
+            anim.SetBool("Run", value);
+        }
     }
 
     public void PatrolState() // 경비상태로 바꾸는 함수
@@ -155,33 +168,34 @@ public class MonController : FSM<MonController>
 
     bool mark = false;
 
-    
-
     public void Patrol() // 경비상태
     {
-        if (!anim.GetBool("Run"))
-            anim.SetBool("Run", true);
-
-        if(!target)
+        if(pointA != null && pointB != null)
         {
-            if (currPoint == pointB.transform)
-                transform.position = Vector2.MoveTowards(transform.position, pointB.transform.position, patrolSpeed * Time.deltaTime);
-            else
-                transform.position = Vector2.MoveTowards(transform.position, pointA.transform.position, patrolSpeed * Time.deltaTime);
+            if (!anim.GetBool("Run"))
+                anim.SetBool("Run", true);
 
-            if (Vector2.Distance(transform.position, currPoint.position) < 0.5f && currPoint == pointB.transform)
+            if (!target)
             {
-                Flip();
-                currPoint = pointA.transform;
-                //transform.localScale = new Vector3(-1f, 0f, 0f);
+                if (currPoint == pointB.transform)
+                    transform.position = Vector2.MoveTowards(transform.position, pointB.transform.position, patrolSpeed * Time.deltaTime);
+                else
+                    transform.position = Vector2.MoveTowards(transform.position, pointA.transform.position, patrolSpeed * Time.deltaTime);
+
+                if (Vector2.Distance(transform.position, currPoint.position) < 0.5f && currPoint == pointB.transform)
+                {
+                    Flip();
+                    currPoint = pointA.transform;
+                    //transform.localScale = new Vector3(-1f, 0f, 0f);
+                }
+                if (Vector2.Distance(transform.position, currPoint.position) < 0.5f && currPoint == pointA.transform)
+                {
+                    Flip();
+                    currPoint = pointB.transform;
+                    //transform.LookAt(pointB.transform);
+                }
             }
-            if (Vector2.Distance(transform.position, currPoint.position) < 0.5f && currPoint == pointA.transform)
-            {
-                Flip();
-                currPoint = pointB.transform;
-                //transform.LookAt(pointB.transform);
-            }
-        } 
+        }
 
         if (target) // 플레이어가 MonScan범위안에 들어오면 쫒아가는 상태로 바꿔주는 함수 
         {
@@ -193,8 +207,8 @@ public class MonController : FSM<MonController>
             
         }
 
-        if (pointA == null || pointB == null)
-            return;
+        /*if (pointA == null || pointB == null)
+            return;*/
     }
 
     public void PatrolInit()
@@ -271,7 +285,7 @@ public class MonController : FSM<MonController>
 
     private float standDir = 0.1f;
     private bool targetDistancRight;
-    private void LookAtDir()
+    protected void LookAtDir()
     {
         Vector2 targetDistance = targetTrans.position - transform.position;
 
@@ -289,14 +303,15 @@ public class MonController : FSM<MonController>
             //Debug.Log(basicAttack + " " + basicTarget);
             if(basicAttackCool && basicTarget)
             {
-                LookAtDir();
+                AttackBasic();
+
+                /*LookAtDir();
                 basicAttackCool = false;
                 chaseSpeed = 0f;
                 anim.SetBool("Run", false);
                 StartCoroutine(CoolTimeBasic(3f));
                 anim.SetTrigger("BasicAttack");
-                SoundManager.Inst.PlaySFX("Spear_Day_Sting");
-                //StartCoroutine(CoolTimeMove(2f));
+                SoundManager.Inst.PlaySFX("Spear_Day_Sting");*/
             }
             else if(!basicTarget)
             {
@@ -318,6 +333,8 @@ public class MonController : FSM<MonController>
         yield return YieldInstructionCache.WaitForSeconds(cool);
         ChangeState(MonChase.Instance);
     }
+
+    public abstract void AttackBasic();
 
     private int basicDamage;
 
@@ -347,13 +364,14 @@ public class MonController : FSM<MonController>
             
     }
 
-    private bool basicAttackCool;
+    protected bool basicAttackCool;
 
-    IEnumerator CoolTimeBasic(float cool)
+    protected IEnumerator CoolTimeBasic(float cool)
     {
         yield return YieldInstructionCache.WaitForSeconds(cool);
         basicAttackCool = true;
-        chaseSpeed = 2f;
+        if(moveType)
+            chaseSpeed = 2f;
     }
 
     public void TakeDamage(float damage, Transform target)

@@ -6,9 +6,9 @@ public class MonPatrol : FSMSingleton<MonPatrol>, CharState<MonController>
 {
     public void Enter(MonController e)
     {
-        e.AnimRun(true);
+        //e.AnimRun(true);
         e.PatrolInit();
-        Debug.Log("MonPatrol µé¾î¿È!");
+        //Debug.Log("MonPatrol µé¾î¿È!");
     }
 
     public void Excute(MonController e)
@@ -19,6 +19,6 @@ public class MonPatrol : FSMSingleton<MonPatrol>, CharState<MonController>
 
     public void Exit(MonController e)
     {
-        Debug.Log("MonPatrol ³ª°¨!");
+        //Debug.Log("MonPatrol ³ª°¨!");
     }
 }

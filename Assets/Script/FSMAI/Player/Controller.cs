@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using JinWon;
+using YeongJun;
+using UnityEngine.UI;
 
 public class Controller : FSM<Controller>
 {
@@ -19,9 +21,18 @@ public class Controller : FSM<Controller>
             case PlayerType.Warrior:
                 {
                     WarriorInfo playerInfo = new WarriorInfo();
+                    maxHP = GameManager.Inst.PlayerInfo.currMaxHP;
                     currHP = GameManager.Inst.PlayerInfo.currHP;
-                    maxHP = playerInfo.HP;
-                    //currMP = maxHP = playerInfo.MP;
+
+                    maxMP = GameManager.Inst.PlayerInfo.currMaxMP;
+                    currMP = GameManager.Inst.PlayerInfo.currMP;
+
+                    def = GameManager.Inst.PlayerInfo.def;
+                    basicDamage = (playerInfo.Str * 3) + (playerInfo.Dex * 2); // 공격력 = 힘 * 3 + 민 * 2
+                    cri = GameManager.Inst.PlayerInfo.cri;
+                    Debug.Log("플레이어 공격력은? : " + (int)basicDamage);
+                    Debug.Log("플레이어의 체력은? : " + (int)currHP);
+                    Debug.Log("플레이어의 마나는? : " + (int)currMP);
                     break;
                 }
             case PlayerType.Priest:
@@ -42,18 +53,23 @@ public class Controller : FSM<Controller>
 
         if(GameManager.Inst.PlayerInfo.charactorVec == "Left")
         {
-            transform.position = new Vector3(-8f, -1.55f, 0f);
+            transform.position = bsm.playerLeftPos;
+            //transform.position = new Vector3(-8f, -2.5f, 0f);
         }
         else if(GameManager.Inst.PlayerInfo.charactorVec == "Right")
         {
-            transform.position = new Vector3(43f, -1.55f, 0f);
+            transform.position = bsm.playerRightPos;
+            //transform.position = new Vector3(43f, -2.5f, 0f);
             transform.GetChild(0).localScale = LEFT;
             transformX = -1;
         }
     }
 
-    private CharStateUI charStateUI;
+    protected CharStateUI charStateUI;
 
+    protected Calculate calculate = new Calculate();
+
+    [SerializeField]
     private bool controllMode;
     public bool ControllMode
     {
@@ -78,12 +94,22 @@ public class Controller : FSM<Controller>
 
     public Animator anim;
 
+    private float basicDamage;
+
     //[SerializeField]
     private float maxHP;
     //[SerializeField]
     private float currHP;
+    private float def;
+    protected float cri;
     public float _MaxHp { get => maxHP; }
     public float _CurrHp { get => currHP; }
+
+    public float maxMP;
+    public float currMP;
+
+    public float _MaxMP { get => maxMP; }
+    public float _CurrMP { get => currMP; }
 
     private float defaultSpeed;
     private float moveSpeed;
@@ -91,7 +117,7 @@ public class Controller : FSM<Controller>
 
     private float x;
 
-    private SpriteRenderer sr;
+    protected SpriteRenderer sr;
 
     public bool basicAttackCool;
     private bool BasicAttackCool
@@ -99,23 +125,31 @@ public class Controller : FSM<Controller>
         get { return basicAttackCool; }
     }
 
+    public bool skill1AttackCool;
+    public bool skill2BuffCool;
+
     public bool isGround;
+    public bool isTrap;
     private bool jumpAttack;
 
     [SerializeField]
     private List<MonsterManager> msm = new List<MonsterManager>();
 
-    void Awake()
+    private Image skill1Icon;
+    private Image buffIcon;
+
+    /*void Awake()
     {
-        charStateUI = GameObject.Find("MainChar (1)").GetComponent<CharStateUI>();
-        anim = GetComponentInChildren<Animator>();
+        *//*charStateUI = GameObject.Find("MainChar (1)").GetComponent<CharStateUI>();
+        anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         groundCheck = GameObject.Find("GroundCheck").transform;
         jumpCheck = GameObject.Find("JumpCheck").transform;
         controllerManager = GetComponentInParent<ControllerManager>();
-        sr = GetComponentInChildren<SpriteRenderer>();
+        sr = GetComponent<SpriteRenderer>();*//*
+
         CharInit();
-    }
+    }*/
 
     public void InitState(bool controller)
     {
@@ -128,12 +162,35 @@ public class Controller : FSM<Controller>
     Color takeA = new Color(1, 1, 1, 0);
     Color fullA = new Color(1, 1, 1, 1);
 
+    Color buffColor = new Color(1f, 0.5f, 0.5f, 1f);
+
+    private BattleSceneManager bsm;
+        
+    private void Awake()
+    {
+        charStateUI = GameObject.Find("MainChar (1)").GetComponent<CharStateUI>();
+        anim = GetComponentInChildren<Animator>();
+        rb = GetComponent<Rigidbody2D>();
+        groundCheck = GameObject.Find("GroundCheck").transform;
+        jumpCheck = GameObject.Find("JumpCheck").transform;
+        frontBackCheck = GameObject.Find("FrontBackCheck").transform;
+        controllerManager = GetComponentInParent<ControllerManager>();
+        sr = GetComponentInChildren<SpriteRenderer>();
+        bsm = GameObject.Find("BattleSceneManager").GetComponent<BattleSceneManager>();
+
+        skill1Icon = GameObject.Find("Skill1Icon").GetComponent<Image>();
+        buffIcon = GameObject.Find("Skill2Icon").GetComponent<Image>();
+        CharInit();
+    }
+
     public void CharInit()
     {
         PlayerInfo();
         charStateUI.Init(this);
         defaultSpeed = moveSpeed = 3f;
         basicAttackCool = true;
+        skill1AttackCool = true;
+        skill2BuffCool = true;
         jumpPower = 6;
     }
 
@@ -146,11 +203,15 @@ public class Controller : FSM<Controller>
     private Vector3 RIGHT = new Vector3(1f, 1f, 1f); // 0.55f, 0.55f, 1이였음
     private Vector3 LEFT = new Vector3(-1f, 1f, 1f);
 
-    Vector2 direction;
+    protected Vector2 direction;
     public Rigidbody2D rb;
     [SerializeField]
     LayerMask groundLayer;
-    Vector2 jump;
+
+    [SerializeField]
+    LayerMask trabLayer;
+
+    protected Vector2 jump;
 
     [SerializeField]
     float jumpPower;
@@ -161,10 +222,16 @@ public class Controller : FSM<Controller>
     private float dashingTime = 0.2f;
     private float dashingCoolDown = 1f;
 
-    private Transform groundCheck;
-    private Transform jumpCheck;
+    [SerializeField]
+    protected Transform groundCheck;
+    [SerializeField]
+    protected Transform jumpCheck;
+    [SerializeField]
+    protected Transform frontBackCheck;
 
-    private bool isJump;
+    private int jumpCount;
+
+    private bool isFrontBack;
 
     public void ChangeMode()
     {
@@ -178,6 +245,11 @@ public class Controller : FSM<Controller>
 
     private bool isMove = true;
 
+    public bool isAttack = false;
+
+    [SerializeField]
+    private Vector2 frontbackVec = Vector2.one;
+
     public void Movement()
     {
         if(isMove && !onDie)
@@ -187,10 +259,14 @@ public class Controller : FSM<Controller>
                 return;
             }
 
-            x = Input.GetAxisRaw("Horizontal");
-            direction.x = x * moveSpeed;
-            direction.y = rb.velocity.y;
-            rb.velocity = direction;
+            //direction.x = x * moveSpeed;
+            if(!isFrontBack)
+            {
+                x = Input.GetAxisRaw("Horizontal");
+                direction.x = x * moveSpeed;
+                direction.y = rb.velocity.y;
+                rb.velocity = direction;
+            }
 
             anim.SetBool("Run", direction != Vector2.zero);
             if (anim.GetBool("Run") && isGround)
@@ -203,30 +279,51 @@ public class Controller : FSM<Controller>
 
             isGround = Physics2D.OverlapCircle(groundCheck.position, 0.1f, groundLayer);
             //isJump = Physics2D.OverlapCircle(jumpCheck.position, 0.1f, groundLayer);
+            isTrap = Physics2D.OverlapCircle(groundCheck.position, 0.1f, trabLayer);
+
+            isFrontBack = Physics2D.OverlapCircle(frontBackCheck.position, 0.6f, groundLayer);
+
+
 
             if (Input.GetKeyDown(KeyCode.C))
             {
+                if(jumpCount > 1)
+                {
+                    jumpCount--;
+                    SoundManager.Inst.PlaySFX("Warrior_Jump");
+                    jump = Vector2.up * jumpPower;
+                    rb.velocity = jump;
+                }
                 /*if (isGround)
                 {
                     SoundManager.Inst.PlaySFX("Warrior_Jump");
                     jump = Vector2.up * jumpPower;
                     rb.velocity = jump;
                 }*/
-
-                SoundManager.Inst.PlaySFX("Warrior_Jump");
-                jump = Vector2.up * jumpPower;
-                rb.velocity = jump;
             }
 
             if(!jumpAttack)
             {
-                if (!isGround && !onDie && !isDashing)
+                if (!isGround && !onDie && !isDashing && !isTrap)
                     anim.SetBool("Jump", true);
                 else
                     anim.SetBool("Jump", false);
             }
-            
 
+            if (isGround && jumpCount < 2)
+            {
+                jumpCount = 2;
+            }
+
+            if(!isGround)
+            {
+                if(isFrontBack)
+                {
+                    rb.velocity = Vector2.up * -1f;
+                }
+            }
+
+            // 기존 달리기 했던 방법
             /*x = Input.GetAxisRaw("Horizontal");
             y = Input.GetAxisRaw("Vertical");
 
@@ -246,29 +343,41 @@ public class Controller : FSM<Controller>
                 transformX = -1f;
             }
 
+            // 기존 방법
+            /*if (x > 0 && transform.GetChild(0).localScale != RIGHT)
+               {
+                   transform.GetChild(0).localScale = RIGHT;
+                   transformX = 1f;
+               }
+               else if (x < 0 && transform.GetChild(0).localScale != LEFT)
+               {
+                   transform.GetChild(0).localScale = LEFT;
+                   transformX = -1f;
+               }*/
+
 
             //Debug.Log(x + " 현재 로컬 스케일은? : " + transform.GetChild(0).localScale);
+
         }
-    }
 
-    IEnumerator Dash(float vec)
-    {
-        anim.SetTrigger("Dash");
-        SoundManager.Inst.PlaySFX("Warrior_Dash");
-        canDash = false;
-        isDashing = true;
-        float originalGrabity = rb.gravityScale;
-        rb.gravityScale = 0f;
-        if(vec > 0)
-            rb.velocity = new Vector2(transform.localScale.x * dashingPower, 0f);
-        else
-            rb.velocity = new Vector2(transform.localScale.x * -dashingPower, 0f);
-        yield return YieldInstructionCache.WaitForSeconds(dashingTime);
-        rb.gravityScale = originalGrabity;
-        isDashing = false;
-        yield return YieldInstructionCache.WaitForSeconds(dashingCoolDown);
-        canDash = true;
-
+        IEnumerator Dash(float vec)
+        {
+            anim.SetTrigger("Dash");
+            SoundManager.Inst.PlaySFX("Warrior_Dash");
+            canDash = false;
+            isDashing = true;
+            float originalGrabity = rb.gravityScale;
+            rb.gravityScale = 0f;
+            if (vec > 0)
+                rb.velocity = new Vector2(transform.localScale.x * dashingPower, 0f);
+            else
+                rb.velocity = new Vector2(transform.localScale.x * -dashingPower, 0f);
+            yield return YieldInstructionCache.WaitForSeconds(dashingTime);
+            rb.gravityScale = originalGrabity;
+            isDashing = false;
+            yield return YieldInstructionCache.WaitForSeconds(dashingCoolDown);
+            canDash = true;
+        }
     }
 
     public void BasicAttackAnim()
@@ -276,6 +385,7 @@ public class Controller : FSM<Controller>
         isMove = false;
         basicAttackCool = false;
         anim.SetTrigger("BasicAttack");
+        StartCoroutine(CoolIsAttack(1f));
         StartCoroutine(CoolTimeMove(0.8f));
         StartCoroutine(CoolTimeBasic(1.0f));
     }
@@ -287,8 +397,62 @@ public class Controller : FSM<Controller>
         isMove = false;
         basicAttackCool = false;
         anim.SetTrigger("BasicAttack");
+        StartCoroutine(CoolIsAttack(1f));
         StartCoroutine(CoolTimeMove(0.8f));
         StartCoroutine(CoolTimeJumpAttack(1.0f));
+    }
+
+    public void Skill1AttackAnim()
+    {
+        isMove = false;
+        skill1AttackCool = false;
+        skill1Icon.fillAmount = 0;
+        anim.SetTrigger("Skill1Attack");
+        StartCoroutine(CoolIsAttack(1f));
+        StartCoroutine(CoolTimeMove(0.8f));
+        StartCoroutine(CoolTimeSkill1(12.0f));
+        MpUse(18);
+    }
+
+    public bool isBuff;
+
+    
+
+    public void Skill2Buff()
+    {
+        isBuff = true;
+        skill2BuffCool = false;
+        buffIcon.fillAmount = 0;
+        StartCoroutine(Skill2());
+        StartCoroutine(CoolTimeSkill2(60f));
+        MpUse(60);
+    }
+
+    public float tempDamage;
+    public float tempDef;
+    public float tempSpeed;
+
+    IEnumerator Skill2()
+    {
+        sr.color = buffColor;
+        // 기존 스탯 저장
+        tempDamage = basicDamage;
+        tempDef = def;
+        tempSpeed = moveSpeed;
+
+        // 버프 스탯
+        basicDamage = basicDamage * 1.3f;
+        def = def * 1.15f;
+        moveSpeed = moveSpeed * 1.15f; // 1.15
+        yield return YieldInstructionCache.WaitForSeconds(30f);
+
+        // 버프 되돌리기
+        basicDamage = tempDamage;
+        def = tempDef;
+        moveSpeed = tempSpeed;
+
+        sr.color = fullA;
+        isBuff = false;
     }
 
     IEnumerator CoolTimeMove(float cool)
@@ -318,12 +482,63 @@ public class Controller : FSM<Controller>
         jumpAttack = false;
     }
 
+    IEnumerator CoolTimeSkill1(float cool)
+    {
+        //yield return YieldInstructionCache.WaitForSeconds(0.3f);
+        SoundManager.Inst.PlaySFX("Warrior_BasicAttack");
+        while (skill1Icon.fillAmount < 1f)
+        {
+            skill1Icon.fillAmount += 1 * Time.smoothDeltaTime / cool;
+            yield return null;
+        }
+
+       /* yield return YieldInstructionCache.WaitForSeconds(0.3f);
+        SoundManager.Inst.PlaySFX("Warrior_BasicAttack");
+        yield return YieldInstructionCache.WaitForSeconds(cool - 0.3f);*/
+        skill1AttackCool = true;
+    }
+
+    IEnumerator CoolTimeSkill2(float cool)
+    {
+        while (buffIcon.fillAmount < 1f)
+        {
+            buffIcon.fillAmount += 1 * Time.smoothDeltaTime / cool;
+            yield return null;
+        }
+        //SoundManager.Inst.PlaySFX("Warrior_BasicAttack");
+        yield return YieldInstructionCache.WaitForSeconds(cool);
+        skill2BuffCool = true;
+    }
+
+    IEnumerator CoolIsAttack(float cool)
+    {
+        isAttack = true;
+        yield return YieldInstructionCache.WaitForSeconds(1f);
+        isAttack = false;
+    }
+
+    private int attackDamage;
+
+    public int DamageCalculate(float value)
+    {
+        if (calculate.Critical(50))
+        {
+            attackDamage = (int)(calculate.CriticalDamage(basicDamage, 1.5f) * value);
+        }
+        else
+            attackDamage = (int)(basicDamage * value);
+
+        Debug.Log(basicDamage+" "+ attackDamage);
+        return attackDamage;
+    }
+
     private bool onDie = false;
 
     public void TakeDamage(float damage, Vector2 pos)
     {
-        currHP -= damage;
+        currHP -= calculate.TakeDamage(damage, def);
         GameManager.Inst.CharHPInit(currHP);
+        charStateUI.UseHP();
         SoundManager.Inst.PlaySFX("Spear_Sting_TakeDamage");
         if (currHP <= 0)
         {
@@ -334,15 +549,26 @@ public class Controller : FSM<Controller>
         else
         {
             anim.SetTrigger("TakeDamage");
-            float x = transform.position.x - pos.x;
-            if (x < 0)
-                x = 1;
-            else
-                x = -1;
+            if (pos != null)
+            {
+                float x = transform.position.x - pos.x;
+                if (x < 0)
+                    x = 1;
+                else
+                    x = -1;
+                StartCoroutine(Knockback(x));
+            }
             StartCoroutine(TakeAlpha());
-            StartCoroutine(Knockback(x));
+            
             Debug.Log(transform.name + " 플레이어 체력 : " + currHP);
         }
+    }
+
+    public void MpUse(float value)
+    {
+        currMP -= value;
+        GameManager.Inst.CharMPInit(currMP);
+        charStateUI.UseMP();
     }
 
     private bool isKnockback;

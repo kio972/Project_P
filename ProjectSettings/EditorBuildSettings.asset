@@ -12,13 +12,13 @@ EditorBuildSettings:
     path: Assets/Scenes/CalendarScene.unity
     guid: ab57c3cf6354b714889247b67d1c5aa3
   - enabled: 1
-    path: Assets/Scenes/Forest1.unity
+    path: Assets/Scenes/BattleScene/Forest/1/Forest1.unity
     guid: 303a12762aab50f4bbab381c0f9bda1a
   - enabled: 1
-    path: Assets/Scenes/Forest2.unity
+    path: Assets/Scenes/BattleScene/Forest/1/Forest2.unity
     guid: e5ba481ecd04a2544aa8872a352c1217
   - enabled: 1
-    path: Assets/Scenes/Forest3.unity
+    path: Assets/Scenes/BattleScene/Forest/Light/Forest3.unity
     guid: 731d2620d57db194e840ab5762441db6
   - enabled: 1
     path: Assets/Scenes/TownScene.unity
@@ -26,4 +26,19 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Guild.unity
     guid: d2bf21ef10f474547bb830403649ab33
+  - enabled: 1
+    path: Assets/Scenes/BattleScene/Forest/1/Forest4.unity
+    guid: 45d86956269e5184cbc248b8bfc51ba5
+  - enabled: 1
+    path: Assets/Scenes/BattleScene/Forest/1/Forest5.unity
+    guid: 88f432d311f5a8943b4483c144c4b091
+  - enabled: 1
+    path: Assets/Scenes/BattleScene/Forest/1/Forest6.unity
+    guid: 145dde20bdc9d084dacd1e686489f342
+  - enabled: 1
+    path: Assets/Scenes/BattleScene/Forest/2/Forest7.unity
+    guid: 3770491aaccb99d4da5edc06d0956b72
+  - enabled: 1
+    path: Assets/Scenes/BattleScene/Forest/Light/Forest8.unity
+    guid: e7d957028d2464b4287abcbe74260531
   m_configObjects: {}

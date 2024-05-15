@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MonsterManager : MonoBehaviour 
 {
+    [SerializeField]
     private MonController[] monControllerArr;
 
     [SerializeField]
@@ -29,10 +30,11 @@ public class MonsterManager : MonoBehaviour
 
     public void MonsterManagerInit()
     {
-        monControllerArr = GetComponentsInChildren<MonController>();
+        //monControllerArr = GetComponentsInChildren<MonController>();
         
         for(int i = 0; i < monControllerArr.Length; i++)
         {
+            Debug.Log("몬스터 컨트롤러 배열 : " + monControllerArr);
             monControllerArr[i].Init();
         }
     }

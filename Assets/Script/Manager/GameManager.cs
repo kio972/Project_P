@@ -20,10 +20,41 @@ public enum PlayerType
     Archer,
 }
 
+public class Calculate
+{
+    public bool Critical(float percent)
+    {
+        bool result = Random.Range(1, 101) <= percent;
+        return result;
+    }
+
+    public int CriticalDamage(float damage, float value)
+    {
+        int result = (int)(damage * value);
+        return result;
+    }
+
+    public int TakeDamage(float damage, float def)
+    {
+        int result = (int)(damage - (def * 0.001f));
+        return result;
+    }
+}
+
 public class PlayerData
 {
     public Dictionary<int, bool> forestClear = new Dictionary<int, bool>();
+    public float currMaxHP;
     public float currHP;
+
+    public float currMaxMP;
+    public float currMP;
+    public float def;
+
+    public float cri;
+
+    public int level;
+
     // 저장할 플레이어 데이터
 
     public string charactorVec; // 임시, 좌 우 어디로 스폰할지.
@@ -40,13 +71,15 @@ public class WarriorInfo
 {
     public string Name = "Warrior";
     public int Lv = 1;
-    public float HP = 220;
+    public float HP = 100;
     public float MP = 100;
-    public int Str = 13;
-    public int Int = 7;
-    public int Vit = 15;
-    public int Dex = 8;
-    public int Luk = 7;
+    public float Def = 50;
+
+    public float Str = 13;
+    public float Int = 7;
+    public float Vit = 15;
+    public float Dex = 8;
+    public float Luk = 7;
     public string Info = "전사";
     public string hidden1 = "단련된 몸 : 받는 데미지 감소";
     public string hidden2 = "깨달음 : 탐색 경험치 획득률 증가";
@@ -111,12 +144,18 @@ namespace JinWon
 
         private FadeInOut fade;
 
-
         private PlayerData pData;
         public PlayerData PlayerInfo
         {
             get { return pData; }
             set { pData = value; }
+        }
+
+        private WarriorInfo warriorData;
+        public WarriorInfo WarriorData
+        {
+            get { return warriorData; }
+            set { warriorData = value; }
         }
 
         private SceneName nextScene;
@@ -167,24 +206,33 @@ namespace JinWon
         public void GameManagerInit()
         {
             pData = new PlayerData();
+            warriorData = new WarriorInfo();
             Fade_InOut(true, 3.0f);
             sceneLoad = false;
             Debug.Log("페이드 인");
             Cursor.SetCursor(cursorTexture, hotspot, cursorMode);
 
+            pData.level = 1;
             PlayerDataInit();
         }
 
         public void PlayerDataInit()
         {
             pData.charactorVec = "Left";
-            pData.currHP = 220f;
+            pData.currMaxHP = warriorData.HP + (1 + pData.level * 0.2f) + (warriorData.Vit * 4f) + (warriorData.Str * 2.5f);
+            pData.currHP = warriorData.HP + (1 + pData.level * 0.2f) + (warriorData.Vit * 4f) + (warriorData.Str * 2.5f);
+
+            pData.currMaxMP = warriorData.MP + (1 + pData.level * 0.2f) + (warriorData.Int * 4);
+            pData.currMP = warriorData.MP + (1 + pData.level * 0.2f) + (warriorData.Int * 4);
+            pData.def = (warriorData.Vit * 4f) - pData.level;
+            pData.cri = warriorData.Luk * 0.3f;
+
             pData.gold = pData.ston = 10;
             SoundInit();
 
             pData.forestClear.Clear();
             // 포레스트 배틀씬 미클리어로 설정
-            for (int i = 1; i <= 3; i++)
+            for (int i = 1; i <= 8; i++)
             {
                 pData.forestClear.Add(i, false);
             }
@@ -219,7 +267,12 @@ namespace JinWon
         public void CharHPInit(float hp)
         {
             pData.currHP = hp;
-            Debug.Log("@@@@@@@@플레이어 체력 : " + pData.currHP);
+        }
+
+        public void CharMPInit(float mp)
+        {
+            pData.currMP = mp;
+            Debug.Log("@@@@@@@@플레이어 마나 : " + pData.currMP);
         }
 
         public void StageClear(int stage)

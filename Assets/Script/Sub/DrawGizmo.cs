@@ -24,6 +24,7 @@ public class DrawGizmo : MonoBehaviour
     [SerializeField]
     private PivotType pivotType;
 
+    [SerializeField]
     private MonController monController;
 
     [SerializeField]

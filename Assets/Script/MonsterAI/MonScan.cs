@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MonScan : MonoBehaviour
 {
+    [SerializeField]
     private MonController monController;
 
     private void Awake()

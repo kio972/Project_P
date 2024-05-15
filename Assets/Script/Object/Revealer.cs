@@ -12,12 +12,17 @@ public class Revealer : InteractObject
     [SerializeField]
     private int region;
 
+
     [SerializeField]
     private bool potalOpen;
+
+    [SerializeField]
+    private GameObject openObj;
 
     public void PortalOpen()
     {
         potalOpen = true;
+        openObj.SetActive(true);
     }
 
     public override void Interaction()

@@ -15,16 +15,16 @@ public class ControllerManager : MonoBehaviour
     {
         if(transform.Find("Warrior"))
         {
-            controllerList.Add(transform.Find("Warrior").GetComponentInChildren<Controller>());
+            controllerList.Add(transform.Find("Warrior").GetComponent<Controller>());
         }
-        if (transform.Find("Priest"))
+        /*if (transform.Find("Priest"))
         {
             controllerList.Add(transform.Find("Priest").GetComponentInChildren<Controller>());
         }
         if (transform.Find("Archer"))
         {
             controllerList.Add(transform.Find("Archer").GetComponentInChildren<Controller>());
-        }
+        }*/
 
         ControllerChange(0);
     }

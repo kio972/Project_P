@@ -42,8 +42,8 @@ public class CharCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     {
         get { return charInfo; }
     }
-    public List<int> charStat = new List<int>(); // Str, Int, Vit, Dex, Luk, 
-    private List<int> CharStat
+    public List<float> charStat = new List<float>(); // Str, Int, Vit, Dex, Luk, 
+    private List<float> CharStat
     {
         get { return charStat; }
     }

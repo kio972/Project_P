@@ -7,7 +7,7 @@ public class MonIdle : FSMSingleton<MonIdle>, CharState<MonController>
 
     public void Enter(MonController e)
     {
-        Debug.Log("MonIdle µé¾î¿È!");
+        //Debug.Log("MonIdle µé¾î¿È!");
     }
 
     public void Excute(MonController e)
@@ -21,7 +21,7 @@ public class MonIdle : FSMSingleton<MonIdle>, CharState<MonController>
 
     public void Exit(MonController e)
     {
-        Debug.Log("MonIdle ³ª°¨!");
+        //Debug.Log("MonIdle ³ª°¨!");
     }
 
 }
