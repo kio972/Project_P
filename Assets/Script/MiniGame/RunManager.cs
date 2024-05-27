@@ -14,8 +14,17 @@ public class RunManager : Singleton<RunManager>
     private GameObject enemy;
     private GameObject obj;
 
-    private int life;
     private int score;
+
+    private int hp;
+    public int HP
+    {
+        get => hp;
+        set => hp = value;
+    }
+    private int gold;
+    private int gem;
+
 
     [SerializeField]
     private TextMeshProUGUI scoreText;
@@ -30,6 +39,20 @@ public class RunManager : Singleton<RunManager>
     [SerializeField]
     private Vector3 startPos;
 
+    [SerializeField]
+    private List<GameObject> heartImage;
+
+    private GameObject result;
+
+    private TextMeshProUGUI scoreboard;
+
+    private TextMeshProUGUI goldText;
+
+    private TextMeshProUGUI gemText;
+
+    private Button backBtn;
+
+
     private bool start;
     public bool Start
     {
@@ -39,9 +62,11 @@ public class RunManager : Singleton<RunManager>
 
     private void Awake()
     {
+        hp = 2;
         start = false;
         score = 0;
-        life = 3;
+
+        result = GameObject.Find("ResultFrame");
 
         if (gameFrame == null)
         {
@@ -49,11 +74,17 @@ public class RunManager : Singleton<RunManager>
         }
 
         //scoreText = GameObject.Find("ScoreText").GetComponent<TextMeshProUGUI>();
+        scoreboard = GameObject.Find("ScoreBoard").GetComponent<TextMeshProUGUI>();
+        goldText = GameObject.Find("GoldText").GetComponent<TextMeshProUGUI>();
+        gemText = GameObject.Find("GemText").GetComponent<TextMeshProUGUI>();
 
         back1 = GameObject.Find("Background1");
         back2 = GameObject.Find("Background2");
         player = GameObject.Find("Player");
         enemy = GameObject.Find("Enemy");
+
+        backBtn = GameObject.Find("BackBtn").GetComponent<Button>();
+        backBtn.onClick.AddListener(OnClick_BackBtn);
     }
 
     // Update is called once per frame
@@ -68,7 +99,7 @@ public class RunManager : Singleton<RunManager>
             player.transform.position += 8f * Time.deltaTime * Vector3.right;
             enemy.transform.position += 8f * Time.deltaTime * Vector3.right;
         }
-        else if(enemy.transform.position.x >= 8.8 && life == 3)
+        else if(enemy.transform.position.x >= 8.8 && hp == 2)
         {
             start = true;
         }
@@ -79,7 +110,7 @@ public class RunManager : Singleton<RunManager>
             score = score++;
             scoreText.SetText("Score : " + score++ / 100);
         }
-        else if(life <= 0 && !start)
+        else if(hp < 0 && !start)
         {
 
         }
@@ -93,5 +124,25 @@ public class RunManager : Singleton<RunManager>
         {
             back2.transform.position = startPos;
         }
+    }
+    public void TakeDamage(int HP)
+    {
+        hp--;
+        heartImage[HP].SetActive(false);
+    }
+
+    public void GameOver()
+    {
+        gold = score / 100;
+        gem = score / 100;
+        gemText.text = gem.ToString();
+        goldText.text = gold.ToString();
+        scoreboard.text = "Score\n" + (score/100).ToString();
+        LeanTween.scale(result, Vector3.one, 0.7f).setEase(LeanTweenType.clamp);
+    }
+
+    private void OnClick_BackBtn()
+    {
+        GameManager.Inst.AsyncLoadNextScene(SceneName.Guild);
     }
 }

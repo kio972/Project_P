@@ -6,9 +6,10 @@ TagManager:
   tags:
   - Monster
   - Ground
-  - Rock
   - Up
   - Down
+  - Obstacle
+  - Destroy
   layers:
   - Default
   - TransparentFX

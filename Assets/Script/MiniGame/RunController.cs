@@ -13,6 +13,8 @@ public class RunController : MonoBehaviour
     [SerializeField]
     private float jumpPower = 3f;
 
+
+
     private void Awake()
     {
         isGround = true;
@@ -44,5 +46,6 @@ public class RunController : MonoBehaviour
             isGround = true;
         }
     }
+
 
 }

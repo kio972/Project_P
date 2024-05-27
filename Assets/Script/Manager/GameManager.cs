@@ -13,6 +13,7 @@ public enum SceneName
     UpGame,
     RunGame,
     Forge,
+    Guild,
     LoadingScene, // юс╫ц
 }
 
